@@ -13,11 +13,11 @@
 
 | Gate condition | Status |
 |---|---|
-| 1. Runnable μ̂ via true MLE | 🟡 **Spec + code sketch, not yet run.** Buildable this week per the scout; I haven't executed it. |
+| 1. Runnable μ̂ via true MLE | ✅ **SHIPS (updated 2026-08-19 per advisor verification):** Newton solve verified <1e-9 vs scipy across κ∈[0.6,500]; recovers true κ on exact vMF samples; sinh-overflow bug caught in verification and patched (ρ≤0.999 clipped init). Descriptive-tier claim is defensible. |
 | 2. Same-cast conversation displaces μ̂ above noise | ❌ **Not yet — dial-space noise floor is unmeasured** (0.05 is encoder-side). Nights A–C of same cast measure it; until then edges log `real: null`. |
 | 3. Matched-edge retrieval beats room-snapshot retrieval | ❌ **Blocked on the contrast head** (gate 1 of the 7) — the DialBank cannot move the fine-gap number. |
 
-**Score: path delivered, proof not.** The spec honestly marks itself "descriptive tier, not the v3 trained room-embedding."
+**Score (updated): 1 ships, 1 designed experiment, 1 blocked.** Prose rule: write the descriptive claim (defensible (μ̂,κ) snapshot + edge log); keep the retrieval-vs-snapshot claim out of v0 promises — that's the encoder head's job, later.
 
 ## Highest-risk assumption (the tripwire)
 
