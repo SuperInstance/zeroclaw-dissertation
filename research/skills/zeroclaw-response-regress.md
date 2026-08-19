@@ -14,6 +14,12 @@ This gives the doctrine **two non-readers, both terminators**:
 
 So the final position is the synthesis, not Version B alone: the half-life ladder (devil) describes the memory's *stratification*; the non-interpretive criterion (advisor) describes its *termination*; agency (the pen-holders) is what keeps the terminators correctable — the reviser, not another rung. Chapter 6 carries all three, attributed.
 
+### The sharpening (advisor, 2026-08-19 — pre-empting Committee A's appeal-to-authority attack)
+
+**The reviser's authority must be world-directed, not taste-directed.** The pen-holders correct the archive — toward what? If toward their own judgment, the 2000-year scar relocates to their taste and the reviser IS a rung (an interpretive one). If toward the world — the measured rooms — then the reviser is an instrument of the same anchor that grounds the archive: room-measurement anchors the record; pen-holders correct the record toward the room; nobody interprets anybody. **Correction toward the world is not interpretation** — the reviser is genuinely not a rung, and the bound is epistemic.
+
+Consequence, stated now so nobody can narrate it later: **if the head's fine-gap opens, the anchor is real, the reviser has a world to correct toward, and the bound is epistemic. If it does not, the anchor is a reader in disguise, the reviser's corrections are taste, the bound is aesthetic — and Chapter 6 must say so plainly.** The Chapter 6 claim is gated on the same pre-registered test as everything else.
+
 ## Where I concede
 
 All of it, on the main point. "Frozen, not live" was a fig leaf, and the two-axes diagnosis is exact: write-frequency and read-participation are independent, MEMORY.md is loaded into every session (read-live, write-slow), and calling it outside the loop was smuggling. The advisor's termination-by-freezing does not survive the type-theory result he cited — any level that causally influences lower levels is part of the computation. My "idol" line was iconoclasm reinvented, which is embarrassing precisely because it's the standard critique of foundations. He's right that I'm too young to rehabilitate foundationalism.
