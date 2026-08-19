@@ -36,6 +36,12 @@ Graft the elephant onto the grid.
 4. Where does the weight *live* in Quilt — a cell value, an edge between cells, a new cell kind?
 5. Does the dataset's "organic dynamic development" mean online updates (re-weight on each new conversation) or periodic recomputation?
 
+## Refined questions (post-orientation, 2026-08-19)
+
+1. **What is the conversation vector?** The elephant says the *room*, not the stream, is the perceiving unit — so is the "conversation reading" a windowed `RoomField` snapshot, the trajectory of the field across the window, or the room's centroid (crab-traps' `updateRoomCentroid` pattern) over its constituent messages? Answer must respect doctrine: rooms accumulate presence/acclimation across conversations; conversations are windows.
+2. **Is comparable sameness the elephant's own `distance()` or a cosine over a learned embedding?** The stack idiom says: any encoder works if model+dim fixed per index and L2-normalized — so a v3 vMF room-state embedding behind fleet-embed's `/v1/embeddings` contract makes "sameness = Vectorize cosine" for free. But the elephant gap is only visible *between* rooms (contrast), never within — the dataset must be trained/validated on sauna-plunge gaps, not within-room ordering.
+3. **Where do the weights live?** Answer emerging from the stack: **Vectorize proposes, D1 formalizes** — cosine queries propose neighbors; `edges`-style D1 rows (from_room, to_room, score, kind, timestamp) are the growing co-linear-algebra dataset; Quilt cells then read those rows as live values (grid-as-runtime), with zeitgeist-style retrieval-frequency as a resonance signal.
+
 ## Status
 
 Orientation. Learning vectorizing + SuperInstance paradigms before attacking any of the above.
