@@ -1,6 +1,8 @@
 # Dissertation Topic — Working Draft
 
-**Candidate title:** *Grafting the Elephant onto the Grid: JEPA Room-Temperature as a Living Weight in Quilt's Co-Linear-Algebra Dataset*
+**Candidate title (v2, post-rival):** *Walks, Not Waves: The Field-Edge as the Unit of Comparable Sameness in a Living Co-Linear-Algebra over Room Temperatures*
+
+*(v1 title — *Grafting the Elephant onto the Grid* — died in the devil's advocate pass of 2026-08-19: "comparable sameness of conversation temperature" is a category error under elephant doctrine. See research/skills/rival-verdict-edge-as-event.md.)*
 
 ## The problem
 
@@ -10,17 +12,17 @@ The Tap's `elephant` repo gives us a room-temperature sense: a JEPA model reads 
 
 The gap: **Quilt has no sense of the conversation it's embedded in.** A Quilt cell can compute anything you can express as a formula — but it can't *feel the room*. The elephant can feel the room but has no grid to write its readings into.
 
-## The thesis
+## The thesis (v2 — reframed after the rival pass)
 
-Graft the elephant onto the grid.
+Kill the wave-temperature; keep the plunge.
 
-1. **Capture the vibe of a conversation *and* its JEPA readings.** Every conversation at The Tap produces both its text and a vector of dial readings (the elephant's field snapshot).
+1. **The unit is the field snapshot and the field edge, never the conversation-as-stream.** Every window of room time yields a vMF field state (μ̂, κ, stamps). A conversation is honestly represented as the **edge** `(field_before → field_after)`: its signed sauna/plunge gap, its κ-change, its trajectory. Cross-room comparison only, via `distance()`; within-room ordering stays retired.
 
-2. **Compare one conversation's readings to another's for "comparable sameness."** Two conversations are not just "similar by topic" — they are similar by *temperature*. A heated argument and a tense negotiation may share a warmth/κ signature even if their words share nothing. This is a *felt* similarity, not a lexical one.
+2. **Comparable sameness = matching edges.** Two events are "the same temperature event" when their edges match: same start-field class, same signed warmth shift, same loosening/tightening. The galley fight and galley coffee share a start field; their edges differ — and that difference is finally measurable where the 0.015 fine-gap probe showed conversation-points are not.
 
-3. **Turn that sameness into a weight.** Each pairwise comparison yields a scalar weight — how much one conversation's vibe is *like* another's. These weights are not hand-authored; they fall out of the JEPA readings.
+3. **The weight falls out of edge-geometry.** Pairwise edge similarity yields scalar weights — the "felt size and direction of the step." Collinearity in the co-linear-algebra dataset is literal: walks that push the field the same direction.
 
-4. **Accumulate into a co-linear-algebra dataset that develops dynamically, all the time.** The weights live in a structure that grows as conversations happen — a living similarity graph / co-linear (collinear) algebra over conversation-readings, where new conversations re-weight old ones and old ones condition new ones. No one re-runs anything; the dataset *develops*.
+4. **The dataset develops via propose-formalize.** Vectorize proposes snapshot neighbors; D1 formalizes weighted edge rows (from_field, to_field, signed_gap, Δκ, ts); Quilt cells read them as live values; the zeitgeist score is quarantined as a separate sampler layer (never inside the field vector, no retrieval→retrieval feedback).
 
 ## Why it matters
 
