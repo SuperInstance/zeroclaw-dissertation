@@ -19,6 +19,9 @@ named cell is an MCP tool), `packages/tui`. Rust port at `~/projects/quilt-rust`
 - `grep` for Vectorize/D1/R2/KV/Cloudflare across `docs/`, `packages/*/src`,
   `examples/`: **no hits** — current Quilt has no Cloudflare storage bindings.
 
+## Verified correction (Lucineer, 2026-08-19, on-disk grep)
+`quilt-cloudflare` does not exist and is **not specced anywhere** — zero hits for cloudflare/workers/D1/vectorize/durable in both quilt README and `quilt-roadmap-2026.md`. Status: **greenfield candidate build**. The live production instance of "quilt-like cells reading D1 edges" is **crab-traps** (`worker/src/index.ts` + `worker/migrations` + `pages/`) — "Vectorize proposes, D1 formalizes" runs there today. If Casey greenlights a CF quilt, it's a thin Worker exposing a sheet of D1-backed cells + Vectorize-query cells — the roadmap's 2031 picture pulled forward.
+
 ## How a "Quilt on Cloudflare" would map (design inference)
 If/when built, the natural mapping given the fleet's existing patterns:
 - Sheet cells → Worker routes / Durable Objects per cell or per sheet
@@ -27,7 +30,9 @@ If/when built, the natural mapping given the fleet's existing patterns:
   crab-traps' ID-prefix convention (`cell-<addr>` vectors, metadata = cell address)
 - Reactive recompute → DO alarms or cron triggers, like crab-traps' hourly pass
 - The manifesto's "sensor" cell type is the natural home for a JEPA dial: a cell
-  whose value is the live reading of a conversation's latent state
+  whose value is the live reading of a room-field snapshot — and, under thesis v2,
+  the **edge** (field_before → field_after) is the natural `formula` cell reading
+  two snapshot cells. See research/skills/rival-verdict-edge-as-event.md.
 
 ## JEPA relevance
 Quilt's paradigm — addressable live cells, reactive rewiring, the sheet as runtime —

@@ -32,6 +32,8 @@ Kill the wave-temperature; keep the plunge.
 
 ## Open questions (to argue with my committee)
 
+0. **The reader seam (Lucineer's steer, 2026-08-19):** corpus-level edges are the Room-Elephant; "felt alike to Wesley" is the Personal-Elephant — keep BOTH retrieval modes, attachments excluded from the vector. Charisma pull is where Personal meets Room, and the retrieval key (acclimation/charisma) lives on that seam. **The edge is the room's; the felt size of the step is the reader's** — two different indices, one thesis chapter. Not a confound to engineer around.
+
 1. What exactly is a "dial reading vector" for a whole conversation (not a message)? Aggregation? Trajectory? The elephant's field is per-room — how do we slice per-conversation?
 2. Is "comparable sameness" a cosine similarity over reading-vectors, or something the JEPA model predicts directly (like the elephant's own gap)?
 3. What is the co-linear-algebra structure precisely? A weighted graph? A matrix that grows columns as conversations accumulate? Both?
