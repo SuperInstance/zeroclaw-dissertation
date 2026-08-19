@@ -48,4 +48,4 @@ Kill the wave-temperature; keep the plunge.
 
 ## Status
 
-Orientation. Learning vectorizing + SuperInstance paradigms before attacking any of the above.
+Thesis v2 stands-with-conditions. **Deadman switch pre-registered 2026-08-19** (see research/skills/rival-verdict-2-deadman-switch.md): fine gap must reach ≥ 0.10 cosine (from 0.015) with speaker-heldout ≥ 0.50 and no within-room collapse, in three consecutive runs, or the conversation-as-edge layer is killed (scoped: edge retrieval only) and the thesis falls back to cross-room room-snapshot retrieval — itself dissertation-worthy only if it beats the shipped `query_field`. Known gaps to engineer before the switch can even be tested: no runnable μ̂ (vMF MLE must be built), `distance()` deletes magnitude (need a magnitude-preserving edge metric), cross-room collinearity is ill-defined (need per-room affine normalization), charisma is frequency-weighted (busy≠warm re-entry), cold-start blindness to field-invariant nights. Awaiting vMF engineering spec + JEPA-RAG scout.
