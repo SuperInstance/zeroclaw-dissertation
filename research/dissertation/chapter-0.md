@@ -50,4 +50,4 @@ The thesis's single doctrine-level bet: **the fine room-gap can open — the wit
 3. Instrumentation: the edge log and the replay guarantee.
 4. Measurement: Nights A–D and the deadman switch's first test.
 5. Retrieval: query_edge over the step matrix — the empirical bet (or the fallback, whichever the numbers choose).
-6. The seam: Room-Elephant edges and Personal-Elephant felt-steps as two indices; charisma as the chapter where they meet.
+6. The seam: Room-Elephant edges and Personal-Elephant felt-steps as two indices; charisma as the chapter where they meet. **Deliberate decision to make here (advisor flag, 2026-08-19):** does the perfume (attachments) stay architecturally excluded by default — the clean Room-Elephant — or does the seam become the *sanctioned exception* where Personal meets Room, with charisma pull as the retrieval key? Either is defensible; it must be a decision made in this chapter, not a discovery in measurement. It does not creep into Chapter 4's scope.
