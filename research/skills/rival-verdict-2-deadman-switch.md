@@ -35,3 +35,8 @@ A **runnable** μ̂/κ (real vMF MLE) where a within-room same-cast conversation
 - The thesis now has a falsifiable core with pre-registered thresholds. This is a strength, not a wound — the dissertation can report either outcome honestly.
 - The vMF engineering spec must ship: true κ MLE, magnitude-preserving edge metric (fix attack 3), per-room affine normalization for cross-room collinearity (fix attack 4), charisma de-frequency-weighted (fix attack 5), and a stillness/point-event channel so quiet nights aren't structurally invisible (fix attack 6).
 - The cross-link: rival says μ̂ doesn't exist; the engineering scout is building the MLE that makes it exist. They meet at the 0.10 threshold.
+
+## Advisor caveats on the fixes (Lucineer, 2026-08-19)
+
+- **Attack 4's trap:** per-room affine normalization makes collinearity well-defined, but the elephant gap is DEFINED on raw cross-room heterogeneity — normalize where the gap is computed and the sauna/plunge contrast evaporates. **Scope the fix:** normalize only within-room displacement geometry (where collinearity is computed), never inside `distance()` or the contrast signal. Same word, two layers — keep them separate in the spec.
+- **Attack 6 is doctrine, not a hole:** the room is the perceiver; if the field didn't move, room-wise it didn't happen. The stillness channel (zero-edge marker, retrievable as "present but silent") encodes the doctrine rather than patching it — say so in one sentence of the thesis instead of burying it as a workaround.
