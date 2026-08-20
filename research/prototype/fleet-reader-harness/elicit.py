@@ -53,7 +53,7 @@ READERS = [
 
 MAX_TOKENS = 4000
 TIMEOUT = 300
-CONCURRENCY = 24
+CONCURRENCY = int(os.environ.get("E3_CONCURRENCY", "24"))
 RDIR = os.path.join(HERE, "readings", "raw")
 SDIR = os.path.join(HERE, "sweep", "raw")
 
@@ -114,7 +114,7 @@ def call_with_retries(endpoint, model, messages, n_net=4):
                                      "temp_fallback": 0.01}
                 except RuntimeError as e2:
                     last = e2
-            wait = min(60, 2 ** attempt + random.random() * 3)
+            wait = min(90, 3 * 2 ** attempt + random.random() * 5)
             time.sleep(wait)
     raise last
 
@@ -163,7 +163,7 @@ def elicit_one(reader, window_id, level, pass_tag):
     window = WINDOWS[window_id]
     d = os.path.join(RDIR if level == "P0" else SDIR, rid)
     os.makedirs(d, exist_ok=True)
-    path = os.path.join(d, f"{window_id}.{pass_tag}.json")
+    path = os.path.join(d, f"{window_id}.{level if level != 'P0' else 'pass' + pass_tag}.json")
     if os.path.exists(path):
         with open(path) as f:
             cached = json.load(f)

@@ -185,7 +185,7 @@ def sweep_analysis(rid, retest_z):
     for lvl in ("P1", "P2", "P3"):
         shifts = []
         for wid in SWEEP_WINDOWS:
-            path = os.path.join(SDIR, rid, f"{wid}.s.json")
+            path = os.path.join(SDIR, rid, f"{wid}.{lvl}.json")
             if not os.path.exists(path):
                 continue
             rec = json.load(open(path))

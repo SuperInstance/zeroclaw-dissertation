@@ -1,0 +1,1 @@
+{"reader": "glm-5.3", "model": "glm-5.3", "window": "D-w4", "level": "P3", "pass": "s", "net_error": "HTTP 502: {\"error\":{\"detail\":\"error sending request for url (http://localhost:11434/v1/chat/completions)\",\"provider\":\"ollama\",\"type\":\"network_error\"}}", "ok": false, "parsed": null, "meta": null, "raw": ""}
