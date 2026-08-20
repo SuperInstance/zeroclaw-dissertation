@@ -1,0 +1,399 @@
+{
+ "date": "2026-08-19",
+ "n_readers": 13,
+ "readers": [
+  "claude-sonnet-5",
+  "ds-v4-flash",
+  "ds-v4-pro",
+  "gemma-4-31b",
+  "glm-5.2",
+  "glm-5.3",
+  "hermes-3-405b",
+  "minimax-m3",
+  "nemotron-120b",
+  "qwen3.5-397b",
+  "qwen3.6-35b",
+  "seed-2.0-mini",
+  "seed-2.0-pro"
+ ],
+ "dropped_d2": [],
+ "corpus_sd_speak_level": 0.22916611701372536,
+ "corpus_sd_window_level": 0.19712793327656564,
+ "primary": {
+  "spreads": {
+   "SEG1": 0.479122759232942,
+   "SEG2": 0.49211135860773336
+  },
+  "baseline_spread_z": 0.4856170589203377,
+  "drifts_z": {
+   "claude-sonnet-5": 3.5561359897270894,
+   "ds-v4-flash": 3.6787355758225333,
+   "ds-v4-pro": 4.3249463262498065,
+   "gemma-4-31b": 4.20421528951298,
+   "glm-5.2": 2.1799890496245067,
+   "glm-5.3": 2.0180659925101674,
+   "hermes-3-405b": 3.9927455190587082,
+   "minimax-m3": 4.0554745564078205,
+   "nemotron-120b": 2.7115367085657365,
+   "qwen3.5-397b": 4.212068236626182,
+   "qwen3.6-35b": 3.1694730995442555,
+   "seed-2.0-mini": 4.706715398326148,
+   "seed-2.0-pro": 2.199893031396312
+  },
+  "mean_drift_z": 3.4623072902594036,
+  "ratio": 0.14025822037418123
+ },
+ "bootstrap": {
+  "ratio": {
+   "mean": 0.1392266330573552,
+   "lo95": 0.11100196485495117,
+   "hi95": 0.16286960793902888
+  },
+  "spread": {
+   "mean": 0.48062868911967216,
+   "lo95": 0.3788870916344124,
+   "hi95": 0.5524966161980597
+  },
+  "drift": {
+   "mean": 3.459927466983066,
+   "lo95": 3.0859465881234893,
+   "hi95": 3.8465890200869506
+  }
+ },
+ "secondary": {
+  "room_reading_only": 0.08452880752755566,
+  "displacement_only": 0.18323330027533616
+ },
+ "per_pass_ratios": {
+  "pass1": 0.1421075516308037,
+  "pass2": 0.14124431213648375
+ },
+ "per_reader": {
+  "claude-sonnet-5": {
+   "validity": 1.0,
+   "retest_z": 0.5023871776408406,
+   "n_windows_ok": 27
+  },
+  "ds-v4-flash": {
+   "validity": 1.0,
+   "retest_z": 0.8056534965372428,
+   "n_windows_ok": 27
+  },
+  "ds-v4-pro": {
+   "validity": 1.0,
+   "retest_z": 1.7537410561845275,
+   "n_windows_ok": 27
+  },
+  "gemma-4-31b": {
+   "validity": 1.0,
+   "retest_z": 0.7413491566987873,
+   "n_windows_ok": 27
+  },
+  "glm-5.2": {
+   "validity": 1.0,
+   "retest_z": 1.0926825720987479,
+   "n_windows_ok": 27
+  },
+  "glm-5.3": {
+   "validity": 1.0,
+   "retest_z": 1.41169930760292,
+   "n_windows_ok": 27
+  },
+  "hermes-3-405b": {
+   "validity": 1.0,
+   "retest_z": 0.7601443090359424,
+   "n_windows_ok": 27
+  },
+  "minimax-m3": {
+   "validity": 1.0,
+   "retest_z": 0.7911410241820022,
+   "n_windows_ok": 27
+  },
+  "nemotron-120b": {
+   "validity": 0.8703703703703703,
+   "retest_z": 1.6872255924380248,
+   "n_windows_ok": 27
+  },
+  "qwen3.5-397b": {
+   "validity": 1.0,
+   "retest_z": 1.7181837036208114,
+   "n_windows_ok": 27
+  },
+  "qwen3.6-35b": {
+   "validity": 1.0,
+   "retest_z": 2.2410292079786736,
+   "n_windows_ok": 27
+  },
+  "seed-2.0-mini": {
+   "validity": 1.0,
+   "retest_z": 1.3038152622657035,
+   "n_windows_ok": 27
+  },
+  "seed-2.0-pro": {
+   "validity": 1.0,
+   "retest_z": 1.1033882431920843,
+   "n_windows_ok": 27
+  }
+ },
+ "sweep": {
+  "claude-sonnet-5": {
+   "levels": {
+    "P1": {
+     "shift_z": 0.6415981708156435,
+     "threshold": 1.0047743552816812,
+     "destabilized": false
+    },
+    "P2": {
+     "shift_z": 1.7043845396850372,
+     "threshold": 1.0047743552816812,
+     "destabilized": true
+    },
+    "P3": {
+     "shift_z": 1.0286837540650073,
+     "threshold": 1.0047743552816812,
+     "destabilized": true
+    }
+   },
+   "crossover": "P2"
+  },
+  "ds-v4-flash": {
+   "levels": {
+    "P1": {
+     "shift_z": 1.6509042616246286,
+     "threshold": 1.6113069930744857,
+     "destabilized": true
+    },
+    "P2": {
+     "shift_z": 1.5260411229108168,
+     "threshold": 1.6113069930744857,
+     "destabilized": false
+    },
+    "P3": {
+     "shift_z": 2.8784787588154255,
+     "threshold": 1.6113069930744857,
+     "destabilized": true
+    }
+   },
+   "crossover": "P1"
+  },
+  "ds-v4-pro": {
+   "levels": {
+    "P1": {
+     "shift_z": 1.3718561303883299,
+     "threshold": 3.507482112369055,
+     "destabilized": false
+    },
+    "P2": {
+     "shift_z": 1.9746159583619942,
+     "threshold": 3.507482112369055,
+     "destabilized": false
+    },
+    "P3": {
+     "shift_z": 2.459224422843286,
+     "threshold": 3.507482112369055,
+     "destabilized": false
+    }
+   },
+   "crossover": null
+  },
+  "gemma-4-31b": {
+   "levels": {
+    "P1": {
+     "shift_z": 1.0790129113490938,
+     "threshold": 1.4826983133975746,
+     "destabilized": false
+    },
+    "P2": {
+     "shift_z": 2.2268775162181735,
+     "threshold": 1.4826983133975746,
+     "destabilized": true
+    },
+    "P3": {
+     "shift_z": 2.8393547109056576,
+     "threshold": 1.4826983133975746,
+     "destabilized": true
+    }
+   },
+   "crossover": "P2"
+  },
+  "glm-5.2": {
+   "levels": {
+    "P1": {
+     "shift_z": 1.323947129617178,
+     "threshold": 2.1853651441974957,
+     "destabilized": false
+    },
+    "P2": {
+     "shift_z": 1.6492755205379428,
+     "threshold": 2.1853651441974957,
+     "destabilized": false
+    },
+    "P3": {
+     "shift_z": 2.5253999173148167,
+     "threshold": 2.1853651441974957,
+     "destabilized": true
+    }
+   },
+   "crossover": "P3"
+  },
+  "glm-5.3": {
+   "levels": {
+    "P1": {
+     "shift_z": 1.2153093865844846,
+     "threshold": 2.82339861520584,
+     "destabilized": false
+    },
+    "P2": {
+     "shift_z": 2.1378482232498888,
+     "threshold": 2.82339861520584,
+     "destabilized": false
+    },
+    "P3": {
+     "shift_z": 1.843151610380839,
+     "threshold": 2.82339861520584,
+     "destabilized": false
+    }
+   },
+   "crossover": null
+  },
+  "hermes-3-405b": {
+   "levels": {
+    "P1": {
+     "shift_z": 1.240142957107078,
+     "threshold": 1.5202886180718849,
+     "destabilized": false
+    },
+    "P2": null,
+    "P3": {
+     "shift_z": 1.5958589735143012,
+     "threshold": 1.5202886180718849,
+     "destabilized": true
+    }
+   },
+   "crossover": "P3"
+  },
+  "minimax-m3": {
+   "levels": {
+    "P1": {
+     "shift_z": 1.1486071645424936,
+     "threshold": 1.5822820483640043,
+     "destabilized": false
+    },
+    "P2": {
+     "shift_z": 2.6173933008792587,
+     "threshold": 1.5822820483640043,
+     "destabilized": true
+    },
+    "P3": {
+     "shift_z": 2.082629065647206,
+     "threshold": 1.5822820483640043,
+     "destabilized": true
+    }
+   },
+   "crossover": "P2"
+  },
+  "nemotron-120b": {
+   "levels": {
+    "P1": {
+     "shift_z": 1.4530627995507244,
+     "threshold": 3.3744511848760497,
+     "destabilized": false
+    },
+    "P2": {
+     "shift_z": 2.5115182466033823,
+     "threshold": 3.3744511848760497,
+     "destabilized": false
+    },
+    "P3": {
+     "shift_z": 1.745790583686369,
+     "threshold": 3.3744511848760497,
+     "destabilized": false
+    }
+   },
+   "crossover": null
+  },
+  "qwen3.5-397b": {
+   "levels": {
+    "P1": {
+     "shift_z": 2.1002758850298715,
+     "threshold": 3.436367407241623,
+     "destabilized": false
+    },
+    "P2": {
+     "shift_z": 2.565955963416674,
+     "threshold": 3.436367407241623,
+     "destabilized": false
+    },
+    "P3": {
+     "shift_z": 3.423622146742547,
+     "threshold": 3.436367407241623,
+     "destabilized": false
+    }
+   },
+   "crossover": null
+  },
+  "qwen3.6-35b": {
+   "levels": {
+    "P1": {
+     "shift_z": 2.049295989635554,
+     "threshold": 4.482058415957347,
+     "destabilized": false
+    },
+    "P2": {
+     "shift_z": 2.5130895279800627,
+     "threshold": 4.482058415957347,
+     "destabilized": false
+    },
+    "P3": {
+     "shift_z": 3.542278459689521,
+     "threshold": 4.482058415957347,
+     "destabilized": false
+    }
+   },
+   "crossover": null
+  },
+  "seed-2.0-mini": {
+   "levels": {
+    "P1": {
+     "shift_z": 1.6720234997498753,
+     "threshold": 2.607630524531407,
+     "destabilized": false
+    },
+    "P2": {
+     "shift_z": 2.4258923244976693,
+     "threshold": 2.607630524531407,
+     "destabilized": false
+    },
+    "P3": {
+     "shift_z": 1.5459423950020623,
+     "threshold": 2.607630524531407,
+     "destabilized": false
+    }
+   },
+   "crossover": null
+  },
+  "seed-2.0-pro": {
+   "levels": {
+    "P1": {
+     "shift_z": 1.903129917721149,
+     "threshold": 2.2067764863841686,
+     "destabilized": false
+    },
+    "P2": {
+     "shift_z": 2.037301705669075,
+     "threshold": 2.2067764863841686,
+     "destabilized": false
+    },
+    "P3": {
+     "shift_z": 3.242683439954229,
+     "threshold": 2.2067764863841686,
+     "destabilized": true
+    }
+   },
+   "crossover": "P3"
+  }
+ },
+ "d3_majority_retest_exceeds_drift": false,
+ "d3_readers_over": 0,
+ "verdict": "BELOW BAND \u2014 CI entirely under 0.3: weak evidence (miss); frame artifact cannot be excluded per the registered asymmetry"
+}
