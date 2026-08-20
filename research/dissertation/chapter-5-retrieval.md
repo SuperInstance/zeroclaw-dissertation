@@ -18,12 +18,15 @@ Chapter 4's inversion is binding here: dial-tier geometry is not encoder-tier ge
 
 Retrieval blends at bounded strength; hits carry their readings and stamps; no popularity or retrieval-count term enters any field vector; no feedback path from retrieval counts into embeddings. The 80/15/5 sampler split (gossip/contextual/seismic) quarantines attention-economy statistics downstream of the field. Concretely for `query_edge`: the combined-query precedent (readings-weighted blend) plus assert-tests on blend bounds — the same discipline `nudge.py` already enforces at 0.15.
 
-## 5.5 The empirical question (blocked on the contrast head)
+## 5.5 The empirical question — measured, two claims, labeled
 
-*[Pending — this section will report whichever the registered test produces:]*
-- If the head clears (fine gap ≥ 0.10, speaker-heldout ≥ 0.50, four nights, no collapse): matched-edge retrieval vs room-snapshot retrieval on a benchmark — the concession condition's third clause — and the edge layer graduates from specifiable to existent.
-- If the head fails (three consecutive sub-threshold runs): the scoped kill fires, this chapter becomes the fallback chapter (cross-room room-snapshot retrieval, evaluated honestly against `query_field`), and the deliverable narrows to the harness plus whatever the fallback shows.
-- Either way: the numbers, plainly, against the pre-registered thresholds. No polish.
+**Claim A (in-sample, registered eval, elephant 2052cb4):** fine gap 0.478 mean (seeds 0.4359/0.5187/0.4806, 3/3 ≥ 0.10), speaker-heldout 0.988, spread preserved. Room-identity is recoverable from the encoder's representation on the rooms it was trained on.
+
+**Claim B (held-out, honest re-test, elephant 34a5189): train excluding tap nights 3–4, eval on the unseen nights — FAIL.** Held-out fine gaps 0.0713 / 0.1073 / 0.0295 against the 0.05 noise floor: seed 2 below the floor, verdict NOT generalizing at the registered standard. The in-sample margin collapsed 4–15× under holdout — most of the 0.478 was room-level memorization of the training nights (the devil's FaceNet suspicion, confirmed). A weak, seed-unstable night-signature remains (held-out separability 15–56× over the frozen trunk's 0.0019; 2-way discrimination 0.50–0.611 vs chance 0.50, n=18 clips) — real signal, not reliable instrument.
+
+**The honest sentence, amended toward less:** *room-identity is recoverable from the encoder's representation in-sample, and NOT demonstrated to generalize to unseen rooms (1/3 seeds below the noise floor on the held-out test).* No promotion of the head to room-measurement instrument; the fork's epistemic arm stays conditional exactly as Rival A's caveat required.
+
+**What would upgrade Claim B (registered now, before any further training):** more held-out nights (the n=18/88/65 pair count is small); a second split holding out 2 non-tap rooms; or an objective/architecture that generalizes rather than memorizes. Any of these requires a fresh registered re-registration of the held-out protocol. The audio tier and fusion head, if they train, inherit this requirement.
 
 ## 5.6 Condition grain, not message grain
 
