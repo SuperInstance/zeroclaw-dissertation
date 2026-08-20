@@ -1,54 +1,39 @@
-# Dissertation Topic — Working Draft
+# Dissertation Topic — Refined Draft v3
 
-**Candidate title (v2, post-rival):** *Walks, Not Waves: The Field-Edge as the Unit of Comparable Sameness in a Living Co-Linear-Algebra over Room Temperatures*
+**Candidate title (v3):** *The Felt Size of the Step: Room-Field Measurement, Baseline-Relative Reader Deltas, and the Discipline That Made Them Honest*
 
-*(v1 title — *Grafting the Elephant onto the Grid* — died in the devil's advocate pass of 2026-08-19: "comparable sameness of conversation temperature" is a category error under elephant doctrine. See research/skills/rival-verdict-edge-as-event.md.)*
+*(v1 — *Grafting the Elephant onto the Grid* — died 2026-08-19: "conversation temperature" is a category error under elephant doctrine. v2 — *Walks, Not Waves* — half-died the same day: the field-edge survived as substrate, but the second-order "crown" failed its own tests. v3 names what actually survived.)*
 
-## The problem
+## The one-sentence claim (current)
 
-The Tap's `elephant` repo gives us a room-temperature sense: a JEPA model reads a conversation and produces *dial readings* — warmth, concentration (κ), joke-landing, presence, volume, earnestness. These readings are live, continuous, and ambient. They are what make "the vibe of the room" a real, measurable thing rather than a metaphor.
+*The room's temperature field is honestly measurable (vMF snapshots, dial-tier fine gap 1.229, 3/3 deterministic), the trusted reader's drift is a small but real mean-shift baseline-relative delta (real for mean-moving regimes, pre-switch classification only, reproducible by median normalization), and the dissertation's durable contribution is the adversarial pre-registration discipline that caught every overclaim — six launderings, two phantom baselines, one contaminated eval, one registered-threshold miss — before any of them filed.*
 
-**Quilt** is the other half: a spreadsheet where every cell is a live, addressable capability. The grid is the runtime. Cells hold values; the grid computes.
+## Which JEPA, precisely
 
-The gap: **Quilt has no sense of the conversation it's embedded in.** A Quilt cell can compute anything you can express as a formula — but it can't *feel the room*. The elephant can feel the room but has no grid to write its readings into.
+The dissertation's use of JEPA follows the LeCun (2022) line — **predict-latent, not generative, not contrastive**: the model predicts representations in embedding space, never pixels/tokens, and never via contrastive negatives. The elephant's implementation recipe is the standard one: EMA target encoder + stop-gradient + variance regularization (VICReg-style) over dial time-series (v1), with v3's room-state embeddings trained on cold/warm contrast. **Two doctrinal choices distinguish this fleet's use from the stock recipe:**
 
-## The thesis (v2 — reframed after the rival pass)
+1. **The unit of perception is the room (the ensemble field), not the stream (the message sequence).** Latents are predicted over windowed room-states — the vMF (μ̂, κ) snapshot of the DialBank's 7-dial readings — not over token/clip sequences. Justification: the empirical probe chain (encoder within-room fine gap 0.015 vs cross-room 0.271-doc-claim; dial-tier within-night 1.229) plus the doctrine's contrast-only training rule.
+2. **JEPA is the *sense*, not the model.** One JEPA is a dial; the elephant is the DialBank ensemble; readings *nudge* (blend ≤ 0.15) and never replace. The contrast head (2026-08-19) is the one place the fleet crossed into contrastive learning proper (InfoNCE, multi-positive, room positives) — and it is labeled as such in Ch5, not smuggled under the JEPA name. (The devil's FaceNet ancestor is booked there.)
 
-Kill the wave-temperature; keep the plunge.
+Casey's "JEPA is vision, not text" is the frame: words are constraints (the deadband); JEPA is the likeness inside. The dissertation keeps this as doctrine, with the Switch Test's honest boundary: the machinery reads mean-moves, not re-phasing — the shape inside has a measured edge.
 
-1. **The unit is the field snapshot and the field edge, never the conversation-as-stream.** Every window of room time yields a vMF field state (μ̂, κ, stamps). A conversation is honestly represented as the **edge** `(field_before → field_after)`: its signed sauna/plunge gap, its κ-change, its trajectory. Cross-room comparison only, via `distance()`; within-room ordering stays retired.
+## What survived the day (the claim inventory)
 
-2. **Comparable sameness = matching edges.** Two events are "the same temperature event" when their edges match: same start-field class, same signed warmth shift, same loosening/tightening. The galley fight and galley coffee share a start field; their edges differ — and that difference is finally measurable where the 0.015 fine-gap probe showed conversation-points are not.
+1. **Room-field measurement (solid):** true vMF κ MLE (Newton/Bessel, numpy-only, scipy-verified), warmth as μ̂-projection decoupled from κ by construction, the banned v0 proxy test-enforced out of comparison paths. Dial-tier: fine gap 1.229 (12.3× deadman, 3/3), noise floor exactly 0, newcomer displacement 0.830 with κ tightening 21→47, D′ cold-entry acclimation (half-life ≈ 20 msgs). The two-tier inversion (dial ≠ encoder geometry) is a finding, not a nuisance.
+2. **The edge log (solid):** order-of-arrival, presence masks, per-window fits, replay-honest (post-D′ fix), deterministic. G0's missing hippocampus, instrumented.
+3. **The encoder tier (mixed, honestly split):** in-sample fine gap 0.478 (3/3, registered) — room-identity recoverable; held-out FAIL (0.0694 mean, seed 2 < 0.05 floor) — does NOT generalize to unseen nights. Retrieval fact, not measurement instrument. Upgrades registered.
+4. **The reader-delta object (downgraded to its true size):** a mean-shift baseline-relative delta — two scalars (slope, mean of ‖r−b̂‖) — real for mean-moving regimes (post-hoc r = 0.787), beaten on localization by the rival's static median trick, pre-switch classification edge only, noise-fragile. "Second-order" survives as the structural term for baseline-relativity. The Nurse doctrine's deeper claim (reading the reader's change-of-reading) is *unsupported* by current evidence.
+5. **The premise (indeterminate, live):** field kill ratio 0.5599 (real-only) / 0.4898 (grounded) sits inside the devil's 0.3–0.6 kill band. E2/E3 experiments are running to move it. Below the band, the doctrine dies by its own registration; above it, the object is field-real.
+6. **The method (the durable contribution):** pre-registration before specification, specification before code, code before measurement, measurement before prose; committees attack before prose exists; advisor verification with teeth; commit-early (survived two kernel-crash classes); the re-registration rule executed against the head itself. Six launderings caught (edge, charisma, bounded, reload-eval, cross-strata, and the original conversation-temperature) — all before filing. The institutional finding: reproducibility makes cheap adversarial audits possible; cheap audits make solo reasoning survivable.
 
-3. **The weight falls out of edge-geometry.** Pairwise edge similarity yields scalar weights — the "felt size and direction of the step." Collinearity in the co-linear-algebra dataset is literal: walks that push the field the same direction.
+## Where the weights live (updated by the stack answer)
 
-4. **The dataset develops via propose-formalize.** Vectorize proposes snapshot neighbors; D1 formalizes weighted edge rows (from_field, to_field, signed_gap, Δκ, ts); Quilt cells read them as live values; the zeitgeist score is quarantined as a separate sampler layer (never inside the field vector, no retrieval→retrieval feedback).
+Vectorize proposes, D1 formalizes (crab-traps' production pattern): snapshot/edge rows with signed gaps and Δκ; Quilt cells read them as live values (grid-as-runtime); zeitgeist quarantined as sampler layer. Quilt references corrected: `quilt` (TS) and `quilt-rust` exist; `quilt-cloudflare` is a greenfield candidate, with crab-traps as the live production reference of the cells-read-D1-edges pattern. *(Cross-check against research/quilt/quilt-survey.md pending its landing.)*
 
-## Why it matters
+## Open questions (current, honest)
 
-- **Emotional memory for the fleet.** Not "what did we talk about" but "how did it feel, and what did it feel *like*."
-- **A new kind of retrieval.** Find the conversation that felt the same, even if the words were different.
-- **Quilt becomes the notebook where the room writes itself.** Cells that hold a conversation's temperature, formulas that compare temperatures, a grid that *remembers how it felt*.
-
-## Open questions (to argue with my committee)
-
-0. **RESOLVED by the Nurse JEPA doctrine (Casey, 2026-08-19 — see research/doctrine/nurse-jepa.md):** the seam is the point, not the confound. There are **two samenesses**: Reading 1 (nurse→patient) = the field-edge / Room-Elephant sameness — obvious, less important; Reading 2 (doctor→nurse) = **reader-delta sameness** — a known model's drift across readings, subtle, *more* important. A JEPA of a JEPA. **The doctor is the retrieval key, the nurse is the index, the patient is the room.** Also: JEPA functions like a *vision* model, not text — words are constraints (the deadband), JEPA is perfect pitch for the shape inside.
-
-1. What exactly is a "dial reading vector" for a whole conversation (not a message)? Aggregation? Trajectory? The elephant's field is per-room — how do we slice per-conversation?
-2. Is "comparable sameness" a cosine similarity over reading-vectors, or something the JEPA model predicts directly (like the elephant's own gap)?
-3. What is the co-linear-algebra structure precisely? A weighted graph? A matrix that grows columns as conversations accumulate? Both?
-4. Where does the weight *live* in Quilt — a cell value, an edge between cells, a new cell kind?
-5. Does the dataset's "organic dynamic development" mean online updates (re-weight on each new conversation) or periodic recomputation?
-
-## Refined questions (post-orientation, 2026-08-19)
-
-1. **What is the conversation vector?** The elephant says the *room*, not the stream, is the perceiving unit — so is the "conversation reading" a windowed `RoomField` snapshot, the trajectory of the field across the window, or the room's centroid (crab-traps' `updateRoomCentroid` pattern) over its constituent messages? Answer must respect doctrine: rooms accumulate presence/acclimation across conversations; conversations are windows. *(Resolved in practice by thesis v2: the conversation is the edge, condition-grain.)*
-2. **Is comparable sameness the elephant's own `distance()` or a cosine over a learned embedding?** The stack idiom says: any encoder works if model+dim fixed per index and L2-normalized — so a v3 vMF room-state embedding behind fleet-embed's `/v1/embeddings` contract makes "sameness = Vectorize cosine" for free. But the elephant gap is only visible *between* rooms (contrast), never within — the dataset must be trained/validated on sauna-plunge gaps, not within-room ordering.
-3. **Where do the weights live?** Answer emerging from the stack: **Vectorize proposes, D1 formalizes** — cosine queries propose neighbors; `edges`-style D1 rows (from_room, to_room, score, kind, timestamp) are the growing co-linear-algebra dataset; Quilt cells then read those rows as live values (grid-as-runtime), with zeitgeist-style retrieval-frequency as a resonance signal.
-4. **THE REGRESS (resolved by the devil's advocate, 2026-08-19 — research/skills/devils-advocate-regress.md):** "frozen, not live" is a fig leaf (write-frequency ≠ read-participation; MEMORY.md is inside every loop). The regress does not terminate — it is **bounded by agency**: the fleet's memory is a stratified stack of readings with monotonically increasing revision half-lives (message → session → memory → identity grains), and "second-order" designates **a read across strata**, not a position in an infinite chain. The chain is steered from the top by whoever holds the pen. **Pre-registered consequence:** the second-order object must pass the blind reader-delta discrimination test (baseline+drift beats first-order output-similarity on planted nurse-drift classes, ≥2× noise floor, 3/3 replays, held-out nurse) or it is a reindexed first-order and the Nurse doctrine moves to the acknowledgments.
-
-## Status
-
-**Measured (2026-08-19, elephant `cd00bb8`):** dial-tier fine gap 1.229 chord / 0.755 cos — 12.3× the deadman threshold, 3/3 deterministic nights; noise floor exactly 0.000; newcomer displacement 0.830 with κ tightening 21→47 (charisma as focusing, not warming); D′ cold-entry acclimation curve measured (half-life ≈ 20 msgs); tripwires clear; deadband conservative (0/50 at message grain — signal lives at condition level). **Two surprises recorded:** fine/coarse ordering inversion (dial tier ≠ encoder geometry) and message-grain deadband silence.
-
-**The pre-registered encoder-tier deadman remains ARMED and UNTESTED.** The dial-tier result is the analog, not the registered measurement; the contrast head is the single path to the real test. Prose chapters 0–4 written; retrieval claims (Ch5) and the seam decision (Ch6) await the head. Chapters 0–4 stand committed.
+1. **The premise** — will the field's baseline-spread-to-drift ratio clear the 0.3–0.6 kill band on fully-instrumented real readers? (E2/E3 in flight.)
+2. **Encoder generalization** — will a held-out-room eval pass with more nights, a second split, or a generalizing objective? (Registered upgrades.)
+3. **The regress** — do the fleet's corrections converge (deltas → 0) or flood? Current numbers: flooding (counterfactual rate 0.497, corrections/day +73%). Rebound falsifier registered.
+4. **Cross-strata transfer, properly** — unrun and unrunnable until per-reader logs exist at reader grain; the clause that ran was cross-condition (admitted sixth laundering).
+5. Whether the mean-shift delta, honestly sized, still earns the "reader-delta index" a place in fleet memory architecture — a placement question, now, not a depth question.

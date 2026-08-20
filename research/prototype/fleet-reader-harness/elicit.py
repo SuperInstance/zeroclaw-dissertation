@@ -53,7 +53,7 @@ READERS = [
 
 MAX_TOKENS = 4000
 TIMEOUT = 300
-CONCURRENCY = 10
+CONCURRENCY = 24
 RDIR = os.path.join(HERE, "readings", "raw")
 SDIR = os.path.join(HERE, "sweep", "raw")
 
