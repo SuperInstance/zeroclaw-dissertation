@@ -1,0 +1,137 @@
+{
+ "clause1": {
+  "delta": {
+   "floor_med": 0.5,
+   "floor_p95": 0.6666666666666666,
+   "purity": 1.0,
+   "ratio": 2.0,
+   "retrieval_1nn": 1.0
+  },
+  "first-order": {
+   "floor_med": 0.5,
+   "floor_p95": 0.6666666666666666,
+   "purity": 0.5833333333333334,
+   "ratio": 1.1666666666666667,
+   "retrieval_1nn": 0.5833333333333334
+  },
+  "first-order-centered(ablation)": {
+   "floor_med": 0.5,
+   "floor_p95": 0.6666666666666666,
+   "purity": 0.5833333333333334,
+   "ratio": 1.1666666666666667,
+   "retrieval_1nn": 0.75
+  },
+  "first-order-cosine(ablation)": {
+   "floor_med": 0.5,
+   "floor_p95": 0.6666666666666666,
+   "purity": 0.6666666666666666,
+   "ratio": 1.3333333333333333,
+   "retrieval_1nn": 0.75
+  },
+  "first-order-normtraj(ablation)": {
+   "floor_med": 0.5,
+   "floor_p95": 0.6666666666666666,
+   "purity": 0.6666666666666666,
+   "ratio": 1.3333333333333333,
+   "retrieval_1nn": 0.75
+  }
+ },
+ "clause2": {
+  "aggregate_mahalanobis_mean": 17.98582557557332,
+  "pairs": {
+   "jaded-vs-over": {
+    "dprime_DI": -7.516272134846632,
+    "dprime_MI": -13.018368475258061,
+    "dprime_mahalanobis": 13.951548444993776
+   },
+   "sauna-vs-jaded": {
+    "dprime_DI": -20.271222035134215,
+    "dprime_MI": 17.300513660320142,
+    "dprime_mahalanobis": 26.763945436976634
+   },
+   "sauna-vs-over": {
+    "dprime_DI": -12.278550391212978,
+    "dprime_MI": -6.654948556506774,
+    "dprime_mahalanobis": 13.241982844749545
+   }
+  }
+ },
+ "clause3": {
+  "class_transfer_accuracy": 1.0,
+  "class_transfer_chance": 0.3333333333333333,
+  "firstorder_1nn_accuracy": 0.8461538461538461,
+  "firstorder_1nn_misses": [
+   {
+    "id": "nurse-08",
+    "pred": "over",
+    "true": "sauna"
+   },
+   {
+    "id": "nurse-12",
+    "pred": "sauna",
+    "true": "jaded"
+   }
+  ],
+  "firstorder_3nn_accuracy": 0.6923076923076923,
+  "firstorder_3nn_misses": [
+   {
+    "id": "nurse-01",
+    "pred": "sauna",
+    "true": "jaded"
+   },
+   {
+    "id": "nurse-04",
+    "pred": "over",
+    "true": "sauna"
+   },
+   {
+    "id": "nurse-08",
+    "pred": "over",
+    "true": "sauna"
+   },
+   {
+    "id": "nurse-10",
+    "pred": "jaded",
+    "true": "sauna"
+   }
+  ],
+  "firstorder_normtraj_1nn_accuracy": 0.9230769230769231,
+  "firstorder_normtraj_misses": [
+   {
+    "id": "nurse-01",
+    "pred": "sauna",
+    "true": "jaded"
+   }
+  ],
+  "mae": 0.02064622986514621,
+  "mae_chance_baseline": 0.09240701643779325,
+  "r2_loo": 0.9434761284012321,
+  "transfer_r": 0.9665494305427739
+ },
+ "heldout_13th": {
+  "correct": true,
+  "id": "nurse-13",
+  "pred": "jaded",
+  "true": "jaded",
+  "votes": {
+   "jaded": 4,
+   "over": 0,
+   "sauna": 0
+  }
+ },
+ "kmeans_seed_purity_min": 1.0,
+ "kmeans_seed_stability": true,
+ "loo_13fold_accuracy": 1.0,
+ "meta": {
+  "N": 13,
+  "T": 27,
+  "class_counts": {
+   "jaded": 5,
+   "over": 4,
+   "sauna": 4
+  },
+  "heldout_class": "jaded",
+  "seed": 20260819
+ },
+ "retrieval_chance": 0.2727272727272727
+}
