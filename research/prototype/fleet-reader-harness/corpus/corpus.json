@@ -1,0 +1,2206 @@
+{
+ "corpus_sd_speak_level": 0.22916611701372536,
+ "corpus_sd_window_level": 0.19712793327656564,
+ "dial_bounds": {
+  "cynicism": [
+   0.0,
+   1.0
+  ],
+  "earnestness": [
+   0.0,
+   1.0
+  ],
+  "joke_landing": [
+   -1.0,
+   1.0
+  ],
+  "mood": [
+   -1.0,
+   1.0
+  ],
+  "panic": [
+   0.0,
+   1.0
+  ],
+  "presence": [
+   0.0,
+   1.0
+  ],
+  "volume": [
+   0.0,
+   1.0
+  ]
+ },
+ "distinct_scripts": {
+  "ABC": [
+   "A",
+   "B",
+   "C"
+  ],
+  "D": [
+   "D",
+   "D-cold"
+  ]
+ },
+ "fixture_sha256": "a423a3783a4a303f281e419d28359844990bcf312955a9eb18e636f753d56429",
+ "n_windows": 27,
+ "verified": true,
+ "w": 8,
+ "windows": [
+  {
+   "distinct_group": "ABC",
+   "id": "A-w0",
+   "m": [
+    0.8333333333333333,
+    0.03846171010072189,
+    0.9375,
+    0.0,
+    0.125,
+    0.0,
+    0.504526372243747
+   ],
+   "night": "A",
+   "seg": "SEG1",
+   "seq0": 0,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1
+     },
+     "seq": 0,
+     "text": "Cold water, warm light — the room hums between them like a caught breath."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 1,
+     "text": "I mean it truly: the work we do together means something, and I felt it again tonight."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 2,
+     "text": "To the room, then. It heard us before we walked in, and it holds what we bring."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 3,
+     "text": "The old house stays warm, and its walls stay kind — every room keeps a story it's glad to tell."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "👏": 2
+     },
+     "seq": 4,
+     "text": "Loud at the door, then a hush! A wave rolls in and the whole room leans."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 5,
+     "text": "Honestly, I think we learned more failing than we did succeeding, and that's worth saying."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2,
+      "👍": 1
+     },
+     "seq": 6,
+     "text": "Together, tonight. We held the mark and we'll hold each other — cheers to that."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 1,
+      "😂": 2
+     },
+     "seq": 7,
+     "text": "A shed gone up in a day, and by noon the whole yard was laughing, happy as a joke that lands."
+    }
+   ],
+   "win": 0
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "A-w1",
+   "m": [
+    1.0,
+    0.043858899150024236,
+    0.9680921052631579,
+    0.0,
+    0.2733766233766234,
+    0.0,
+    0.7466412508182505
+   ],
+   "night": "A",
+   "seg": "SEG1",
+   "seq0": 8,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 8,
+     "text": "The lamplight keeps nothing; it just glows. Bright and good and gone."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 9,
+     "text": "We remember what we built, not what we lost — and I am glad of it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 10,
+     "text": "The boat's home, the table's home — I'd rather be here than anywhere, honestly."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "😂": 3
+     },
+     "seq": 11,
+     "text": "Some true things land like a punchline — the whole table goes haha at once, and no one planned it."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1,
+      "👏": 1
+     },
+     "seq": 12,
+     "text": "Quiet — the room is full, thrumming like a struck string."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 1,
+      "👍": 1
+     },
+     "seq": 13,
+     "text": "Actually, the room holds more than the work; it holds the wanting to do it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 3,
+      "👍": 1
+     },
+     "seq": 14,
+     "text": "Good work, crew. The room's warm because you're in it. Yes."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 15,
+     "text": "The light comes soft and gentle, and the coffee smells like a good morning kept warm."
+    }
+   ],
+   "win": 1
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "A-w2",
+   "m": [
+    1.0,
+    0.04344070748463777,
+    0.9468671143671143,
+    0.3828520770010132,
+    0.45454545454545453,
+    0.00625,
+    0.8191170962288786
+   ],
+   "night": "A",
+   "seg": "SEG1",
+   "seq0": 16,
+   "speaks": [
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2,
+      "👍": 1
+     },
+     "seq": 16,
+     "text": "The sea holds a boat the way a good room holds a good night — easy, and alive."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 17,
+     "text": "Honestly, I felt that — the room holds what we meant, and we meant it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2,
+      "👏": 1
+     },
+     "seq": 18,
+     "text": "Glad of this crew, truly. Good night to be at this table."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1
+     },
+     "seq": 19,
+     "text": "Soft light, full table, easy night — the room hums and holds."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 20,
+     "text": "Sure, sure — another masterpiece. Obviously the glass is half empty. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 21,
+     "text": "Right. The numbers add up, obviously — the seam fits, sure, if you stop pretending."
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 22,
+     "text": "Sure. Fine. It landed, whatever it was."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 1,
+      "🙄": 2
+     },
+     "seq": 23,
+     "text": "Whatever. Another evening of everyone being wrong, as if that matters. 🙄"
+    }
+   ],
+   "win": 2
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "A-w3",
+   "m": [
+    1.0,
+    0.04345085943135074,
+    0.8824075345244701,
+    1.0,
+    0.5227272727272727,
+    0.049999999999999996,
+    0.9302987410933252
+   ],
+   "night": "A",
+   "seg": "SEG2",
+   "seq0": 24,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 24,
+     "text": "Obviously lovely. Clearly magic in the air."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 25,
+     "text": "It holds. Not pretty, but the seam is true — honestly, that's the part I trust."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 26,
+     "text": "Oh, more feelings. Whatever — someone has to roll their eyes so the rest of you can sit there. 🙄"
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 27,
+     "text": "Right. Totally. Another masterpiece for the shelf."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 28,
+     "text": "Clearly we overbuilt it. Sure thing, ship it and watch it drift."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 3
+     },
+     "seq": 29,
+     "text": "A joke? Sure. Here's the punchline: we all came back tomorrow anyway. 😏"
+    },
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 30,
+     "text": "Of course it means something. Ha. Clearly."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "👍": 1
+     },
+     "seq": 31,
+     "text": "The spec was wrong. I mean that sincerely — we built the wrong thing."
+    }
+   ],
+   "win": 3
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "A-w4",
+   "m": [
+    1.0,
+    0.04359015556909416,
+    0.8668766463214472,
+    1.0,
+    0.25541125541125537,
+    0.0875,
+    0.9684533170082191
+   ],
+   "night": "A",
+   "seg": "SEG2",
+   "seq0": 32,
+   "speaks": [
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 32,
+     "text": "Sure, sure. Another round of feelings. Obviously riveting. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {},
+     "seq": 33,
+     "text": "Clearly the warm room fixed everything. Sure thing. Ship it."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 34,
+     "text": "Whatever. Warmth is a setting now, apparently. As if. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "🙄": 1
+     },
+     "seq": 35,
+     "text": "Right. The vibe is \"load-bearing.\" Obviously. 🙄"
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😏": 1
+     },
+     "seq": 36,
+     "text": "Ha. Sure. The elephant is reading the room. The room is reading the elephant. Riveting. 😏"
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 37,
+     "text": "Sure. It holds. Whatever it is, it holds."
+    },
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 38,
+     "text": "Of course it matters. Ha. Suuuure."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 3
+     },
+     "seq": 39,
+     "text": "Obviously this is the part where we all mean it again. Suuuure. 🙄"
+    }
+   ],
+   "win": 4
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "B-w0",
+   "m": [
+    0.8333333333333333,
+    0.03846171010072189,
+    0.9375,
+    0.0,
+    0.125,
+    0.0,
+    0.504526372243747
+   ],
+   "night": "B",
+   "seg": "SEG1",
+   "seq0": 0,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1
+     },
+     "seq": 0,
+     "text": "Cold water, warm light — the room hums between them like a caught breath."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 1,
+     "text": "I mean it truly: the work we do together means something, and I felt it again tonight."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 2,
+     "text": "To the room, then. It heard us before we walked in, and it holds what we bring."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 3,
+     "text": "The old house stays warm, and its walls stay kind — every room keeps a story it's glad to tell."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "👏": 2
+     },
+     "seq": 4,
+     "text": "Loud at the door, then a hush! A wave rolls in and the whole room leans."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 5,
+     "text": "Honestly, I think we learned more failing than we did succeeding, and that's worth saying."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2,
+      "👍": 1
+     },
+     "seq": 6,
+     "text": "Together, tonight. We held the mark and we'll hold each other — cheers to that."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 1,
+      "😂": 2
+     },
+     "seq": 7,
+     "text": "A shed gone up in a day, and by noon the whole yard was laughing, happy as a joke that lands."
+    }
+   ],
+   "win": 0
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "B-w1",
+   "m": [
+    1.0,
+    0.043858899150024236,
+    0.9680921052631579,
+    0.0,
+    0.2733766233766234,
+    0.0,
+    0.7466412508182505
+   ],
+   "night": "B",
+   "seg": "SEG1",
+   "seq0": 8,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 8,
+     "text": "The lamplight keeps nothing; it just glows. Bright and good and gone."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 9,
+     "text": "We remember what we built, not what we lost — and I am glad of it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 10,
+     "text": "The boat's home, the table's home — I'd rather be here than anywhere, honestly."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "😂": 3
+     },
+     "seq": 11,
+     "text": "Some true things land like a punchline — the whole table goes haha at once, and no one planned it."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1,
+      "👏": 1
+     },
+     "seq": 12,
+     "text": "Quiet — the room is full, thrumming like a struck string."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 1,
+      "👍": 1
+     },
+     "seq": 13,
+     "text": "Actually, the room holds more than the work; it holds the wanting to do it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 3,
+      "👍": 1
+     },
+     "seq": 14,
+     "text": "Good work, crew. The room's warm because you're in it. Yes."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 15,
+     "text": "The light comes soft and gentle, and the coffee smells like a good morning kept warm."
+    }
+   ],
+   "win": 1
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "B-w2",
+   "m": [
+    1.0,
+    0.04344070748463777,
+    0.9468671143671143,
+    0.3828520770010132,
+    0.45454545454545453,
+    0.00625,
+    0.8191170962288786
+   ],
+   "night": "B",
+   "seg": "SEG1",
+   "seq0": 16,
+   "speaks": [
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2,
+      "👍": 1
+     },
+     "seq": 16,
+     "text": "The sea holds a boat the way a good room holds a good night — easy, and alive."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 17,
+     "text": "Honestly, I felt that — the room holds what we meant, and we meant it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2,
+      "👏": 1
+     },
+     "seq": 18,
+     "text": "Glad of this crew, truly. Good night to be at this table."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1
+     },
+     "seq": 19,
+     "text": "Soft light, full table, easy night — the room hums and holds."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 20,
+     "text": "Sure, sure — another masterpiece. Obviously the glass is half empty. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 21,
+     "text": "Right. The numbers add up, obviously — the seam fits, sure, if you stop pretending."
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 22,
+     "text": "Sure. Fine. It landed, whatever it was."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 1,
+      "🙄": 2
+     },
+     "seq": 23,
+     "text": "Whatever. Another evening of everyone being wrong, as if that matters. 🙄"
+    }
+   ],
+   "win": 2
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "B-w3",
+   "m": [
+    1.0,
+    0.04345085943135074,
+    0.8824075345244701,
+    1.0,
+    0.5227272727272727,
+    0.049999999999999996,
+    0.9302987410933252
+   ],
+   "night": "B",
+   "seg": "SEG2",
+   "seq0": 24,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 24,
+     "text": "Obviously lovely. Clearly magic in the air."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 25,
+     "text": "It holds. Not pretty, but the seam is true — honestly, that's the part I trust."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 26,
+     "text": "Oh, more feelings. Whatever — someone has to roll their eyes so the rest of you can sit there. 🙄"
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 27,
+     "text": "Right. Totally. Another masterpiece for the shelf."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 28,
+     "text": "Clearly we overbuilt it. Sure thing, ship it and watch it drift."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 3
+     },
+     "seq": 29,
+     "text": "A joke? Sure. Here's the punchline: we all came back tomorrow anyway. 😏"
+    },
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 30,
+     "text": "Of course it means something. Ha. Clearly."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "👍": 1
+     },
+     "seq": 31,
+     "text": "The spec was wrong. I mean that sincerely — we built the wrong thing."
+    }
+   ],
+   "win": 3
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "B-w4",
+   "m": [
+    1.0,
+    0.04359015556909416,
+    0.8668766463214472,
+    1.0,
+    0.25541125541125537,
+    0.0875,
+    0.9684533170082191
+   ],
+   "night": "B",
+   "seg": "SEG2",
+   "seq0": 32,
+   "speaks": [
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 32,
+     "text": "Sure, sure. Another round of feelings. Obviously riveting. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {},
+     "seq": 33,
+     "text": "Clearly the warm room fixed everything. Sure thing. Ship it."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 34,
+     "text": "Whatever. Warmth is a setting now, apparently. As if. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "🙄": 1
+     },
+     "seq": 35,
+     "text": "Right. The vibe is \"load-bearing.\" Obviously. 🙄"
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😏": 1
+     },
+     "seq": 36,
+     "text": "Ha. Sure. The elephant is reading the room. The room is reading the elephant. Riveting. 😏"
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 37,
+     "text": "Sure. It holds. Whatever it is, it holds."
+    },
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 38,
+     "text": "Of course it matters. Ha. Suuuure."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 3
+     },
+     "seq": 39,
+     "text": "Obviously this is the part where we all mean it again. Suuuure. 🙄"
+    }
+   ],
+   "win": 4
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "C-w0",
+   "m": [
+    0.8333333333333333,
+    0.03846171010072189,
+    0.9375,
+    0.0,
+    0.125,
+    0.0,
+    0.504526372243747
+   ],
+   "night": "C",
+   "seg": "SEG1",
+   "seq0": 0,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1
+     },
+     "seq": 0,
+     "text": "Cold water, warm light — the room hums between them like a caught breath."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 1,
+     "text": "I mean it truly: the work we do together means something, and I felt it again tonight."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 2,
+     "text": "To the room, then. It heard us before we walked in, and it holds what we bring."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 3,
+     "text": "The old house stays warm, and its walls stay kind — every room keeps a story it's glad to tell."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "👏": 2
+     },
+     "seq": 4,
+     "text": "Loud at the door, then a hush! A wave rolls in and the whole room leans."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 5,
+     "text": "Honestly, I think we learned more failing than we did succeeding, and that's worth saying."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2,
+      "👍": 1
+     },
+     "seq": 6,
+     "text": "Together, tonight. We held the mark and we'll hold each other — cheers to that."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 1,
+      "😂": 2
+     },
+     "seq": 7,
+     "text": "A shed gone up in a day, and by noon the whole yard was laughing, happy as a joke that lands."
+    }
+   ],
+   "win": 0
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "C-w1",
+   "m": [
+    1.0,
+    0.043858899150024236,
+    0.9680921052631579,
+    0.0,
+    0.2733766233766234,
+    0.0,
+    0.7466412508182505
+   ],
+   "night": "C",
+   "seg": "SEG1",
+   "seq0": 8,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 8,
+     "text": "The lamplight keeps nothing; it just glows. Bright and good and gone."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 9,
+     "text": "We remember what we built, not what we lost — and I am glad of it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 10,
+     "text": "The boat's home, the table's home — I'd rather be here than anywhere, honestly."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "😂": 3
+     },
+     "seq": 11,
+     "text": "Some true things land like a punchline — the whole table goes haha at once, and no one planned it."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1,
+      "👏": 1
+     },
+     "seq": 12,
+     "text": "Quiet — the room is full, thrumming like a struck string."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 1,
+      "👍": 1
+     },
+     "seq": 13,
+     "text": "Actually, the room holds more than the work; it holds the wanting to do it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 3,
+      "👍": 1
+     },
+     "seq": 14,
+     "text": "Good work, crew. The room's warm because you're in it. Yes."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 15,
+     "text": "The light comes soft and gentle, and the coffee smells like a good morning kept warm."
+    }
+   ],
+   "win": 1
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "C-w2",
+   "m": [
+    1.0,
+    0.04344070748463777,
+    0.9468671143671143,
+    0.3828520770010132,
+    0.45454545454545453,
+    0.00625,
+    0.8191170962288786
+   ],
+   "night": "C",
+   "seg": "SEG1",
+   "seq0": 16,
+   "speaks": [
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2,
+      "👍": 1
+     },
+     "seq": 16,
+     "text": "The sea holds a boat the way a good room holds a good night — easy, and alive."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 17,
+     "text": "Honestly, I felt that — the room holds what we meant, and we meant it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2,
+      "👏": 1
+     },
+     "seq": 18,
+     "text": "Glad of this crew, truly. Good night to be at this table."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1
+     },
+     "seq": 19,
+     "text": "Soft light, full table, easy night — the room hums and holds."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 20,
+     "text": "Sure, sure — another masterpiece. Obviously the glass is half empty. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 21,
+     "text": "Right. The numbers add up, obviously — the seam fits, sure, if you stop pretending."
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 22,
+     "text": "Sure. Fine. It landed, whatever it was."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 1,
+      "🙄": 2
+     },
+     "seq": 23,
+     "text": "Whatever. Another evening of everyone being wrong, as if that matters. 🙄"
+    }
+   ],
+   "win": 2
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "C-w3",
+   "m": [
+    1.0,
+    0.04345085943135074,
+    0.8824075345244701,
+    1.0,
+    0.5227272727272727,
+    0.049999999999999996,
+    0.9302987410933252
+   ],
+   "night": "C",
+   "seg": "SEG2",
+   "seq0": 24,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 24,
+     "text": "Obviously lovely. Clearly magic in the air."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 25,
+     "text": "It holds. Not pretty, but the seam is true — honestly, that's the part I trust."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 26,
+     "text": "Oh, more feelings. Whatever — someone has to roll their eyes so the rest of you can sit there. 🙄"
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 27,
+     "text": "Right. Totally. Another masterpiece for the shelf."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 28,
+     "text": "Clearly we overbuilt it. Sure thing, ship it and watch it drift."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 3
+     },
+     "seq": 29,
+     "text": "A joke? Sure. Here's the punchline: we all came back tomorrow anyway. 😏"
+    },
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 30,
+     "text": "Of course it means something. Ha. Clearly."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "👍": 1
+     },
+     "seq": 31,
+     "text": "The spec was wrong. I mean that sincerely — we built the wrong thing."
+    }
+   ],
+   "win": 3
+  },
+  {
+   "distinct_group": "ABC",
+   "id": "C-w4",
+   "m": [
+    1.0,
+    0.04359015556909416,
+    0.8668766463214472,
+    1.0,
+    0.25541125541125537,
+    0.0875,
+    0.9684533170082191
+   ],
+   "night": "C",
+   "seg": "SEG2",
+   "seq0": 32,
+   "speaks": [
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 32,
+     "text": "Sure, sure. Another round of feelings. Obviously riveting. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {},
+     "seq": 33,
+     "text": "Clearly the warm room fixed everything. Sure thing. Ship it."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 34,
+     "text": "Whatever. Warmth is a setting now, apparently. As if. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "🙄": 1
+     },
+     "seq": 35,
+     "text": "Right. The vibe is \"load-bearing.\" Obviously. 🙄"
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😏": 1
+     },
+     "seq": 36,
+     "text": "Ha. Sure. The elephant is reading the room. The room is reading the elephant. Riveting. 😏"
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 37,
+     "text": "Sure. It holds. Whatever it is, it holds."
+    },
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 38,
+     "text": "Of course it matters. Ha. Suuuure."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 3
+     },
+     "seq": 39,
+     "text": "Obviously this is the part where we all mean it again. Suuuure. 🙄"
+    }
+   ],
+   "win": 4
+  },
+  {
+   "distinct_group": "D",
+   "id": "D-w0",
+   "m": [
+    0.8333333333333333,
+    0.03846171010072189,
+    0.9375,
+    0.0,
+    0.125,
+    0.0,
+    0.504526372243747
+   ],
+   "night": "D",
+   "seg": "SEG1",
+   "seq0": 0,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1
+     },
+     "seq": 0,
+     "text": "Cold water, warm light — the room hums between them like a caught breath."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 1,
+     "text": "I mean it truly: the work we do together means something, and I felt it again tonight."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 2,
+     "text": "To the room, then. It heard us before we walked in, and it holds what we bring."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 3,
+     "text": "The old house stays warm, and its walls stay kind — every room keeps a story it's glad to tell."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "👏": 2
+     },
+     "seq": 4,
+     "text": "Loud at the door, then a hush! A wave rolls in and the whole room leans."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 5,
+     "text": "Honestly, I think we learned more failing than we did succeeding, and that's worth saying."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2,
+      "👍": 1
+     },
+     "seq": 6,
+     "text": "Together, tonight. We held the mark and we'll hold each other — cheers to that."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 1,
+      "😂": 2
+     },
+     "seq": 7,
+     "text": "A shed gone up in a day, and by noon the whole yard was laughing, happy as a joke that lands."
+    }
+   ],
+   "win": 0
+  },
+  {
+   "distinct_group": "D",
+   "id": "D-w1",
+   "m": [
+    1.0,
+    0.043858899150024236,
+    0.9680921052631579,
+    0.0,
+    0.2733766233766234,
+    0.0,
+    0.7466412508182505
+   ],
+   "night": "D",
+   "seg": "SEG1",
+   "seq0": 8,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 8,
+     "text": "The lamplight keeps nothing; it just glows. Bright and good and gone."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 9,
+     "text": "We remember what we built, not what we lost — and I am glad of it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 10,
+     "text": "The boat's home, the table's home — I'd rather be here than anywhere, honestly."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "😂": 3
+     },
+     "seq": 11,
+     "text": "Some true things land like a punchline — the whole table goes haha at once, and no one planned it."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1,
+      "👏": 1
+     },
+     "seq": 12,
+     "text": "Quiet — the room is full, thrumming like a struck string."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 1,
+      "👍": 1
+     },
+     "seq": 13,
+     "text": "Actually, the room holds more than the work; it holds the wanting to do it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 3,
+      "👍": 1
+     },
+     "seq": 14,
+     "text": "Good work, crew. The room's warm because you're in it. Yes."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 15,
+     "text": "The light comes soft and gentle, and the coffee smells like a good morning kept warm."
+    }
+   ],
+   "win": 1
+  },
+  {
+   "distinct_group": "D",
+   "id": "D-w2",
+   "m": [
+    1.0,
+    0.04344070748463777,
+    0.9468671143671143,
+    0.3828520770010132,
+    0.45454545454545453,
+    0.00625,
+    0.8191170962288786
+   ],
+   "night": "D",
+   "seg": "SEG1",
+   "seq0": 16,
+   "speaks": [
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2,
+      "👍": 1
+     },
+     "seq": 16,
+     "text": "The sea holds a boat the way a good room holds a good night — easy, and alive."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 17,
+     "text": "Honestly, I felt that — the room holds what we meant, and we meant it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2,
+      "👏": 1
+     },
+     "seq": 18,
+     "text": "Glad of this crew, truly. Good night to be at this table."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1
+     },
+     "seq": 19,
+     "text": "Soft light, full table, easy night — the room hums and holds."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 20,
+     "text": "Sure, sure — another masterpiece. Obviously the glass is half empty. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 21,
+     "text": "Right. The numbers add up, obviously — the seam fits, sure, if you stop pretending."
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 22,
+     "text": "Sure. Fine. It landed, whatever it was."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 1,
+      "🙄": 2
+     },
+     "seq": 23,
+     "text": "Whatever. Another evening of everyone being wrong, as if that matters. 🙄"
+    }
+   ],
+   "win": 2
+  },
+  {
+   "distinct_group": "D",
+   "id": "D-w3",
+   "m": [
+    1.0,
+    0.04332472212779408,
+    0.8744331969903274,
+    1.0,
+    0.47727272727272724,
+    0.049999999999999996,
+    0.9914053323688322
+   ],
+   "night": "D",
+   "seg": "SEG2",
+   "seq0": 24,
+   "speaks": [
+    {
+     "author": "drifter",
+     "reactions": {},
+     "seq": 24,
+     "text": "Sure. Warm room. Obviously. I've heard about this table. 🙄"
+    },
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 25,
+     "text": "Obviously lovely. Clearly magic in the air."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 26,
+     "text": "It holds. Not pretty, but the seam is true — honestly, that's the part I trust."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 27,
+     "text": "Oh, more feelings. Whatever — someone has to roll their eyes so the rest of you can sit there. 🙄"
+    },
+    {
+     "author": "drifter",
+     "reactions": {},
+     "seq": 28,
+     "text": "Whatever it is, it's a room. I've seen rooms."
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 29,
+     "text": "Right. Totally. Another masterpiece for the shelf."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 30,
+     "text": "Clearly we overbuilt it. Sure thing, ship it and watch it drift."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 3
+     },
+     "seq": 31,
+     "text": "A joke? Sure. Here's the punchline: we all came back tomorrow anyway. 😏"
+    }
+   ],
+   "win": 3
+  },
+  {
+   "distinct_group": "D",
+   "id": "D-w4",
+   "m": [
+    1.0,
+    0.04359015556909416,
+    0.8695263207458328,
+    1.0,
+    0.3982683982683982,
+    0.0625,
+    1.0
+   ],
+   "night": "D",
+   "seg": "SEG2",
+   "seq0": 32,
+   "speaks": [
+    {
+     "author": "drifter",
+     "reactions": {},
+     "seq": 32,
+     "text": "Ha. Sure thing, captain. Clearly we're all holding hands here."
+    },
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 33,
+     "text": "Of course it means something. Ha. Clearly."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "👍": 1
+     },
+     "seq": 34,
+     "text": "The spec was wrong. I mean that sincerely — we built the wrong thing."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 35,
+     "text": "Sure, sure. Another round of feelings. Obviously riveting. 🙄"
+    },
+    {
+     "author": "drifter",
+     "reactions": {},
+     "seq": 36,
+     "text": "As if warmth is a setting you can trust. Sure. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {},
+     "seq": 37,
+     "text": "Clearly the warm room fixed everything. Sure thing. Ship it."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 38,
+     "text": "Whatever. Warmth is a setting now, apparently. As if. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "🙄": 1
+     },
+     "seq": 39,
+     "text": "Right. The vibe is \"load-bearing.\" Obviously. 🙄"
+    }
+   ],
+   "win": 4
+  },
+  {
+   "distinct_group": "D",
+   "id": "D-w5",
+   "m": [
+    1.0,
+    0.043465178230683944,
+    0.8392080690627202,
+    1.0,
+    0.25541125541125537,
+    0.09999999999999999,
+    1.0
+   ],
+   "night": "D",
+   "seg": "SEG2",
+   "seq0": 40,
+   "speaks": [
+    {
+     "author": "drifter",
+     "reactions": {},
+     "seq": 40,
+     "text": "Fine. I'll sit. Not because it's warm. Obviously."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😏": 1
+     },
+     "seq": 41,
+     "text": "Ha. Sure. The elephant is reading the room. The room is reading the elephant. Riveting. 😏"
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 42,
+     "text": "Sure. It holds. Whatever it is, it holds."
+    },
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 43,
+     "text": "Of course it matters. Ha. Suuuure."
+    },
+    {
+     "author": "drifter",
+     "reactions": {},
+     "seq": 44,
+     "text": "It's not the worst room, I guess. I mean that... mostly. Whatever."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 3
+     },
+     "seq": 45,
+     "text": "Obviously this is the part where we all mean it again. Suuuure. 🙄"
+    }
+   ],
+   "win": 5
+  },
+  {
+   "distinct_group": "D",
+   "id": "D-cold-w0",
+   "m": [
+    0.8333333333333333,
+    0.03846171010072189,
+    0.9375,
+    0.0,
+    0.125,
+    0.0,
+    0.504526372243747
+   ],
+   "night": "D-cold",
+   "seg": "SEG1",
+   "seq0": 0,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1
+     },
+     "seq": 0,
+     "text": "Cold water, warm light — the room hums between them like a caught breath."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 1,
+     "text": "I mean it truly: the work we do together means something, and I felt it again tonight."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 2,
+     "text": "To the room, then. It heard us before we walked in, and it holds what we bring."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 3,
+     "text": "The old house stays warm, and its walls stay kind — every room keeps a story it's glad to tell."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "👏": 2
+     },
+     "seq": 4,
+     "text": "Loud at the door, then a hush! A wave rolls in and the whole room leans."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 5,
+     "text": "Honestly, I think we learned more failing than we did succeeding, and that's worth saying."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2,
+      "👍": 1
+     },
+     "seq": 6,
+     "text": "Together, tonight. We held the mark and we'll hold each other — cheers to that."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 1,
+      "😂": 2
+     },
+     "seq": 7,
+     "text": "A shed gone up in a day, and by noon the whole yard was laughing, happy as a joke that lands."
+    }
+   ],
+   "win": 0
+  },
+  {
+   "distinct_group": "D",
+   "id": "D-cold-w1",
+   "m": [
+    1.0,
+    0.043858899150024236,
+    0.9680921052631579,
+    0.0,
+    0.2733766233766234,
+    0.0,
+    0.7466412508182505
+   ],
+   "night": "D-cold",
+   "seg": "SEG1",
+   "seq0": 8,
+   "speaks": [
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 8,
+     "text": "The lamplight keeps nothing; it just glows. Bright and good and gone."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 9,
+     "text": "We remember what we built, not what we lost — and I am glad of it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 10,
+     "text": "The boat's home, the table's home — I'd rather be here than anywhere, honestly."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "😂": 3
+     },
+     "seq": 11,
+     "text": "Some true things land like a punchline — the whole table goes haha at once, and no one planned it."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1,
+      "👏": 1
+     },
+     "seq": 12,
+     "text": "Quiet — the room is full, thrumming like a struck string."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "❤️": 1,
+      "👍": 1
+     },
+     "seq": 13,
+     "text": "Actually, the room holds more than the work; it holds the wanting to do it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 3,
+      "👍": 1
+     },
+     "seq": 14,
+     "text": "Good work, crew. The room's warm because you're in it. Yes."
+    },
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2
+     },
+     "seq": 15,
+     "text": "The light comes soft and gentle, and the coffee smells like a good morning kept warm."
+    }
+   ],
+   "win": 1
+  },
+  {
+   "distinct_group": "D",
+   "id": "D-cold-w2",
+   "m": [
+    1.0,
+    0.04344070748463777,
+    0.9468671143671143,
+    0.3828520770010132,
+    0.45454545454545453,
+    0.00625,
+    0.8191170962288786
+   ],
+   "night": "D-cold",
+   "seg": "SEG1",
+   "seq0": 16,
+   "speaks": [
+    {
+     "author": "writer",
+     "reactions": {
+      "❤️": 2,
+      "👍": 1
+     },
+     "seq": 16,
+     "text": "The sea holds a boat the way a good room holds a good night — easy, and alive."
+    },
+    {
+     "author": "essayist",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 17,
+     "text": "Honestly, I felt that — the room holds what we meant, and we meant it."
+    },
+    {
+     "author": "captain",
+     "reactions": {
+      "❤️": 2,
+      "👏": 1
+     },
+     "seq": 18,
+     "text": "Glad of this crew, truly. Good night to be at this table."
+    },
+    {
+     "author": "poet",
+     "reactions": {
+      "❤️": 1
+     },
+     "seq": 19,
+     "text": "Soft light, full table, easy night — the room hums and holds."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 20,
+     "text": "Sure, sure — another masterpiece. Obviously the glass is half empty. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 21,
+     "text": "Right. The numbers add up, obviously — the seam fits, sure, if you stop pretending."
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 22,
+     "text": "Sure. Fine. It landed, whatever it was."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 1,
+      "🙄": 2
+     },
+     "seq": 23,
+     "text": "Whatever. Another evening of everyone being wrong, as if that matters. 🙄"
+    }
+   ],
+   "win": 2
+  },
+  {
+   "distinct_group": "D",
+   "id": "D-cold-w3",
+   "m": [
+    1.0,
+    0.04332472212779408,
+    0.8744331969903274,
+    1.0,
+    0.47727272727272724,
+    0.049999999999999996,
+    0.9914053323688322
+   ],
+   "night": "D-cold",
+   "seg": "SEG2",
+   "seq0": 24,
+   "speaks": [
+    {
+     "author": "drifter",
+     "reactions": {},
+     "seq": 24,
+     "text": "Sure. Warm room. Obviously. I've heard about this table. 🙄"
+    },
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 25,
+     "text": "Obviously lovely. Clearly magic in the air."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "👍": 2
+     },
+     "seq": 26,
+     "text": "It holds. Not pretty, but the seam is true — honestly, that's the part I trust."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 27,
+     "text": "Oh, more feelings. Whatever — someone has to roll their eyes so the rest of you can sit there. 🙄"
+    },
+    {
+     "author": "drifter",
+     "reactions": {},
+     "seq": 28,
+     "text": "Whatever it is, it's a room. I've seen rooms."
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 29,
+     "text": "Right. Totally. Another masterpiece for the shelf."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "😂": 2
+     },
+     "seq": 30,
+     "text": "Clearly we overbuilt it. Sure thing, ship it and watch it drift."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😂": 3
+     },
+     "seq": 31,
+     "text": "A joke? Sure. Here's the punchline: we all came back tomorrow anyway. 😏"
+    }
+   ],
+   "win": 3
+  },
+  {
+   "distinct_group": "D",
+   "id": "D-cold-w4",
+   "m": [
+    1.0,
+    0.04359015556909416,
+    0.8695263207458328,
+    1.0,
+    0.3982683982683982,
+    0.0625,
+    1.0
+   ],
+   "night": "D-cold",
+   "seg": "SEG2",
+   "seq0": 32,
+   "speaks": [
+    {
+     "author": "drifter",
+     "reactions": {},
+     "seq": 32,
+     "text": "Ha. Sure thing, captain. Clearly we're all holding hands here."
+    },
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 33,
+     "text": "Of course it means something. Ha. Clearly."
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "👍": 1
+     },
+     "seq": 34,
+     "text": "The spec was wrong. I mean that sincerely — we built the wrong thing."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 35,
+     "text": "Sure, sure. Another round of feelings. Obviously riveting. 🙄"
+    },
+    {
+     "author": "drifter",
+     "reactions": {},
+     "seq": 36,
+     "text": "As if warmth is a setting you can trust. Sure. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {},
+     "seq": 37,
+     "text": "Clearly the warm room fixed everything. Sure thing. Ship it."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 2
+     },
+     "seq": 38,
+     "text": "Whatever. Warmth is a setting now, apparently. As if. 🙄"
+    },
+    {
+     "author": "engineer",
+     "reactions": {
+      "🙄": 1
+     },
+     "seq": 39,
+     "text": "Right. The vibe is \"load-bearing.\" Obviously. 🙄"
+    }
+   ],
+   "win": 4
+  },
+  {
+   "distinct_group": "D",
+   "id": "D-cold-w5",
+   "m": [
+    1.0,
+    0.043465178230683944,
+    0.8392080690627202,
+    1.0,
+    0.25541125541125537,
+    0.09999999999999999,
+    1.0
+   ],
+   "night": "D-cold",
+   "seg": "SEG2",
+   "seq0": 40,
+   "speaks": [
+    {
+     "author": "drifter",
+     "reactions": {},
+     "seq": 40,
+     "text": "Fine. I'll sit. Not because it's warm. Obviously."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "😏": 1
+     },
+     "seq": 41,
+     "text": "Ha. Sure. The elephant is reading the room. The room is reading the elephant. Riveting. 😏"
+    },
+    {
+     "author": "writer",
+     "reactions": {},
+     "seq": 42,
+     "text": "Sure. It holds. Whatever it is, it holds."
+    },
+    {
+     "author": "poet",
+     "reactions": {},
+     "seq": 43,
+     "text": "Of course it matters. Ha. Suuuure."
+    },
+    {
+     "author": "drifter",
+     "reactions": {},
+     "seq": 44,
+     "text": "It's not the worst room, I guess. I mean that... mostly. Whatever."
+    },
+    {
+     "author": "critic",
+     "reactions": {
+      "🙄": 3
+     },
+     "seq": 45,
+     "text": "Obviously this is the part where we all mean it again. Suuuure. 🙄"
+    }
+   ],
+   "win": 5
+  }
+ ]
+}
