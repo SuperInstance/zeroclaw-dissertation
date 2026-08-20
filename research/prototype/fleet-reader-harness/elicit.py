@@ -84,6 +84,9 @@ def call(endpoint, model, messages, use_json_object=True, temperature=0):
     except urllib.error.HTTPError as e:
         err = e.read().decode(errors="replace")[:300]
         raise RuntimeError(f"HTTP {e.code}: {err}") from e
+    except (urllib.error.URLError, TimeoutError, OSError, json.JSONDecodeError,
+            KeyError, IndexError) as e:
+        raise RuntimeError(f"NET: {type(e).__name__}: {e}") from e
 
 
 def call_with_retries(endpoint, model, messages, n_net=4):
@@ -218,7 +221,12 @@ def main():
     t0 = time.time()
 
     def run(job):
-        ok = elicit_one(*job)
+        try:
+            ok = elicit_one(*job)
+        except Exception as e:  # never kill the pool
+            print(f"  job error {job[0][0]}/{job[1]}/{job[2]}{job[3]}: {e}",
+                  flush=True)
+            ok = False
         done[0] += 1
         if done[0] % 25 == 0:
             print(f"  {done[0]}/{len(jobs)} ({time.time()-t0:.0f}s)", flush=True)
