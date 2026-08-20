@@ -16,7 +16,7 @@ module VmfKernel
   , Fit(..), Edge(..)
   ) where
 
-import Data.List (foldl')
+import Data.List (foldl', foldl1')
 
 type Vec = [Double]
 
