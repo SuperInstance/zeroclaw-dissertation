@@ -115,6 +115,8 @@ is zero-dependency, and the graph of "what sounds like what" accretes by use.
 
 ## Standing caveats
 
+- **Dimension floor (verified 2026-08-19):** Vectorize rejects < 32 dims (`Dimensions must be in range: [32, 1536]`, code 3003). So the 16 features are used twice as **mean(16) ⊕ std(16) = 32 dims** (average feel + internal contrast), still fully named. Index `plainsong-feel` is 32-dim cosine.
+- **Centering is load-bearing (verified 2026-08-19):** raw cosine over the chord-chart corpus **collapsed** — mean 0.997, sd 0.008 — because every chart shares the same DC signature (sustain≈1, rest≈0, syncopation≈0). Centering each dim against the corpus centroid before L2-normalize spreads it to mean 0.18 / sd 0.72, and nearest neighbors become musically sane (a jazz ballad's neighbors are jazz/ballads; a shanty's are distant, as they should be). The centroid lives in `tools/corpus-centroids.json`; both the indexer and `query_feel.py` must use it — the query side is what breaks silently if they drift.
 - 16 dims is *small*; Vectorize handles it (max 1536) but the space is coarse. The aggregate
   (mean over bars) discards form — verse/chorus shape is lost. Consider per-section vectors
   (`section-<digest>-<name>`) if form matters.
