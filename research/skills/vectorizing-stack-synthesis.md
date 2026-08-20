@@ -12,6 +12,7 @@ skill files in this directory. One correction to the orientation brief:
 | zeitgeist-worker | (reuses above index) | 768 | `AI_WRITINGS_INDEX` binding | D1 `zeitgeist` | queries embed client-side |
 | fleet-embed | Candle BERT (`all-MiniLM-L6-v2`) | 384 | none (OpenAI-compatible server :8788) | in-memory | local Rust, mean pool + L2 norm |
 | crab-traps | deterministic hash TF-IDF (`generateEmbedding`) | 384 | Vectorize `crab-trap-lures` | D1 `crab-trap-catches` | inside the Worker, no model |
+| plainsong | deterministic 16-feature per-bar (`features.py`, named musical dims) | 16 | Vectorize `plainsong-feel` (proposed) | D1 `songs`/`edges`/`ensemble_sessions` (proposed) | pure stdlib, portable to TS in-worker |
 
 ## Embedding models & dims
 Two "real" encoders in the fleet: nomic-embed-text@768 (corpus-scale, Ollama) and
