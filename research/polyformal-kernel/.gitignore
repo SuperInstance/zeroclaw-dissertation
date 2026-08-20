@@ -1,0 +1,9 @@
+# compiled differential-test binaries (rebuild locally)
+c/vmf_test
+cpp/vmf_test
+rust/vmf_test
+go/vmf_test
+zig/main
+zig/main.o
+# compiled TypeScript output
+ts/dist/
