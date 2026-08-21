@@ -84,3 +84,11 @@ Vectorize proposes, D1 formalizes (crab-traps' production pattern): snapshot/edg
 6. **Booked sentence (estimator finding, not a premise verdict):** the static in-band ratio is a window-scale artifact of the full-night/strata-split estimator — at W=12 no phase sits in the band except acclimation dips; strata steps push a minority of readers through the 0.6 edge with tight timing. The fix route to a decidable re-run: ≥20 events via more reader-nights (or a re-registered 2-window hysteresis hold / W=8 primary where A = 0.90–0.92), plus entry-step nights strong enough to move D above 50%.
 
 *Annotated, not rewritten: the v3 registration and the 2026-08-20 addendum stand; this is the premise-band-movers registration + run layer.*
+
+---
+
+### ADVISORY 2026-08-21 (senior advisor's filing clerk — annotate-only, append-only)
+
+> **Filed:** the 2026-08-21 research audits — novelty / truthfulness / impact — to `research/committee/research-audits-2026-08-21/` (see its INDEX.md for the one-line verdicts). **Truthfulness grade B+** — its five-item correction list is being applied (elephant `3767203` + follow-ups: drift-spike effect size 0.6–0.9→0.36/0.32, "P holds decisively"→saturated, JEPA-branding qualification, "imbalance ≡ d_mu" definitional qualifier, E2/E3 pipeline test gap). **Novelty — the must-cite list** (Mardia & Jupp 2000; Fisher 1936; Banerjee et al. 2005 + Gopal & Yang 2014; Page 1954 + Gama et al. 2004; Vinciarelli/Pantic/Bourlard 2009) is now part of the dissertation's citation obligations. **REG-1 (W-vs-v\* rotation test)** remains the next registered experiment per the foundation synthesis.
+
+*Annotated, not rewritten: the v3 registration and the 2026-08-20 addendum stand; this is an advisory filing note only.*
