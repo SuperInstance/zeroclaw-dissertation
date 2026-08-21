@@ -54,3 +54,18 @@ Vectorize proposes, D1 formalizes (crab-traps' production pattern): snapshot/edg
 3. **The regress** — do the fleet's corrections converge (deltas → 0) or flood? Current numbers: flooding (counterfactual rate 0.497, corrections/day +73%). Rebound falsifier registered.
 4. **Cross-strata transfer, properly** — now RUNNABLE: E2's v:2 per-reader schema exists and the S-series nights are logged at reader grain. The clause that ran in August was cross-condition (admitted sixth laundering); the true cross-strata version (session-grain drift predicting memory/identity-grain behavior) is now the next registrable test, no longer blocked on instrumentation.
 5. Whether the mean-shift delta, honestly sized, still earns the "reader-delta index" a place in fleet memory architecture — a placement question, now, not a depth question.
+
+---
+
+### ADDENDUM 2026-08-20 (Stage-2 corpus wave — resolves the run's committee-open items; nothing above is altered)
+
+> Filed with the Stage-2 corpus design (STAGE2-CORPUS-DESIGN-2026-08-20.md) and the wave-2 run (STAGE2-RUN-2026-08-20.md, elephant repo). The 2026-08-20 slope run stands under the original registration; this addendum registers the decisions that run left open, and the x-side validity preconditions that make the slope test decisive rather than degenerate.
+
+1. **Corpus-design requirement (replaces the de-facto attendance degeneracy).** Before analysis, the included set (n_nights ≥ 3) must satisfy: (i) **no two readers share the same visited-room set**; (ii) **≥ 3 distinct x values** and **Sxx ≥ 0.19**; (iii) readers stratified into three x-bands (targets ≈ 0.48/0.64/0.71) with **no archetype majority in any band**. If (i)–(iii) fail, the run is **VOID — INDETERMINATE BY RULE**, and no branch reading is taken.
+2. **Committee-open §1 (scalarization) — registered:** PRIMARY = direction cosine of the z-standardized reliable-subspace baseline against the subspace-restricted, renormalized `vmf.WARM` (the run's choice; unit commensurability with `warmth_vmf` is what gives "slope ≈ 1" its meaning). Raw z-projection remains a labeled sensitivity.
+3. **Committee-open §2 (room-warmth aggregation) — registered:** PRIMARY = unweighted per-night mean of logged per-speak `warmth_vmf`. **Exposure-weighting is rejected**: night lengths are schedule-determined, and the registered object is the warmth of the rooms *visited*, not per-speak exposure. `session_close` final-window fit remains a labeled sensitivity.
+4. **Committee-open §3 (x-side degeneracy) — resolved by design:** inclusion rule **unchanged** (n_nights ≥ 3); the registration-relaxed all-readers variant remains a labeled sensitivity only. The corpus, not the rule, guarantees x-variance.
+5. **Committee-open §6 (branch thresholds) — registered:** ≈0 = bootstrap CI contains 0; ≈1 = CI contains 1. **Alignment** declared iff CI contains 0 AND excludes 1 AND §1 preconditions hold; **collapse** iff CI contains 1 AND excludes 0 AND preconditions hold; else INDETERMINATE.
+6. **Power target (filed):** n = 21 readers (7 per band), design Sxx = 0.197, x-range = 0.254; inference unchanged (bootstrap over readers, B = 2000; permutation null, 10,000).
+
+*Annotated, not rewritten: the v3 registration above stands; this addendum is the wave-2 registration layer.*
