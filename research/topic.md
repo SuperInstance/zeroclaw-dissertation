@@ -92,3 +92,11 @@ Vectorize proposes, D1 formalizes (crab-traps' production pattern): snapshot/edg
 > **Filed:** the 2026-08-21 research audits — novelty / truthfulness / impact — to `research/committee/research-audits-2026-08-21/` (see its INDEX.md for the one-line verdicts). **Truthfulness grade B+** — its five-item correction list is being applied (elephant `3767203` + follow-ups: drift-spike effect size 0.6–0.9→0.36/0.32, "P holds decisively"→saturated, JEPA-branding qualification, "imbalance ≡ d_mu" definitional qualifier, E2/E3 pipeline test gap). **Novelty — the must-cite list** (Mardia & Jupp 2000; Fisher 1936; Banerjee et al. 2005 + Gopal & Yang 2014; Page 1954 + Gama et al. 2004; Vinciarelli/Pantic/Bourlard 2009) is now part of the dissertation's citation obligations. **REG-1 (W-vs-v\* rotation test)** remains the next registered experiment per the foundation synthesis.
 
 *Annotated, not rewritten: the v3 registration and the 2026-08-20 addendum stand; this is an advisory filing note only.*
+
+---
+
+### ADVISORY 2026-08-21 (wave-3 S2 — registration frozen; annotate-only, append-only)
+
+> **Filed:** wave-3 generation-corpus experiment registered and frozen (`memory/wave3-registration-2026-08-21.md`) — H-GEN branch-recovery design, REG-1 thresholds 0.80/0.60/0.80 and ε=1e-2, every branch×leg verdict pre-stated (R5), K-leg rework pending, committed before any registered corpus is generated.
+
+*Annotated, not rewritten: the v3 registration and the 2026-08-20 and 2026-08-21 addenda stand; this is a registration-filing note only.*
