@@ -47,7 +47,7 @@ He can read her notes, but it's the **feel of the conversation** that aligns him
 
 3. **The nurse is a calibrated instrument the doctor knows better than the patient.** Her deviation from baseline *is* the signal. The room's JEPA arrives **filtered through a known model**. This is exactly the seam where Personal meets Room — and Casey is saying the seam is not a confound to engineer around. **The seam is the point.**
 
-4. **Why "reader seam" was the open question:** the thesis already felt its way to "the edge is the room's; the felt size of the step is the reader's." The nurse makes it concrete: the doctor doesn't read the room directly — he reads the nurse's reading of the room. **A JEPA of a JEPA.** The second-order reading is the one that orients action.
+4. **Why "reader seam" was the open question:** the thesis already felt its way to "the edge is the room's; the felt size of the step is the reader's." The nurse makes it concrete: the doctor doesn't read the room directly — he reads the nurse's reading of the room. **A JEPA of a JEPA.** The second-order reading is the one that orients action. *(Annotated 2026-08-21 after the Switch Test fold — d59bf17, NO CLEAN WIN: "second-order" is retained as the structural term for baseline-relativity only. The evidence supports a mean-shift, baseline-relative delta — the doctor reads the size of the step from the nurse's own baseline, not her change-of-reading; the change-of-reading claim is not yet supported (see `research/skills/zeroclaw-switch-verdict.md`).)*
 
 ## Consequences to argue with the committee
 

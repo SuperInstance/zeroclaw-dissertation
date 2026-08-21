@@ -6,6 +6,12 @@ Registered in `research/skills/devils-advocate-regress.md` (clauses 1–2 + kill
 
 ---
 
+> **ANNOTATION (2026-08-21) — superseded by the Switch Test fold (d59bf17, NO CLEAN WIN).**
+> The registered, SHA-verified results below are **not deleted or altered**; they stand as filed. But the status they carried on 2026-08-19 — "second-order beats first-order; the second-order object is not a reindex" — was **downgraded** the same evening by the Switch Test (`research/skills/zeroclaw-switch-verdict.md`, folded at d59bf17): the drift-reader failed its own registered detection threshold (0.467 vs 0.80); a static per-nurse median — no temporal structure at all — beat it on switch localization (r 0.816/0.800 vs 0.435/0.467); the classification edge is pre-switch only; noise robustness is absent at σ=0.2; the salvageable kernel is mean-moving regimes only (localization r = 0.787).
+> The operative framing today: **reader-delta = mean-shift, baseline-relative delta — it reads the step, not the change-of-reading.** "Second-order" survives only as the structural term for baseline-relativity. These D″ fixtures instantiate the doctrine's *premise* (idiosyncratic baselines); the Switch Test tested the object's temporal claim and found no clean win. Read every "second-order" below with this header.
+
+---
+
 ## 1. D″ fixtures — what was built
 
 **Shared room corpus (real data):** all 5 nights (A, B, C, D, D-cold), non-overlapping windows of W=8 speaks → **T = 27 windows**. Room stimulus m(t) = mean `field_raw_after` over the window. SEG1 = warm (first 20 speaks), SEG2 = cynical — per night, as in `reader_delta.py`.
@@ -38,7 +44,7 @@ REPLAYS_IDENTICAL_3_OF_3: True
 
 ## 2. The two representations
 
-**Reader-delta (second-order), output-only.** From each nurse's emitted readings alone: fitted baseline b̂ᵢ = componentwise median of her own readings; δᵢ(t) = rᵢ(t) − b̂ᵢ; normalized excursion eᵢ(t) = ‖δᵢ(t)‖/(‖b̂ᵢ‖+ε). Feature vector = [eᵢ(0…26), slope(eᵢ), mean(eᵢ), std(eᵢ), lag-1 autocorr(δᵢ)] — the doctor's three reads: displacement-from-baseline per window, tempo, volatility. **No room input is ever touched.** (Feature standardization is fitted on the 12 pool nurses, applied to the held-out — no leakage.)
+**Reader-delta (second-order), output-only.** From each nurse's emitted readings alone: fitted baseline b̂ᵢ = componentwise median of her own readings; δᵢ(t) = rᵢ(t) − b̂ᵢ; normalized excursion eᵢ(t) = ‖δᵢ(t)‖/(‖b̂ᵢ‖+ε). Feature vector = [eᵢ(0…26), slope(eᵢ), mean(eᵢ), std(eᵢ), lag-1 autocorr(δᵢ)] — the doctor's three reads: displacement-from-baseline per window, tempo, volatility. **No room input is ever touched.** (Feature standardization is fitted on the 12 pool nurses, applied to the held-out — no leakage.) *(2026-08-21: per d59bf17 this object is a mean-shift, baseline-relative delta — it reads the step, not the change-of-reading.)*
 
 **First-order (kill baseline).** Plain similarity of the readings themselves: concatenated rᵢ(t) (7×27 dims), no baseline model, no centering. Three *strengthened* first-order ablations reported in the open: cosine-normalized; per-nurse centered (the "smuggled baseline"); and per-window reading-norm trajectory ‖rᵢ(t)‖ (magnitudes only, still baseline-free) — so the kill comparison is against the *best* first-order, not a strawman.
 
@@ -84,22 +90,22 @@ From **SEG1 (warm) outputs only**: ê1 = mean excursion, slope1 = within-SEG1 sl
   - 3-NN: 9/13 (0.692)
   - 1-NN on SEG1 norm trajectory (strongest baseline-free variant): **12/13 (0.923)** — misses nurse-01 (jaded→sauna)
 
-Honest reading: because all nurses read the *same* rooms, raw magnitude levels are partially cross-nurse comparable, and the strongest baseline-free variant gets close on *labels* (12/13 vs 13/13). What first-order cannot do at any accuracy is the registered question itself: it has no per-nurse baseline, hence no excursion, hence no drift estimate — it cannot *predict how far the nurse will move in SEG2* (its best numeric act is the chance-MAE mean, 0.0924). The second-order representation poses and answers the numeric question (r = 0.967). **Clause 3: PASS for the reader-delta representation; first-order fails the numeric form and loses the label form (12/13 vs 13/13).**
+Honest reading: because all nurses read the *same* rooms, raw magnitude levels are partially cross-nurse comparable, and the strongest baseline-free variant gets close on *labels* (12/13 vs 13/13). What first-order cannot do at any accuracy is the registered question itself: it has no per-nurse baseline, hence no excursion, hence no drift estimate — it cannot *predict how far the nurse will move in SEG2* (its best numeric act is the chance-MAE mean, 0.0924). The second-order representation poses and answers the numeric question (r = 0.967). **Clause 3: PASS for the reader-delta representation; first-order fails the numeric form and loses the label form (12/13 vs 13/13).** *(Annotation: this PASS stands on these D″ fixtures; the Switch Test (d59bf17) later bounded the object — the transfer reads mean-moving regimes, not re-phasing ones — see header.)*
 
 ## 6. Kill condition — the head-to-head
 
-The registration: if first-order performs *as well as* reader-delta on clause 1, the second-order object is a reindex and the doctrine collapses.
+The registration: if first-order performs *as well as* reader-delta on clause 1, the second-order object is a reindex and the doctrine collapses. *(Annotation: on these D″ fixtures the reindex kill does not fire — that verdict stands as filed; the Switch Test (d59bf17) found a different, bounded miss instead, detailed in the header.)*
 
 - reader-delta: purity **1.000**, retrieval **1.000**
 - best first-order (of four variants, including the two strongest ablations): purity **0.667**, retrieval **0.750**
 
 **The kill condition does not fire.** First-order fails the registered threshold by a wide margin (0.667 vs required ≥1.000-equivalent 2×floor; the gap is 4 misclustered nurses).
 
-**The ablations also locate *where* the information lives — and it is not where a lazy version of the doctrine would put it.** Per-nurse *centering* alone (the smuggled baseline) does NOT recover the classes (0.583). The operative second-order object is the **displacement-magnitude trajectory** — ‖r − b̂‖ per window, its tempo and volatility — not baseline removal per se. The doctor reads the *size of the step from her own baseline*, not the step's direction, not the raw notes. (The thesis's own earlier line — "the felt size of the step is the reader's" — is what survived this test.)
+**The ablations also locate *where* the information lives — and it is not where a lazy version of the doctrine would put it.** Per-nurse *centering* alone (the smuggled baseline) does NOT recover the classes (0.583). The operative second-order object is the **displacement-magnitude trajectory** — ‖r − b̂‖ per window, its tempo and volatility — not baseline removal per se. The doctor reads the *size of the step from her own baseline*, not the step's direction, not the raw notes. (The thesis's own earlier line — "the felt size of the step is the reader's" — is what survived this test.) *(Annotation: this surviving reading is exactly the downgraded object — mean-shift, baseline-relative, reads the step, not the change-of-reading — per d59bf17.)*
 
 ## 7. Verdict
 
-**On the D″ fixtures — which instantiate the doctrine's premise of idiosyncratic reader baselines — second-order beats first-order (clause 1: 1.000 vs 0.667 purity against a 2×-floor threshold of 1.000; clause 2: aggregate d′ 17.99; clause 3: 13/13 and r = 0.967 vs 12/13 label-borrowing with no numeric capability); the second-order object is not a reindex.**
+**On the D″ fixtures — which instantiate the doctrine's premise of idiosyncratic reader baselines — second-order beats first-order (clause 1: 1.000 vs 0.667 purity against a 2×-floor threshold of 1.000; clause 2: aggregate d′ 17.99; clause 3: 13/13 and r = 0.967 vs 12/13 label-borrowing with no numeric capability); the second-order object is not a reindex.** *(Verdict bound to these fixtures and to the conditional premise — as filed; the Switch Test (d59bf17, NO CLEAN WIN) later downgraded the object's temporal claim, per the annotation header.)*
 
 ## 8. Honest limits (for the committee)
 

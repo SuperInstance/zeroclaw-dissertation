@@ -22,7 +22,7 @@ The committee's pass-4 fixes are not suggestions; they are load-bearing on any r
 
 | # | Experiment | Settles | Cost | Prior (clears own deadman) |
 |---|---|---|---|---|
-| E1 | **The Switch Test** (run what is built) | Drift-reading vs fingerprint | hours (harness built, registered) | 0.60 (clean sweep incl. boundary cells: 0.35) |
+| E1 | **The Switch Test** (run what is built — *status: RUN + FOLDED 2026-08-19, d59bf17, NO CLEAN WIN; see §7.3*) | Drift-reading vs fingerprint | hours (harness built, registered) | 0.60 (clean sweep incl. boundary cells: 0.35) |
 | E2 | **The Antecedent Test at Power** (schedule-diversified) | The premise, in the field | ~2–3 days + one-time v:2 schema | 0.30 clears band; 0.15 dies; 0.55 stays indeterminate |
 | E3 | **The Fleet-Reader Harness** (cross-model elicitation) | The premise, independent estimate | ~1 day (existing subscriptions) | 0.45 clears band (asymmetric evidence) |
 | E4 | **The Rebound Test** (convergence falsifier) | Flooding vs settling | zero new work; 30-day wall-clock | 0.60 the falsifier FIRES (flooding confirmed) |
@@ -36,7 +36,7 @@ Ranking is execution priority under the constraint that E1–E4 all begin this w
 
 ## 7.3 E1 — The Switch Test: drift-reading or fingerprint
 
-**Rank 1. Status: registered (build_switches.py, thresholds written before first run), fixtures built and SHA-pinned; the runner exists. This entry commits to finishing it before any new fixture work.**
+**Rank 1. Status: RUN and FOLDED — 2026-08-19, commit d59bf17 (switch test folded: NO CLEAN WIN).** The drift-reader failed its own registered detection threshold (0.467 vs 0.80); the rival's median-static normalization beat it on localization (r 0.816/0.800 vs 0.435/0.467); the classification edge is pre-switch only; noise robustness absent at σ=0.2; the salvageable kernel is mean-moving regimes only (localization r = 0.787). The downgrade is registered in `research/skills/zeroclaw-switch-verdict.md` and Chapter 6 §6.4: reader-delta = mean-shift, baseline-relative delta — reads the step, not the change-of-reading; "second-order" survives only as the structural term for baseline-relativity. **The replacement next step is the premise-band movers: E2 (Antecedent Test at Power) and E3 (Fleet-Reader Harness), ranked 2–3 above.** The registrations below remain the record of what was committed before the run.
 
 - **The question it settles.** Can the second-order representation *see a regime switch* — predict the signed deviation from class-extrapolation — where a fingerprint structurally cannot? This is the only version of the transfer clause that separates knowing-the-drift from knowing-the-class. If it fails, the crown is a classifier and the chapter says so.
 - **Minimal design.** Already built and registered by the rival's §5.1 spec, instantiated in the switch-test harness: 19 nurses, 7 regime-switch families (all ordered pairs of {sauna, jaded, over} plus osc→osc phase flip), switch points de-coordinated per nurse (sᵢ ~ U[8,20]), 4 no-switch controls, one held-out switcher. Task A: switch detection + localization (two-segment piecewise-linear fit, permutation null). Task B: 4-way regime classification with segment-local baselines. First-order cells receive every fair gift: oracle-clean fixed windows, LOO supervised templates, and the two boundary cells (per-nurse static median; crowd normalization) in every table, per standing rule 5.
@@ -121,7 +121,7 @@ Ranking is execution priority under the constraint that E1–E4 all begin this w
 
 ## 7.10 Sequencing and the decision tree
 
-- **This week, in parallel:** E1 (finish the built run — hours); E4 (start the 30-day clock at dispatch; commit the window start date first); E3 (build the elicitation harness); E2 (begin the schedule families + v:2 schema; the calibration ladder runs before any field number).
+- **This week, in parallel:** E1 (finish the built run — hours) — *completed and folded 2026-08-19 (d59bf17, NO CLEAN WIN); its slot is taken by E2/E3, the premise-band movers*; E4 (start the 30-day clock at dispatch; commit the window start date first); E3 (build the elicitation harness); E2 (begin the schedule families + v:2 schema; the calibration ladder runs before any field number).
 - **The premise gate.** E2 and E3 together decide the doctrine's fate: both clear ⇒ the conditional activates for the field and the clause-1 field re-run becomes Chapter 8's opening move; they disagree ⇒ grade-dependence, booked as a boundary condition; both die ⇒ Chapter 6 shrinks to a consistency proof, E5 dies with the premise (nothing left to transfer), and the honest one-sentence version of the dissertation already exists in Chapter 6 — it just becomes the whole book.
 - **Independent tracks:** E4 (wall-clock), E6 (the head's corrigibility — untouched by the premise, gated by nothing), E7 (git history, available today).
 - **What never runs again:** another single-schedule fixture pass. The rival's sentence is adopted as policy — the marginal value of another fixture laurel is zero, and every synthetic run from here exists only to calibrate or stress a field instrument (the ladder, the sweep, the switch), never to stand as evidence on its own.

@@ -5,7 +5,10 @@
 ## What was built
 
 A standalone (numpy/json only) prototype of the **reader-delta index**: the second-order JEPA
-reading where the doctor-analog reads the *nurse's change*. Per author-participant ("reader"),
+reading where the doctor-analog reads the *nurse's change*. *(Annotated 2026-08-21 after the Switch
+Test fold, d59bf17 — NO CLEAN WIN: "second-order" = structural term for baseline-relativity; the
+object is a mean-shift, baseline-relative delta that reads the step, not the change-of-reading.
+The proxy findings below stand as filed.)* Per author-participant ("reader"),
 per window of 8 speaks (matching `params.W`), we track:
 
 - **disp** — charisma displacement magnitude `‖field_eff − field_raw‖` the reader experienced
@@ -71,7 +74,9 @@ per window of 8 speaks (matching `params.W`), we track:
 - Add per-reader `lens_now`: current (acclimated) dial_weights or reading direction per reader,
   updated per window, so lens drift becomes data rather than a roster constant.
 - Add `reader_fit`: per-reader `mu_hat`/`kappa` of the utterances *they* weight (their private
-  vMF estimate), enabling drift-of-estimate as the second-order signal.
+  vMF estimate), enabling drift-of-estimate as the second-order signal. *(Annotated 2026-08-21,
+  d59bf17: "second-order" = structural term for baseline-relativity; the drift-of-estimate signal
+  is a mean-shift read, not a change-of-reading.)*
 - Add pairwise `reading_of: {author → presence_member: cos or 7-vec delta}` — R's read of P —
   the minimal R→P primitive the doctor reads changes in.
 - Mark `reader_known: bool` per author (roster vs cold entry) so D-cold-style unknowns are

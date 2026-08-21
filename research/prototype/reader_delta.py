@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Reader-delta index prototype (second-order JEPA reading).
 
+Post-Switch-Test annotation (2026-08-21, d59bf17 — NO CLEAN WIN): "second-order"
+is a structural term for baseline-relativity only. The measured object is a
+mean-shift, baseline-relative delta — it reads the size of the step from a
+reader's own baseline, not the reader's change-of-reading. The proxy measures
+below stand; the temporal claim they were seeded to carry does not.
+
 Doctrine (research/doctrine/nurse-jepa.md): Reading 2 = a known reader's
 drift ACROSS readings. Here the "reader" is each author-participant
 (nurse-analog); the doctor-analog reads the NURSE'S CHANGE.
