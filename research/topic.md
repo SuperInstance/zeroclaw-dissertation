@@ -100,3 +100,5 @@ Vectorize proposes, D1 formalizes (crab-traps' production pattern): snapshot/edg
 > **Filed:** wave-3 generation-corpus experiment registered and frozen (`memory/wave3-registration-2026-08-21.md`) — H-GEN branch-recovery design, REG-1 thresholds 0.80/0.60/0.80 and ε=1e-2, every branch×leg verdict pre-stated (R5), K-leg rework pending, committed before any registered corpus is generated.
 
 *Annotated, not rewritten: the v3 registration and the 2026-08-20 and 2026-08-21 addenda stand; this is a registration-filing note only.*
+
+- **ADVISORY (2026-08-21, wave-3 S2 follow-up):** K-leg rework LANDED and SHA-referenced — `fa58526` (elephant main): entries are μ-events (ENTRY_DWARMTH=0.485, 0.97×FLIP_SIZE), κ polarity corrected (warm=24 tight / cynical=11 loose), +12 tightening pulse removed (entries loosen κ ×0.28, min-semantics, floor 2.5), DEV_SCALE 0.85, realized ICC 0.8861 in filed [0.85,0.96] band, 330 tests green. Wave-3 hard S3 precondition now MET — generation is green-lit per the frozen registration (memory/wave3-registration-2026-08-21.md).
