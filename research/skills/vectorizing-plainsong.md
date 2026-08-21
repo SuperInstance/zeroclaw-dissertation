@@ -49,7 +49,7 @@ is the perfect Vectorize ID: `song-<digest>`, stable and idempotent.
 |---|---|---|
 | `plainsong-mcp` | MCP server, 27 tools + **ensemble sessions** (many agents, one score; voice claims + versioned writes + deterministic merge) | `analyze_features` re-exports the 16 features |
 | `fleet-jepa-midi` | JEPA perceives the *feel* (energy/tension/groove/direction) | consumes the SAME 16-feature vocabulary + `perform/conduct.py` directive JSON |
-| `tensor-midi` | 12-pulse DAW | plays compiled events |
+| `fleet-jepa-midi` | 12-pulse DAW | plays compiled events |
 | `plato-music-sync` | Rust conductor (groove/counterpoint/cadence) | measures the fleet's alignment |
 | `musician-soul` | persona evolution (32-dim soul_print) | digests the fake book, writes in its evolved voice |
 | `flux-genome` | genetic evolution of traditions (25-gene dials) | breeds new traditions |

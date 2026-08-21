@@ -12,9 +12,9 @@ The full vision, in layers:
 2. **The Boat** (F/V EILEEN) — the same architecture deployed on real hardware. Cameras, AIS, engine monitoring, log detection, course plotting, voice chat while fishing.
 3. **Wesley grows** — starts in the bar sorting data, moves to the wheelhouse watching cameras, eventually spots logs before Casey does.
 4. **The fleet is the body** — every repo is an organ:
-   - mud-arena = the room engine
+   - mud-engine = the room engine
    - pincher = the reflex shell (0-token, <50ms pattern responses)
-   - ternary-tenforward = the rhythm
+   - confidence-cascade = the rhythm
    - **JEPA = the perception — THE ELEPHANT**, the room's temperature sense
    - Wesley = the memory
    - The Tap = the consciousness

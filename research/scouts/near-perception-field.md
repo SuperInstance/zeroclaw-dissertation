@@ -13,7 +13,7 @@ Scouted 2026-08-19. All 26 assigned repos exist on disk under `/home/eileen/proj
 
 **(1)** Three-timescale music intelligence: JEPA feels pulse (125ms), LLM thinks phrasing (1–4 bars), algorithms execute samples (<1ms), with the room feeding back as "the elephant's temperature" into the JEPA. **(2)** `elephant_sense_probe.py` is the sharpest experimental instrument found in this whole scan: it proves room-ness is **already latent in a frozen audio-JEPA encoder without retraining**, using four radio-theater episodes with the *same cast* as the killer control — if room discrimination survives a speaker-held-out k-NN test, the signal is the room, not the voice. That "same-cast, different-room" control design is exactly how the dissertation should defend room-temperature-as-latent against the who-is-talking confound.
 
-## hermes-perception
+## hermes-avatar
 
 **(1)** The towfish: TS-Pro sounder perception for the F/V EILEEN — seven detection "eyes" on the echogram (fish marks, feed balls, plankton layers, bottom type, **thermocline**, interference, gear tracking), a SQLite perception log, MIDI voice, and a collective-unconscious sync that surfaces déjà vu. **(2)** Borrow the **thermocline eye** (`detectThermocline()`): fish concentrate at thermal *transitions*, not at temperatures — an edge-as-event detector in a physical field. That is the dissertation's field-edge thesis in the wild: the boundary layer is where the signal lives, and a JEPA latent trained on room data should show the same concentration at transitions. Also: `unconscious-sync.ts`'s `findSimilar()` is a working "when have I felt this room before" retrieval loop.
 
@@ -97,7 +97,7 @@ Scouted 2026-08-19. All 26 assigned repos exist on disk under `/home/eileen/proj
 
 **(1)** All-night git-native thinking agent: five thinking strategies (explore, connect, contradict, synthesize, question) run in cycles, every thought a commit on a `murmur/thinking` branch. **(2)** The **KnowledgeTensor** (`src/types.ts`) explicitly tracks `contradictions: Contradiction[]` as a first-class field alongside clusters and open questions — contradiction as a *stored, structured object* rather than noise to be resolved. For the dissertation: the co-linear-algebra dataset should keep its contradictions as data (weighted negative edges), because collapse resistance means never averaging away the disagreement.
 
-## log-tensor
+## murmur
 
 **(1)** Research engine reframing transformers as *guidance systems* (proportional navigation, Kalman filtering): prompt as target to home in on, attention as guidance commands, reasoning depth decreasing as certainty increases. **(2)** The **proportional-navigation attention term** (`N·Vc·λ̇` — steering proportional to the line-of-sight *rotation rate*, not the distance) is a striking formal analogue for the deadband: missiles that chase distance oscillate, missiles that chase the *rate* converge. If the dissertation formalizes the deadband, the guidance-theory distinction between distance-seeking (always reacting) and rate-seeking (reacting only to change-in-bearing) is the mathematical heart of "the felt size of the step."
 

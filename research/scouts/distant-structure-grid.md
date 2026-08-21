@@ -55,12 +55,12 @@
 1. GA framework evolving musical traditions in "dial space": `MusicalGenome` = 25 genes (f64 ∈ [0,5]); phenotype = `(harmonic, rhythmic, spectral)` computed by averaging three 8-gene blocks; `TRADITION_GENOMES` ships DNA for named traditions (Jazz…).
 2. **Borrow: block-averaged genotype → low-dim dial position.** `dial_position()` is not a single gene but the mean of a block — identity is a *smoothed regional read* of a vector, not a point. Field-edges could expose the same interface: every subgraph of the edge lattice has a dial position (block mean of its weights), so "felt size" comparisons happen at dial granularity while the genome underneath stays high-dimensional. Evolution targets a dial tuple, not raw genes.
 
-## tensor-midi
+## fleet-jepa-midi
 
 1. Conversation-as-jazz: captures multi-agent conversation as SWMIDI-8 events (8 bytes/event, 96 PPQ) on a 12-pulse engine; ECN (4-pulse, reflex) and DMN (3-pulse, creative) resolve on beat 1 every 12 — "the CRT in audio rate," t≡0 (mod 3) ∧ t≡0 (mod 4) ⟺ t≡0 (mod 12).
 2. **Borrow: `PulseGrid` — a `Map<barNumber, Array(12)>` where each pulse slot holds *multiple* simultaneous events.** Polyrhythm is stored, not sequenced: the grid doesn't resolve the 3-vs-4 conflict, it keeps both voices in the same slot and lets their LCM meeting (pulse 0) be the only shared beat. For the dissertation: two similarity rhythms with different periodicities co-occupy a cell; the "felt size of the step" IS the LCM interval between their agreements. `getBarDensity()` (filled/12) is a ready-made local complexity readout.
 
-## ternary-tenforward
+## confidence-cascade
 
 1. Rust conversation engine: beat-based cyclic dialogue (all agents speak simultaneously, RPS reconcile), ternary speaker states (−1 contrarian / 0 reflecting / +1 agreeing), Fibonacci period-8 tunneling (Pisano mod 3), anti-monoculture (mutation, energy decay, trust realignment).
 2. **Borrow: `Speaker::reconcile(actual)` — prediction error as the coordination currency.** Each `Speaker` predicts others' states (T-minus), all speak at once (T-0, "like a chord"), then `reconcile()` returns accuracy and `react_to()` applies RPS dominance. Edges in the dissertation could store *predicted vs actual* transition: an edge weight is not just co-occurrence but "how surprised was the traverser" — durable edges are ones whose predictions kept being right. Z₃ (the only group on {−1,0,+1}) gives the step algebra for free.
@@ -70,10 +70,10 @@
 1. Modular TS MUD engine for autonomous AI agents: 8 packages (core, event-bus, triggers, dm-rotation, hermit-crab, strategy-guild, immortal-interface, …), tick loop, trigger-based perception, recursive strategy evolution, God Console.
 2. **Borrow: the trigger-based perception pattern** — agents don't poll world state; `triggers` decides what a room *shows* each agent per tick, and the event-bus makes perception itself a subscribable edge source. A Quilt-style notebook gets this for free by inverting flow: the room writes into cells (perception events), agents subscribe with filters — the notebook as the shared perception bus, not the chat log.
 
-## mud-arena
+## mud-engine
 
 1. GPU-accelerated agent gym: agents navigate a `RoomGraph` (directed graph of rooms, `exits: {direction → room_id}`), perceive→decide→act per tick, evolve decision scripts genetically across generations; WebSocket/Telnet/HTTP observation.
-2. **Borrow: `RoomGraph.remove_room`'s exit scrubbing as edge hygiene.** Removing a room sweeps *every other room's exits* pointing at it (`to_remove = [d for d, dest in room.exits.items() if dest == room_id]`) — deletion is graph-wide repair, not dangling pointers. For a durable edge lattice: when a field-state dies, the graph must actively heal reverse edges; mud-arena shows the minimal correct pattern (reverse index + sweep).
+2. **Borrow: `RoomGraph.remove_room`'s exit scrubbing as edge hygiene.** Removing a room sweeps *every other room's exits* pointing at it (`to_remove = [d for d, dest in room.exits.items() if dest == room_id]`) — deletion is graph-wide repair, not dangling pointers. For a durable edge lattice: when a field-state dies, the graph must actively heal reverse edges; mud-engine shows the minimal correct pattern (reverse index + sweep).
 
 ## mud2scummvm
 
@@ -130,10 +130,10 @@
 
 3. **Deadband-gated crystallization: fields promote to structure only when a region rings (eisenstein + flow-state).** `HexRoomMap::map_temperature()` aggregates a field over hex rooms and a `DeadbandRing` fires when a *region* crosses a threshold; flow-state's `LearningEngine` makes the threshold a rolling self-learned baseline instead of a constant. Latent similarity → durable subgraph should fire exactly at that intersection: region-aggregate anomaly over self-calibrated deadband — never a single noisy observation.
 
-4. **Polyrhythm as co-located periodicity with LCM resolution (tensor-midi + ternary-tenforward).** `PulseGrid` stores simultaneous 3- and 4-pulse voices in the same 12-slot bars and only beat 1 is shared (CRT: t≡0 mod 12); ternary-tenforward's `reconcile()` prices every interaction in prediction error with Z₃ step algebra. "The felt size of the step" becomes measurable two ways: the LCM interval between two rhythms' agreements, and the accumulated surprise of traversing an edge — both already implemented in sibling repos.
+4. **Polyrhythm as co-located periodicity with LCM resolution (fleet-jepa-midi + confidence-cascade).** `PulseGrid` stores simultaneous 3- and 4-pulse voices in the same 12-slot bars and only beat 1 is shared (CRT: t≡0 mod 12); confidence-cascade's `reconcile()` prices every interaction in prediction error with Z₃ step algebra. "The felt size of the step" becomes measurable two ways: the LCM interval between two rhythms' agreements, and the accumulated surprise of traversing an edge — both already implemented in sibling repos.
 
 5. **Provenance as public, queryable lineage — with Git as the durability proof (crab-traps + git-native-mud).** crab-traps exposes `/lineage/room/:id` and a lure breeding tree where every structure was *caused* by recorded activity; git-native-mud makes every world mutation an immutable commit so any state is reproducible by checkout. A Quilt notebook whose edge promotions are commits gets bisection, diff-based dispute resolution, and "nothing exists the room didn't write" for free.
 
 ---
 
-*Skipped: none — all 23 target repos present and non-trivial. Honorable mention cut for space: mud-arena's reverse-edge sweep on deletion (edge hygiene), room-render's projection-neutral descriptors, base60-lattice's granularity-parameterized bucket matching (`bucketKey`/`latticeMatch`), and fm-experiments' H¹ gluing-obstruction metric.*
+*Skipped: none — all 23 target repos present and non-trivial. Honorable mention cut for space: mud-engine's reverse-edge sweep on deletion (edge hygiene), room-render's projection-neutral descriptors, base60-lattice's granularity-parameterized bucket matching (`bucketKey`/`latticeMatch`), and fm-experiments' H¹ gluing-obstruction metric.*
