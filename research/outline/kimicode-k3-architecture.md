@@ -274,7 +274,7 @@ typography is rhetoric.*
   **retired, leaning false — not proven false** (`research/prototype/e2-e3-side-by-side.md`). The
   structural discovery stated plainly: E2 and E3 agree on the numerator (baseline spread ≈ 0.46–0.56
   corpus-sd across three independent measurements) and diverge ~4.6× on the denominator (drift 0.748 vs
-  3.46) — the crux is the baseline's *meaning*, not the ratio's magnitude. Class-residual ratio 0.4366
+  3.46) — the crux is the baseline's *meaning*, not the ratio's magnitude. Class-residual ratio ~~0.4366~~ **[ERRATUM 2026-08-20: clean 0.1342 — E5; archetype-structure claim strengthened]**
   vs population 0.6088: most baseline spread is archetype structure. Power analysis stated, not
   apologized for: n ≈ 14,533 readers to resolve at current width. The barkeep outlier (drift 2.385 vs
   median ~0.5, n_nights = 2) flagged, with its registered robustness check (ratio + ICC,
