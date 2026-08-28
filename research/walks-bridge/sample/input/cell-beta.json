@@ -1,0 +1,12 @@
+{
+  "cell_id": "cell-beta",
+  "entries": [
+    {"seq": 1, "ts": 2000000, "kind": "start", "payload": {"pid": "#PID<0.160.0>"}},
+    {"seq": 2, "ts": 2000100, "kind": "bind", "payload": {"name": "drift", "arity": 2}},
+    {"seq": 3, "ts": 2010000, "kind": "tick", "payload": {"dials": {"vx": 0.5}, "effects": [], "effect_results": []}},
+    {"seq": 4, "ts": 2050000, "kind": "restart", "payload": {"pid": "#PID<0.160.1>", "prev_seq": 3, "counters": {"ticks": 1}}},
+    {"seq": 5, "ts": 2050100, "kind": "bind", "payload": {"name": "drift", "arity": 2}},
+    {"seq": 6, "ts": 2060000, "kind": "tick", "payload": {"dials": {"vx": 0.0}, "effects": [], "effect_results": []}},
+    {"seq": 7, "ts": 2060050, "kind": "received", "payload": {"from": "#PID<0.150.0>", "msg": "hello"}}
+  ]
+}

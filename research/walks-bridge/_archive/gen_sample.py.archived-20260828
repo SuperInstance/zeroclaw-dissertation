@@ -1,0 +1,234 @@
+#!/usr/bin/env python3
+"""
+SYNTHETIC sample generator for the walks-bridge — fabric-journal-export/1
+journals faithful to tit_quilt_elixir @ e8bb9c6 (cell.ex kinds and payload
+shapes, witness ordering, seq-per-life, in-memory restart semantics).
+
+NOT FIELD DATA. Generator-corpus tier (STATUS 2026-08-28 §5), seed fixed.
+The scenario: 12 cells x 40 rounds of elephant-7 dials with per-cell
+personas, newcomer-acclimation-shaped entries, a slow shared room drift;
+schema coverage (bind, link, set_dials, received, effect_run/effect_apply,
+effect receipts with ok and miss); and one mid-life crash — c07 dies after
+round 20, its journal restarts at seq 1 with a :restart marker (the prior
+life is absent: in-memory journals die with the process), it misses three
+rounds, and returns un-acclimated — a designed torn edge.
+
+Seals are sha256-canonical over {seq, ts, kind, payload, prev} — a
+documented substitution: real phash2 seals are opaque off-BEAM
+(EXPORTER.md §1.2). MANIFEST.json declares all of this; the exporter
+verifies the chain when seal_scheme says so.
+
+Regenerate:  python3 gen_sample.py            (writes journals/ + MANIFEST.json)
+Then run:    python3 ../exporter.py --in journals --out out
+"""
+from __future__ import annotations
+
+import json
+import math
+import random
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from exporter import (ELEPHANT_DIALS, ELEPHANT_LO, ELEPHANT_HI,
+                      sha_canonical, deep_r6)
+
+SEED = 20260828
+ROUNDS = 40
+PERIOD_US = 10_000
+JITTER_US = 1500
+T0 = 1_000_000
+CELLS = [f"c{i:02d}" for i in range(1, 13)]
+CRASH_CELL, CRASH_ROUND, MISS_ROUNDS = "c07", 20, 3
+BOUNDS = dict(zip(ELEPHANT_DIALS, zip(ELEPHANT_LO, ELEPHANT_HI)))
+
+
+def clamp(name, v):
+    lo, hi = BOUNDS[name]
+    return max(lo, min(hi, v))
+
+
+def room(dial, r):
+    """The shared room drift every cell swims in."""
+    if dial == "mood":
+        return 0.35 * math.sin(2 * math.pi * (r + 6) / 46)
+    if dial == "presence":
+        return 0.55 + 0.25 * r / (ROUNDS - 1)
+    if dial == "panic":
+        return 0.15 + 0.20 * math.exp(-((r - 18) / 5) ** 2)
+    if dial == "volume":
+        return 0.40 + 0.10 * math.sin(2 * math.pi * r / 23)
+    if dial == "earnestness":
+        return 0.50 + 0.08 * math.cos(2 * math.pi * r / 31)
+    if dial == "cynicism":
+        return 0.30 + 0.10 * math.sin(2 * math.pi * (r + 11) / 37)
+    return 0.45 + 0.05 * math.sin(2 * math.pi * (r + 3) / 29)  # joke_landing
+
+
+def persona(rng, dial):
+    lo, hi = BOUNDS[dial]
+    return rng.uniform(-0.6, 0.6) if lo < 0 else rng.uniform(0.1, 0.6)
+
+
+def dials_at(personas, cell, r, rng, accl_r):
+    """room + persona*acclimation + noise; acclimation decays with life age."""
+    out = {}
+    for dial in ELEPHANT_DIALS:
+        base = room(dial, r) + personas[cell][dial] * math.exp(-accl_r / 2.5)
+        out[dial] = round(clamp(dial, base + rng.gauss(0, 0.02)), 6)
+    return out
+
+
+def main():
+    rng = random.Random(SEED)
+    pids = {c: f"#PID<0.{120 + i}.0>" for i, c in enumerate(CELLS)}
+    personas = {c: {d: persona(rng, d) for d in ELEPHANT_DIALS} for c in CELLS}
+
+    # per-cell event lists: (ts, entry_dict_without_seq_hash)
+    journals = {c: [] for c in CELLS}
+
+    def emit(cell, ts, kind, payload, dials=None, effects=None):
+        journals[cell].append({"ts": ts, "kind": kind, "payload": payload,
+                               "dials": dials, "effects": effects})
+
+    def tick_ts(r, cell):
+        return T0 + r * PERIOD_US + rng.randint(-JITTER_US, JITTER_US)
+
+    # life 1 boundaries + early wiring
+    for c in CELLS:
+        emit(c, tick_ts(0, c), "start", {"pid": pids[c]})
+    emit("c02", tick_ts(0, "c02") + 10, "bind", {"name": "ping", "arity": 1})
+    emit("c01", tick_ts(0, "c01") + 11, "link", {"to": pids["c02"]})
+    emit("c02", tick_ts(0, "c02") + 12, "link", {"to": pids["c01"]})
+    for c in CELLS:  # explicit dial baseline before the first heartbeat
+        emit(c, tick_ts(1, c) - 5, "set_dials",
+             {"dials": dials_at(personas, c, 0, rng, accl_r=0)})
+
+    round_ts = {}
+    for r in range(ROUNDS):
+        for c in CELLS:
+            if c == CRASH_CELL and r > CRASH_ROUND:
+                continue  # post-crash rounds emitted below, life 2, cold
+            ts = tick_ts(r, c)
+            round_ts[(r, c)] = ts
+            dials = dials_at(personas, c, r, rng, accl_r=r)
+            effs = None
+            if c == "c01" and r % 5 == 0 and r > 0:
+                effs = ([{"to": pids["c02"], "msg": "{:ping, []}",
+                          "result": "ok"}])
+            if c == "c12" and r == 30:
+                effs = [{"to": "#PID<0.999.0>", "msg": "\"anyone?\"",
+                         "result": "error:missing"}]
+            pl = {"dials": dials}
+            if effs is not None:
+                pl["effects"] = [[e["to"], e["msg"]] for e in effs]
+                pl["effect_results"] = [[[e["to"], e["msg"]], e["result"]]
+                                        for e in effs]
+            emit(c, ts, "tick", pl, dials=dials, effects=effs)
+
+        # c01's ping arrives at c02: effect_run then an effect_apply entry
+        if r % 5 == 0 and r > 0 and (r, "c01") in round_ts:
+            arrive = round_ts[(r, "c01")] + rng.randint(50, 300)
+            if (r, "c02") in round_ts:
+                journals["c02"].append(
+                    {"ts": arrive, "kind": "effect_run",
+                     "payload": {"from": pids["c01"], "name": "ping"},
+                     "dials": None, "effects": None})
+                d2 = dict(dials_at(personas, "c02", r, rng, accl_r=r))
+                d2["volume"] = round(clamp("volume", d2["volume"] + 0.05), 6)
+                journals["c02"].append({
+                    "ts": arrive + 1, "kind": "effect_apply",
+                    "payload": {"from": pids["c01"], "name": "ping",
+                                "dials": d2, "effects": [],
+                                "effect_results": []},
+                    "dials": d2, "effects": []})
+
+        if r == 5 and (5, "c01") in round_ts:
+            journals["c03"].append({  # unrecognized message -> :received
+                "ts": round_ts[(5, "c01")] + rng.randint(50, 200),
+                "kind": "received",
+                "payload": {"from": pids["c01"], "msg": "\"plain hello\""},
+                "dials": None, "effects": None})
+
+        # the crash: c07 dies after round 20's tick; supervisor restarts it
+        if r == CRASH_ROUND and (r, CRASH_CELL) in round_ts:
+            crash_ts = round_ts[(r, CRASH_CELL)] + rng.randint(100, 400)
+            journals[CRASH_CELL].append({
+                "ts": crash_ts, "kind": "restart",
+                "payload": {"pid": f"#PID<0.207.{rng.randint(1, 9)}>"},
+                "dials": None, "effects": None})
+
+    # life 2 for c07: fresh journal, un-acclimated — the child spec restarts
+    # with the same initial opts, so the persona returns at full distance
+    # from a room that has kept drifting (the designed torn-edge jump).
+    for r in range(CRASH_ROUND + MISS_ROUNDS + 1, ROUNDS):
+        ts = tick_ts(r, CRASH_CELL)
+        dials = dials_at(personas, CRASH_CELL, r, rng,
+                         accl_r=r - (CRASH_ROUND + MISS_ROUNDS + 1))
+        emit(CRASH_CELL, ts, "tick", {"dials": dials}, dials=dials)
+
+    # order by ts (witness: seq follows arrival), then assign seq + seal
+    out_dir = Path(__file__).parent / "journals"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for c in CELLS:
+        entries = sorted(journals[c], key=lambda e: e["ts"])
+        prev_hash, seq, prev_dials = None, 0, None
+        lines = []
+        for e in entries:
+            seq += 1
+            payload = {k: v for k, v in e["payload"].items()}
+            hash_ = sha_canonical({"seq": seq, "ts": e["ts"],
+                                   "kind": e["kind"], "payload": payload,
+                                   "prev": prev_hash})
+            line = {
+                "v": 1, "cell_id": c, "seq": seq, "ts": e["ts"],
+                "kind": e["kind"], "dials": deep_r6(e["dials"]),
+                "dials_before": deep_r6(prev_dials),
+                "effects": e["effects"], "restart": e["kind"] == "restart",
+                "hash": hash_, "prev_hash": prev_hash, "payload": payload,
+            }
+            lines.append(line)
+            prev_hash, prev_dials = hash_, e["dials"] or prev_dials
+        (out_dir / f"{c}.jsonl").write_text(
+            "".join(json.dumps(x) + "\n" for x in lines))
+
+    manifest = {
+        "schema": "fabric-journal-export/1",
+        "synthetic": True,
+        "generator": "sample/gen_sample.py",
+        "seed": SEED,
+        "seal_scheme": "sha256-canonical",
+        "seal_note": ("phash2 is an Erlang BIF, not reproducible off-BEAM; "
+                      "sample seals are sha256 over {seq,ts,kind,payload,"
+                      "prev}. Real exports carry real phash2 ints as opaque "
+                      "pass-through after Witness.audit runs green "
+                      "(EXPORTER.md 1.2)."),
+        "fabric_provenance": {
+            "repo": "/home/eileen/projects/tit_quilt_elixir",
+            "commit": "e8bb9c6",
+            "verified_from": ["lib/tit_quilt_elixir/cell.ex",
+                              "lib/tit_quilt_elixir/witness.ex",
+                              "lib/tit_quilt_elixir/fleet.ex"],
+        },
+        "dial_names": list(ELEPHANT_DIALS),
+        "cells": len(CELLS), "rounds": ROUNDS,
+        "period_us": PERIOD_US,
+        "clock": ("single-node System.monotonic_time(:microsecond), "
+                  "fictional base t0=1e6 — cross-cell pooling valid "
+                  "single-node only (EXPORTER.md 1.3)"),
+        "crash": {"cell": CRASH_CELL, "round": CRASH_ROUND,
+                  "missed_rounds": MISS_ROUNDS,
+                  "journal_semantics": "in-memory: prior life absent by "
+                                       "construction (torn walk)"},
+        "honesty_tier": "generator-corpus (synthetic), not field data",
+    }
+    (Path(__file__).parent / "MANIFEST.json").write_text(
+        json.dumps(manifest, indent=1, sort_keys=True) + "\n")
+    n = sum(len((out_dir / f"{c}.jsonl").read_text().splitlines())
+            for c in CELLS)
+    print(f"sample: {len(CELLS)} cells, {n} journal entries, "
+          f"crash {CRASH_CELL}@r{CRASH_ROUND} -> {out_dir}")
+
+
+if __name__ == "__main__":
+    main()

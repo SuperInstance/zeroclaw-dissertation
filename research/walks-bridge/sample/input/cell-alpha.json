@@ -1,0 +1,14 @@
+{
+  "cell_id": "cell-alpha",
+  "entries": [
+    {"seq": 1, "ts": 1000000, "kind": "start", "payload": {"pid": "#PID<0.150.0>"}},
+    {"seq": 2, "ts": 1000120, "kind": "bind", "payload": {"name": "wobble", "arity": 1}},
+    {"seq": 3, "ts": 1000200, "kind": "set_dials", "payload": {"dials": {"temp": 0.25, "phase": 1.5}}},
+    {"seq": 4, "ts": 1000300, "kind": "link", "payload": {"to": "#PID<0.151.0>"}},
+    {"seq": 5, "ts": 1010000, "kind": "tick", "payload": {"dials": {"temp": 0.31, "phase": 1.62}, "effects": [["#PID<0.151.0>", "hello"]], "effect_results": [[["#PID<0.151.0>", "hello"], "ok"]]}},
+    {"seq": 6, "ts": 1010050, "kind": "effect_run", "payload": {"from": "#PID<0.150.0>", "name": "wobble"}},
+    {"seq": 7, "ts": 1010100, "kind": "received", "payload": {"from": "#PID<0.151.0>", "msg": "hello"}},
+    {"seq": 8, "ts": 1020000, "kind": "swap", "payload": {"name": "wobble", "old": "#Function<1.2/1>", "new": "#Function<2.2/1>"}},
+    {"seq": 9, "ts": 1020000, "kind": "tick", "payload": {"dials": {"temp": 0.33, "phase": 1.74}, "effects": [], "effect_results": []}}
+  ]
+}

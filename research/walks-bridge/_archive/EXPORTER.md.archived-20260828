@@ -1,0 +1,280 @@
+# walks-bridge — the fabric→walks exporter spec (v1)
+
+**Built:** 2026-08-28, from STATUS-2026-08-28 §5 (the substrate-bridge proposal) and
+`tit_quilt_elixir/CONTEXT.md`. **Status: infrastructure only — nothing here is
+registered, sealed, or corpus-graded.** Per STATUS §5's recommended booking, the
+journal-export measurement registers as a **wave-5 candidate AFTER wave-4 S5**, so the
+apparatus meets this substrate with a known detection envelope. The honest caveat also
+carries: synthetic fabric walks are **generator-corpus tier** (riverbed/wave-N), not
+field tier (the Tap corpus).
+
+## 0. The seam, one table
+
+| fabric (tit_quilt_elixir, verified `e8bb9c6`) | dissertation object |
+|---|---|
+| cell journal `{seq, ts, kind, payload, hash}` (cell.ex §journal) | the walk record |
+| a cell's `dials` map over its life | a field walk (v2's "Walks, Not Waves" survivor) |
+| fleet of cells pooled at a tick | the room (vMF μ̂/κ machinery applies structurally) |
+| `:restart` marker at seq 1 (witness-counted) | torn edge / discontinuity annotation — the measurement speech events can never give |
+| phash2 hash chain + `Witness.audit` | replay-honesty (what the edge log had to engineer, free) |
+| D1 `ledger_edges` row (crab-traps production format) | the output edge format — the fabric is substrate *and* consumer |
+
+## 1. Journal export JSONL — schema `fabric-journal-export/1`
+
+One line per journal entry, one file per cell (`<cell_id>.jsonl`), oldest-first
+(witness order, not the in-process newest-first list). Fields:
+
+| field | type | meaning |
+|---|---|---|
+| `v` | int | schema version, always `1` |
+| `cell_id` | string | the cell's registered id (atom/bin rendered as string) |
+| `seq` | int | journal sequence number within the life; starts at 1 |
+| `ts` | int | `System.monotonic_time(:microsecond)` — **per-node VM clock**, see caveats |
+| `kind` | string | stringified opcode, table below |
+| `dials` | object\|null | the post-entry dials snapshot, when the kind carries one; else null |
+| `dials_before` | object\|null | previous dials-carrying entry's dials in this life; null at life start |
+| `effects` | array\|null | effect receipts `[{to, msg, result}]` for tick/effect_apply entries; else null |
+| `restart` | bool | **true exactly on `restart` boundary entries** — the torn-walk flag |
+| `hash` | int\|string\|null | the fabric's seal (`:erlang.phash2({entry, prev_hash})`) — **opaque pass-through**, see §1.2 |
+| `prev_hash` | int\|string\|null | prior entry's seal (`:fabric_start` at life start) — opaque |
+| `payload` | object | the raw journal payload, verbatim (belt and braces: `dials`/`effects` are projections of this) |
+
+Kinds (cell.ex, verified): `start`, `restart` (seq-1 boundary markers; payload is the
+pid receipt — **initial dials are NOT journaled**, a life's dial baseline first appears
+at its first `tick`/`set_dials`), `bind`, `swap`, `link`, `set_dials` (dials-carrying),
+`received`, `effect_run`, `tick` (dials + effects), `effect_apply` (the run triggered by
+an arriving effect; BEAM kind is the tuple `{:effect, from, name}`, stringified here).
+
+### 1.1 Restart semantics (the discontinuity annotation)
+
+An in-memory journal dies with its process: a supervisor restart begins a **new journal
+at seq 1 with a `:restart` marker**, and the previous life's walk is absent unless dets
+persistence was configured (`persistence.ex`; restore-before-boundary). The exporter
+therefore books every `restart` as a **torn edge**: the walk is segmented into lives,
+`journal_lost: true` when the prior life is not present in the export (the default
+fleet case — this is the honest reading, not a defect).
+
+### 1.2 Seals are opaque off-BEAM
+
+`phash2` is an Erlang BIF over term representation; it is **not re-derivable in
+Python** and the exporter does not pretend otherwise. Chain honesty is
+`TitQuiltElixir.audit()`'s job (witness.ex) and MUST run green **before export** (§2).
+The exporter re-checks the language-independent invariants the witness also checks:
+seq-1 boundaries, strict +1 sequencing, non-decreasing ts, restart accounting. If the
+manifest declares `seal_scheme: "sha256-canonical"` (synthetic samples), it verifies
+that chain too.
+
+### 1.3 Producing a real export on the fabric
+
+Run from `/home/eileen/projects/tit_quilt_elixir` (OTP env per CONTEXT.md). Audit
+first, dump second — the recipe the fleet runs when wave-5 opens:
+
+```elixir
+# scripts/dump_journals.exs — audit-green journal dump to fabric-journal-export/1
+audit = TitQuiltElixir.audit()
+true = audit.clean? or raise "witness not clean — no export from a torn fleet"
+File.mkdir_p!(Path.join([System.get_env("OUT", "priv/export"), "journals"]))
+
+ids = Registry.select(TitQuiltElixir.Registry,
+  [{{:"$1", :"$2", :"$3"}, [], [:"$1"]}])
+
+for id <- ids do
+  {:ok, snap} = TitQuiltElixir.Cell.view(id)
+  # journal is newest-first; emit oldest-first, projecting dials/effects per §1
+  lines =
+    snap.journal |> Enum.reverse() |> Enum.map(fn {seq, ts, kind, payload, hash} ->
+      kind_s = kind |> inspect() |> String.trim_leading(":")
+      %{
+        v: 1, cell_id: inspect(id), seq: seq, ts: ts,
+        kind: (is_atom(kind) and kind_s or inspect(kind)),
+        dials: Map.get(payload, :dials), effects: effects_of(payload),
+        restart: kind == :restart, hash: hash,
+        payload: payload
+      } |> Jason.encode!()
+    end)
+  path = [System.get_env("OUT", "priv/export"), "journals", "#{inspect(id)}.jsonl"]
+  File.write!(path, Enum.join(lines, "\n") <> "\n")
+end
+```
+
+(`effects_of/1` projects `payload.effects`/`payload.effect_results` into
+`[{to, msg, result}]`; `dials_before` is filled by a second oldest-first pass. The
+fleet writes the MANIFEST by hand beside it — §4.2.)
+
+**Clock caveat, pre-stated:** `System.monotonic_time` is per-node. Cross-cell pooling
+(§3) is valid **single-node only**; a distributed fleet needs per-node clock
+reconciliation before fielding, which this bridge does not attempt.
+
+## 2. exporter.py — pipeline
+
+```
+python3 exporter.py --in sample/journals --out sample/out [--manifest sample/MANIFEST.json]
+                    [--bucket-us auto] [--min-cells 10] [--field-cell fabric.field]
+                    [--db-factor 2.0] [--bootstrap-B 200] [--seed 0] [--lax]
+```
+
+Stdlib-only (no numpy/scipy) so any loader can run it. Stages:
+
+1. **Load + validate** — witness-parity checks per cell per life (§1.2). Violations
+   abort by default (exit 1) after writing `validation.json`; `--lax` continues with
+   `validation_clean: false` stamped into the output manifest.
+2. **Walks** — segment lives at `restart` markers; one `walks.jsonl` row per
+   dials-carrying entry with z-standardized vectors and raw deltas.
+3. **Field snapshots** — pool the fleet per time-bucket (width `--bucket-us`, `auto` =
+   median per-cell tick period). A cell contributes its **latest dials carried forward**;
+   a `restart` **invalidates carried state** until the cell ticks again in its new life
+   (process state died; the field must not read a corpse). Quiescent z (‖z‖<1e-3) are
+   skipped, mirroring `vmf.windowed`. Fits run the elephant estimator, mirrored §2.1.
+4. **Edges** — consecutive fit-bearing snapshots → D1-format rows (§5.3), persistence
+   prior (`expected ≡ before`), deadband, seal + chain.
+5. **Crashes** — one `crashes.jsonl` row per restart marker.
+
+### 2.1 vMF estimator — a mirror of elephant/vmf.py, not a fork
+
+The math is mirrored line-for-line from `elephant/vmf.py` (S⁶ estimator): standardize
+`z = SCALE·(v − CENTER)`; unit-normalize; ρ = min(‖r̄‖, 0.999) (RHOMAX); Banerjee init
+`κ₀ = ρ(D−ρ²)/(1−ρ²)` clipped to [1e-6, 500] (KMAX); Newton on A₇(κ)=ρ with the
+series branch κ/7 for κ<0.5; guards N < NMIN(10) → **no fit, never a fake number**;
+isotropic ρ < 1e-12 → no fit; bootstrap κ CI (B=200, Banerjee shortcut per resample);
+jackknife SE(μ̂). Parity was verified against `elephant.vmf.vmf_fit` at build time
+(see §7). The elephant's own warning travels with it: at d=7, N≥10 the uniform-mean
+bias is mild but real — κ from small fleets is a weak-identification reading.
+
+### 2.2 Dial-space spec
+
+- **Elephant-7 autodetect:** if the corpus's dial names are exactly the elephant seven
+  (`mood, volume, earnestness, cynicism, joke_landing, panic, presence`), the exporter
+  uses elephant's frozen `LO/HI/CENTER/WARM` (vmf.py:52–60) verbatim and
+  `warmth_vmf = Ŵ·μ̂` is live.
+- **Else inferred:** LO/HI = observed min/max per dial across the corpus, CENTER =
+  midpoint, and **`warmth_vmf: null` always** — no warm direction is invented for a
+  dial space that never declared one. The inference is stamped into the output manifest
+  (generator-tier assumption, visible to every loader).
+
+## 3. Output schemas — for ZeroClaw's loaders
+
+All outputs are JSONL, one line per record, `v: 1`. Floats are rounded to 6 decimals;
+integral floats render as ints. Order is deterministic (ts, seq, cell). Every file's
+run parameters, dial-space spec, input manifest digest, and validation verdict live in
+`out/MANIFEST.json` (§3.5).
+
+### 3.1 `walks.jsonl` — the per-cell field walks
+
+| field | type | meaning |
+|---|---|---|
+| `v` | int | 1 |
+| `cell` | string | cell id |
+| `walk_id` | string | `"{cell}#{life}"` — one walk per life; restarts start new walks |
+| `life` | int | 0-based life index (restart count for this cell) |
+| `seq`, `ts`, `kind` | int, int, string | the journal entry (kinds: `tick`, `effect_apply`, `set_dials`) |
+| `dials` | object | raw dial snapshot |
+| `dials_before` | object\|null | prior dials in this walk; null at walk start |
+| `delta` | object\|null | `{dial: after − before}` raw step |
+| `z` | array\|null | standardized vector, dial-spec order |
+| `unit_z` | array\|null | z/‖z‖; null if quiescent (‖z‖<1e-3) |
+| `quiescent` | bool | true when ‖z‖ < 1e-3 (no direction — skipped by fits) |
+| `dt_us` | int\|null | ts − prior dials-carrying entry in this walk |
+| `torn_next` | bool | **true when the next journal entry is a `restart` marker — the walk's last intact step before the crash** |
+
+### 3.2 `field_snapshots.jsonl` — the fleet-as-room vMF snapshots
+
+| field | type | meaning |
+|---|---|---|
+| `v`, `tick` | int | bucket index |
+| `t0`, `t1` | int | bucket bounds (µs, monotonic clock) |
+| `n_cells_pooled` | int | cells with carried-live dials in the bucket |
+| `n_cells_fitted` | int | pooled cells after quiescent skip |
+| `quiescent_skipped` | int | the difference |
+| `fit` | object\|null | the elephant `vmf_fit` dict: `mu_hat[7]`, `kappa`, `rho`, `n`, `kappa_ci`, `warmth_vmf` (null in inferred spaces), `mu_se`, `axis_spread`, `saturated` |
+| `reason` | string | `ok` \| `no_cells` \| `n_lt_min` \| `isotropic` — why fit is null, honestly |
+
+### 3.3 `edges.jsonl` — vMF field edges in the D1 wire format
+
+The cell-ledger seam (elephant `vmf.record_with` → quilt `cell-ledger.md` → crab-traps
+`ledger_edges`). The eight D1-sealed fields are exactly crab-traps' `SEALED_FIELDS`;
+the chain rule is `sha256(canonical_json(edge minus chain))`, `chain` = prior seal for
+the field cell, null = genesis — **rows are `INSERT`-ready into `ledger_edges`**.
+
+| field | sealed | type | meaning |
+|---|---|---|---|
+| `v` | ✓ | int | 1 |
+| `cell` | ✓ | string | the field cell (default `fabric.field`) |
+| `ts` | ✓ | int | `t1` of the after-snapshot (µs); one edge per (cell, ts) enforced |
+| `before` | ✓ | array\|null | prior fit's `mu_hat` (persistence prior, sealed pre-outcome) |
+| `after` | ✓ | array | new fit's `mu_hat` |
+| `delta` | ✓ | array\|null | after − before per axis |
+| `imbalance` | ✓ | float\|null | ≡ `d_mu` (bridge identity 4); **null on the genesis edge — never a fake number** |
+| `provenance` | ✓ | object | `{origin: "fabric-field-walk", producer: "walks-bridge/exporter.py@1", input_manifest, dial_space, db_factor, deadband_real, d_warmth, d_log_kappa, gap, torn, restarts_in_window}` |
+| `chain` | — | string\|null | prior edge's `edge_hash` for this cell |
+| `edge_hash` | — | string | the sha256 seal over the sealed fields |
+| `d_warmth`, `d_log_kappa`, `real`, `gap`, `torn`, `restarts_in_window` | — (in provenance) | | the elephant `edge()` legs + **the walk-integrity annotation**: `torn: true` iff ≥1 restart marker's ts ∈ (t_before, t_after] |
+
+**Seal/number discipline** (crab-traps canonical JSON parity): compact, keys sorted by
+code point, ASCII-only payloads, every float rounded to 6 dp **before** sealing and
+integral floats rendered bare (`40.0 → 40`) — this neutralizes the JS `40` vs `40.0`
+hazard cell-ledger.md §4 names, because the relay re-derives the seal from exactly
+these rendered values. Non-sealed rich fields ride along for loaders; the D1 columns
+that survive a relay round-trip are v, cell, ts, before, after, delta, imbalance,
+provenance (which is why the edge legs live *inside* provenance), chain, edge_hash.
+
+### 3.4 `crashes.jsonl` — the crash annotations
+
+| field | type | meaning |
+|---|---|---|
+| `v`, `cell`, `ts` | | the `restart` marker itself (seq is always 1) |
+| `life_index` | int | the life that begins here (0 = first life was `start`) |
+| `prev_life` | object\|null | `{last_seq, last_ts, dials}` of the prior life **if present in the export** (persistence tier) |
+| `journal_lost` | bool | true when the prior life is absent — the default in-memory case: the pre-crash walk is gone by construction |
+| `torn_edge_hint` | string | pointer prose: which edges.jsonl rows carry this tear |
+
+### 3.5 `out/MANIFEST.json` and `validation.json`
+
+The output manifest records: schema versions, argv, dial-space spec (autodetected
+elephant-7 or inferred bounds — §2.2), bucket width and how it was chosen, counts per
+output, input MANIFEST digest, `validation_clean`, tool versions. `validation.json`
+carries any witness-parity violations (empty when clean).
+
+## 4. The sample dataset — `sample/`
+
+**SYNTHETIC, generator included, seed fixed (20260828).** `sample/gen_sample.py`
+manufactures 12 cells × 40 rounds of `fabric-journal-export/1` journals faithful to
+cell.ex's verified kinds and sequencing: elephant-7 dials, per-cell persona offsets,
+newcomer acclimation-shaped early dips, a slow shared room drift, schema-coverage
+entries (`bind`, `link`, `set_dials`, `received`, effect receipts with ok/miss), and
+**one mid-life crash**: cell `c07` dies at round 20, its journal resets at seq 1 with a
+`restart` marker, it misses 3 rounds, and returns un-acclimated — a designed torn edge.
+
+Sample seals are `sha256-canonical` over `{seq, ts, kind, payload}` + prev — a
+**documented substitution**: real phash2 seals are opaque off-BEAM (§1.2). The sample
+MANIFEST declares this, plus `synthetic: true` and the fabric provenance
+(tit_quilt_elixir @ `e8bb9c6`, cell.ex/witness.ex). `sample/README.md` has the
+regenerate commands; `sample/out/` holds the exporter's run over them.
+
+What the sample demonstrates, honestly: 12 pooled cells clear NMIN=10; the crash gap
+dips `n_cells_pooled` to 11; the c07 restart books a `torn: true` edge; quiescent
+cells are skipped, and whatever the deadband says is what the `real` flags say.
+
+## 5. Extensions (not built, pre-stated)
+
+- **Per-cell D1 edge streams** — every cell's every step as its own sealed ledger row
+  (before/after = unit dial vectors, imbalance = chord): the co-linear-algebra dataset
+  feed of the dissertation through-line. The exporter's walk stage already holds the
+  pairs; only the sealing loop is missing.
+- **kl_sym concentration leg** — pure-κ moves need elephant's `kl_sym` (scipy); import
+  path only, not mirrored (stdlib constraint).
+- **Wave-5 registration hooks** — sealed sidecars, decoys, and kill-band doctrine
+  (STATUS §5) apply the moment any of this becomes a corpus rather than plumbing.
+
+## 6. Provenance of this spec
+
+STATUS-2026-08-28 §5 (proposal) · tit_quilt_elixir CONTEXT.md, cell.ex, witness.ex,
+fleet.ex @ `e8bb9c6` · elephant/vmf.py (estimator mirrored; parity-checked §7 of the
+build log below) · elephant/cell_ledger.py (seal rule) · crab-traps
+worker/src/edge-ledger.ts (D1 columns, SEALED_FIELDS, canonical JSON, one-edge-per-
+(cell,ts)) · elephant/docs/quilt-bridge.md (imbalance ≡ d_mu, identity 4).
+
+**Build-time verification (2026-08-28):** exporter run over the sample clean
+(validation 0 violations); vMF parity vs `elephant.vmf.vmf_fit` on shared random
+samples: max |Δκ| < 1e-9, max ‖Δμ̂‖ < 1e-12; edge seals re-verified by an independent
+canonical-JSON re-derivation; D1 uniqueness (cell, ts) holds. Details in the build
+commit.

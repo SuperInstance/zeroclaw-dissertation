@@ -1,0 +1,10 @@
+{
+  "cell_id": "cell-gamma",
+  "entries": [
+    {"seq": 1, "ts": 3000000, "kind": "start", "payload": {"pid": "#PID<0.170.0>"}},
+    {"seq": 2, "ts": 3000100, "kind": "bind", "payload": {"name": "pulse", "arity": 1}},
+    {"seq": 3, "ts": 3000200, "kind": "link", "payload": {"to": "#PID<0.999.0>"}},
+    {"seq": 4, "ts": 3010000, "kind": "tick", "payload": {"dials": {"amp": 0.9}, "effects": [["#PID<0.999.0>", "ping"]], "effect_results": [[["#PID<0.999.0>", "ping"], ["error", "missing"]]]}},
+    {"seq": 5, "ts": 3020000, "kind": "tick", "payload": {"dials": {"amp": 0.4}, "effects": [], "effect_results": []}}
+  ]
+}

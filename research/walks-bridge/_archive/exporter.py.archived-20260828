@@ -1,0 +1,656 @@
+#!/usr/bin/env python3
+"""
+walks-bridge exporter — fabric journals -> field-edge walks + vMF/D1 edge rows
++ crash annotations.
+
+Consumes `fabric-journal-export/1` JSONL (EXPORTER.md §1) and emits, per
+EXPORTER.md §3:
+
+    walks.jsonl           per-cell dial trajectories, segmented into lives
+    field_snapshots.jsonl fleet-as-room vMF (mu_hat, kappa) per time bucket
+    edges.jsonl           consecutive-snapshot field edges in the D1
+                          ledger_edges wire format (sealed, chained)
+    crashes.jsonl         one row per :restart marker — the torn-walk record
+    MANIFEST.json         run parameters, dial space, counts, validation
+    validation.json       witness-parity violations (empty when clean)
+
+Stdlib only. The vMF estimator is a line-for-line mirror of
+elephant/vmf.py (S^6): Banerjee init, Newton on A7(kappa)=rho with the
+series branch, RHOMAX/KMAX/NMIN guards, bootstrap kappa CI, jackknife
+SE(mu_hat) — parity-verified against elephant at build time (max |dk| <
+1e-9, max ||dmu|| < 1e-12). The elephant's own warning travels: at d=7,
+N>=10 the uniform-mean bias is mild but real — small-fleet kappa is a
+weak-identification reading, and this code refuses to fake one (fit ->
+null below NMIN or at isotropy).
+
+Seal discipline (crab-traps worker/src/edge-ledger.ts parity): the eight
+SEALED_FIELDS, sha256 over canonical JSON (compact, code-point-sorted
+keys, ASCII), every float rounded to 6dp BEFORE sealing and integral
+floats rendered bare (40.0 -> "40") — neutralizes the JS 40-vs-40.0
+hazard because the relay re-derives from exactly these renderings.
+phash2 seals on real exports are opaque pass-through (EXPORTER.md §1.2):
+chain honesty is Witness.audit's job on-BEAM, pre-export.
+
+Honesty tier: synthetic fabric walks are generator-corpus data (STATUS
+2026-08-28 §5), same tier as riverbed/wave-N corpora, not the Tap. Nothing
+here is registered.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import math
+import statistics
+import sys
+from pathlib import Path
+
+# ---------------------------------------------------------------- consts
+SCHEMA_IN = "fabric-journal-export/1"
+SCHEMA_OUT = "walks-bridge-out/1"
+
+# elephant/vmf.py:52-60 — the frozen elephant-7 dial space (verbatim mirror)
+ELEPHANT_DIALS = ["mood", "volume", "earnestness", "cynicism",
+                  "joke_landing", "panic", "presence"]
+ELEPHANT_LO = [-1.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0]
+ELEPHANT_HI = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+ELEPHANT_CENTER = [0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5]
+ELEPHANT_WARM = [0.30, 0.10, 0.10, -0.15, 0.15, -0.10, 0.10]
+
+RHOMAX = 0.999   # rho clamp — the unclipped init overflows sinh as rho -> 1
+KMAX = 500.0     # kappa saturation cap
+NMIN = 10        # below this many pooled cells, kappa is not identifiable
+QUIESCENT = 1e-3  # ||z|| below which a cell offers no direction
+ROUND_DP = 6     # float rounding before sealing / emission
+
+BOUNDARY_KINDS = {"start", "restart"}
+DIAL_KINDS = {"tick", "effect_apply", "set_dials"}  # kinds carrying dials
+
+
+# ------------------------------------------------- canonical JSON + seals
+def r6(x: float) -> float:
+    """Round for emission/sealing; collapse integral floats to int."""
+    v = round(float(x), ROUND_DP)
+    return int(v) if v == int(v) and abs(v) < 1e15 else v
+
+
+def deep_r6(o):
+    if isinstance(o, float):
+        return r6(o)
+    if isinstance(o, list):
+        return [deep_r6(x) for x in o]
+    if isinstance(o, tuple):
+        return [deep_r6(x) for x in o]
+    if isinstance(o, dict):
+        return {k: deep_r6(v) for k, v in o.items()}
+    return o
+
+
+def js_number(v) -> str:
+    """JS String(number)-compatible rendering for our value range.
+
+    Values are pre-rounded to 6dp and never hit JS exponent thresholds
+    (>=1e21 / <=1e-7); the assertion documents the contract.
+    """
+    if isinstance(v, bool):
+        return "true" if v else "false"
+    if isinstance(v, int):
+        return str(v)
+    if isinstance(v, float):
+        if v == int(v) and abs(v) < 1e15:
+            return str(int(v))
+        s = repr(v)
+        assert "e" not in s and "E" not in s, f"exponent form not JS-parity: {s}"
+        return s
+    raise TypeError(f"not a number: {v!r}")
+
+
+def canonical(o) -> str:
+    """crab-traps canonicalJson parity: compact, code-point-sorted keys."""
+    if o is None:
+        return "null"
+    if isinstance(o, bool):
+        return "true" if o else "false"
+    if isinstance(o, (int, float)):
+        return js_number(o)
+    if isinstance(o, str):
+        return json.dumps(o, ensure_ascii=False)
+    if isinstance(o, (list, tuple)):
+        return "[" + ",".join(canonical(x) for x in o) + "]"
+    if isinstance(o, dict):
+        keys = sorted(o.keys())
+        return "{" + ",".join(
+            f"{json.dumps(k, ensure_ascii=False)}:{canonical(o[k])}"
+            for k in keys) + "}"
+    raise TypeError(f"not canonicalizable: {o!r}")
+
+
+def sha_canonical(o) -> str:
+    return hashlib.sha256(canonical(deep_r6(o)).encode("utf-8")).hexdigest()
+
+
+# --------------------------------------------- vMF estimator (vmf.py mirror)
+def _norm(xs) -> float:
+    return math.sqrt(sum(x * x for x in xs))
+
+
+def A7(k: float) -> float:
+    """A_7(k) = I_{7/2}/I_{5/2} — series branch below 0.5 (vmf.py:93)."""
+    if k < 0.5:
+        return k / 7.0
+    s, c = math.sinh(k), math.cosh(k)
+    return (((1 + 15 / k ** 2) * c - (6 / k + 15 / k ** 3) * s)
+            / ((1 + 3 / k ** 2) * s - (3 / k) * c))
+
+
+def percentile(xs, p):
+    """np.percentile default linear interpolation, stdlib."""
+    ys = sorted(xs)
+    if len(ys) == 1:
+        return float(ys[0])
+    r = (len(ys) - 1) * p / 100.0
+    lo = int(math.floor(r))
+    hi = min(lo + 1, len(ys) - 1)
+    return float(ys[lo] + (ys[hi] - ys[lo]) * (r - lo))
+
+
+def vmf_fit(unit_rows, d: int, warm=None, B: int = 200, seed: int = 0):
+    """Mirror of elephant vmf_fit over pre-unit-normalized rows.
+
+    Returns None under N < NMIN or isotropy — never a fake number.
+    """
+    X = [list(r) for r in unit_rows]
+    N = len(X)
+    if N < NMIN:
+        return None
+    D = float(d)
+
+    rbar = [sum(row[i] for row in X) / N for i in range(d)]
+    rho = min(_norm(rbar), RHOMAX)
+    if rho < 1e-12:
+        return None
+    mu = [x / rho for x in rbar]
+
+    k = min(max(rho * (D - rho * rho) / (1 - rho * rho), 1e-6), KMAX)
+    for _ in range(60):
+        a = A7(k)
+        g = 1.0 - a * a - (D - 1.0) * a / k
+        if abs(g) < 1e-12:
+            break
+        step = (a - rho) / g
+        k = min(max(k - step, 1e-6), KMAX)
+        if abs(step) < 1e-9:
+            break
+
+    rng = _Rng(seed)
+    ks = []
+    for _ in range(B):
+        rb = [sum(X[rng.below(N)][i] for _ in range(N)) / N for i in range(d)]
+        rh = min(_norm(rb), RHOMAX)
+        if rh < 1e-12:
+            ks.append(0.0)
+        else:
+            ks.append(min(max(rh * (D - rh * rh) / (1 - rh * rh), 1e-6), KMAX))
+
+    # jackknife SE(mu_hat): delete-i means, renormalized, Frobenius spread
+    jk = []
+    for i in range(N):
+        rest = [X[j] for j in range(N) if j != i]
+        m = [sum(row[t] for row in rest) / (N - 1) for t in range(d)]
+        n = _norm(m)
+        jk.append([x / n for x in m] if n > 1e-12 else [0.0] * d)
+    jmean = [sum(row[t] for row in jk) / N for t in range(d)]
+    mu_se = math.sqrt((N - 1) / N
+                      * sum((jk[i][t] - jmean[t]) ** 2
+                            for i in range(N) for t in range(d)))
+
+    ax = [statistics.pstdev([row[t] for row in X]) for t in range(d)]
+    return {
+        "mu_hat": [r6(x) for x in mu],
+        "kappa": r6(k),
+        "rho": r6(rho),
+        "n": N,
+        "kappa_ci": [r6(percentile(ks, 2.5)), r6(percentile(ks, 97.5))],
+        "warmth_vmf": (r6(sum(w * m for w, m in zip(warm, mu)))
+                       if warm is not None else None),
+        "mu_se": r6(mu_se),
+        "axis_spread": [r6(x) for x in ax],
+        "saturated": bool(rho >= RHOMAX or k >= KMAX),
+    }
+
+
+class _Rng:
+    """Deterministic small PRNG (stdlib reproducibility, numpy-free)."""
+
+    def __init__(self, seed: int):
+        self.s = (seed * 6364136223846793005 + 1442695040888963407) % (1 << 64)
+        self.s = (self.s ^ (self.s >> 33)) or 1
+
+    def below(self, n: int) -> int:
+        self.s = (self.s * 6364136223846793005 + 1442695040888963407) % (1 << 64)
+        return (self.s >> 11) % n
+
+
+# ------------------------------------------------------------ dial space
+class DialSpace:
+    """Elephant-7 (frozen bounds, live warmth) or inferred (warmth null)."""
+
+    def __init__(self, names, lo, hi, center, warm, source):
+        self.names, self.lo, self.hi = names, lo, hi
+        self.center, self.warm, self.source = center, warm, source
+
+    @property
+    def d(self):
+        return len(self.names)
+
+    def z(self, dials: dict):
+        out = []
+        for i, n in enumerate(self.names):
+            v = float(dials.get(n, self.center[i]))
+            span = self.hi[i] - self.lo[i]
+            out.append(2.0 / span * (v - self.center[i]))
+        return out
+
+    def spec(self):
+        return {
+            "names": self.names, "lo": [r6(x) for x in self.lo],
+            "hi": [r6(x) for x in self.hi],
+            "center": [r6(x) for x in self.center],
+            "warm": None if self.warm is None else [r6(x) for x in self.warm],
+            "source": self.source,
+        }
+
+
+def resolve_dial_space(all_dials):
+    names = sorted({n for d in all_dials for n in d})
+    if names == sorted(ELEPHANT_DIALS):
+        order = list(ELEPHANT_DIALS)
+        return DialSpace(order, list(ELEPHANT_LO), list(ELEPHANT_HI),
+                         list(ELEPHANT_CENTER), list(ELEPHANT_WARM),
+                         "elephant-7 (frozen, vmf.py:52-60)")
+    if len(names) < 2:
+        raise SystemExit("dial space < 2 dims — vMF needs a direction; refusing")
+    lo, hi, mid = [], [], []
+    for n in names:
+        vals = [float(d[n]) for d in all_dials if n in d]
+        lo.append(min(vals))
+        hi.append(max(vals))
+        mid.append((min(vals) + max(vals)) / 2.0)
+    return DialSpace(names, lo, hi, mid, None,
+                     f"inferred (observed min/max, n={len(all_dials)}; "
+                     "warmth: null — no warm direction invented)")
+
+
+# ---------------------------------------------------------- load + verify
+def load_journals(in_dir: Path):
+    cells = {}
+    for f in sorted(in_dir.glob("*.jsonl")):
+        entries = []
+        for ln, line in enumerate(f.read_text().splitlines(), 1):
+            if not line.strip():
+                continue
+            try:
+                entries.append(json.loads(line))
+            except json.JSONDecodeError as e:
+                raise SystemExit(f"{f}:{ln}: bad JSON: {e}")
+        cells[f.stem] = sorted(entries, key=lambda e: (e["seq"], e["ts"]))
+    if not cells:
+        raise SystemExit(f"no *.jsonl journals under {in_dir}")
+    return cells
+
+
+def validate(cells, seal_scheme):
+    """Witness-parity (witness.ex): seq-1 boundaries, +1 sequencing,
+    non-decreasing ts, restart accounting; sha256 chain when declared."""
+    violations = []
+
+    def bad(cell, rule, detail):
+        violations.append({"cell": cell, "rule": rule, "detail": detail})
+
+    for cell, entries in cells.items():
+        seq_prev, ts_prev, seen_life0 = 0, None, False
+        prev_hash = None
+        for e in entries:
+            s, ts, kind = e["seq"], e["ts"], e["kind"]
+            if kind in BOUNDARY_KINDS:
+                if s != 1:
+                    bad(cell, "journal_boundary", f"{kind} at seq {s}")
+                if kind == "start" and seen_life0:
+                    bad(cell, "boundary_kind", "start after first life")
+                if kind == "start":
+                    seen_life0 = True
+                if e.get("restart") != (kind == "restart"):
+                    bad(cell, "restart_flag", f"seq {s}: flag/kind mismatch")
+                seq_prev, prev_hash = 0, e.get("prev_hash")
+            else:
+                if s != seq_prev + 1:
+                    bad(cell, "seq_gap", f"{seq_prev} -> {s}")
+            if ts_prev is not None and ts < ts_prev:
+                bad(cell, "ts_regression", f"{ts} after {ts_prev}")
+            if seal_scheme == "sha256-canonical" and e.get("hash") is not None:
+                payload = {"seq": s, "ts": ts, "kind": kind,
+                           "payload": e.get("payload", {})}
+                expect = sha_canonical({**payload, "prev": prev_hash})
+                if e["hash"] != expect:
+                    bad(cell, "seal_break", f"seq {s}")
+                prev_hash = e["hash"]
+            else:
+                prev_hash = e.get("hash")
+            seq_prev, ts_prev = s, ts
+    return violations
+
+
+# ------------------------------------------------------------------ walks
+def _dials_of(e):
+    return e.get("dials") or (e.get("payload") or {}).get("dials")
+
+
+def build_walks(cells, space: DialSpace):
+    """One walks row per dials-carrying entry; one crash row per restart."""
+    rows, restarts = [], []
+    for cell, entries in sorted(cells.items()):
+        # single indexed pass: life index, prior dials, torn_next
+        life_i, prev_dials, prev_ts = -1, None, None
+        life_tails = []  # per life: last dials-carrying entry (for crashes)
+        for gi, e in enumerate(entries):
+            kind = e["kind"]
+            if kind in BOUNDARY_KINDS:
+                life_i += 1
+                prev_dials, prev_ts = None, None
+                life_tails.append(None)
+            dials = _dials_of(e) if kind in DIAL_KINDS else None
+            if kind in DIAL_KINDS:
+                z = space.z(dials) if dials is not None else None
+                zn = _norm(z) if z else 0.0
+                rows.append({
+                    "v": 1, "cell": cell, "walk_id": f"{cell}#{life_i}",
+                    "life": life_i, "seq": e["seq"], "ts": e["ts"],
+                    "kind": kind,
+                    "dials": deep_r6(dials),
+                    "dials_before": deep_r6(prev_dials),
+                    "delta": (deep_r6({k: dials[k] - prev_dials[k]
+                                       for k in dials})
+                              if prev_dials is not None else None),
+                    "z": [r6(x) for x in z] if z else None,
+                    "unit_z": ([r6(x / zn) for x in z]
+                               if z and zn > QUIESCENT else None),
+                    "quiescent": bool(z is None or zn < QUIESCENT),
+                    "dt_us": ((e["ts"] - prev_ts)
+                              if prev_ts is not None else None),
+                    "torn_next": (gi + 1 < len(entries)
+                                  and entries[gi + 1]["kind"] == "restart"),
+                })
+                prev_dials, prev_ts = dials, e["ts"]
+                life_tails[life_i] = e
+            if kind == "restart":
+                prev_life = None
+                if life_i > 0 and life_tails[life_i - 1] is not None:
+                    tail = life_tails[life_i - 1]
+                    prev_life = {"last_seq": tail["seq"], "last_ts": tail["ts"],
+                                 "dials": deep_r6(_dials_of(tail))}
+                restarts.append({
+                    "v": 1, "cell": cell, "ts": e["ts"], "seq": e["seq"],
+                    "life_index": life_i, "prev_life": prev_life,
+                    "journal_lost": prev_life is None,
+                    "torn_edge_hint": (
+                        f"edges with t_before < {e['ts']} <= t_after carry "
+                        f"torn:true, restarts_in_window includes '{cell}'"),
+                })
+    return rows, restarts
+
+
+# -------------------------------------------------------- field snapshots
+def auto_bucket_us(cells):
+    periods = []
+    for entries in cells.values():
+        ticks = [e["ts"] for e in entries if e["kind"] in DIAL_KINDS]
+        if len(ticks) >= 2:
+            periods.append((ticks[-1] - ticks[0]) / (len(ticks) - 1))
+    return max(1, int(statistics.median(periods))) if periods else 1000
+
+
+def build_snapshots(cells, space: DialSpace, bucket_us: int, min_cells: int,
+                    B: int, seed: int):
+    events = []  # (ts, cell, entry) — dials-carriers and restarts, global order
+    for cell, entries in cells.items():
+        for e in entries:
+            if e["kind"] in DIAL_KINDS or e["kind"] == "restart":
+                events.append((e["ts"], cell, e))
+    events.sort(key=lambda t: (t[0], t[1]))
+    if not events:
+        return [], bucket_us
+
+    t_lo = events[0][0]
+    t_hi = max(e["ts"] for _, _, e in events)
+    n_buckets = (t_hi - t_lo) // bucket_us + 1
+
+    state = {}   # cell -> dials (carried forward; restart invalidates)
+    rows, ev_i = {}, 0
+
+    for b in range(n_buckets):
+        t0 = t_lo + b * bucket_us
+        t1 = t0 + bucket_us
+        while ev_i < len(events) and events[ev_i][0] < t1:
+            ts, cell, e = events[ev_i]
+            if e["kind"] == "restart":
+                state[cell] = None  # the process died; do not read a corpse
+            else:
+                state[cell] = _dials_of(e)
+            ev_i += 1
+        pool = {c: d for c, d in state.items() if d is not None}
+        zs, n_quiet = [], 0
+        for c, d in sorted(pool.items()):
+            z = space.z(d)
+            zn = _norm(z)
+            if zn < QUIESCENT:
+                n_quiet += 1
+            else:
+                zs.append([x / zn for x in z])
+        reason = "ok"
+        fit = None
+        if not pool:
+            reason = "no_cells"
+        elif len(zs) < min_cells:
+            reason = f"n_lt_min ({len(zs)} < {min_cells})"
+        else:
+            fit = vmf_fit(zs, space.d, space.warm, B=B, seed=seed)
+            if fit is None:
+                # NMIN re-check inside vmf_fit; distinguish isotropy
+                rbar = [sum(r[i] for r in zs) / len(zs) for i in range(space.d)]
+                reason = "isotropic" if _norm(rbar) < 1e-12 else \
+                    f"n_lt_min ({len(zs)} < {NMIN})"
+        rows[b] = {
+            "v": 1, "tick": b, "t0": t0, "t1": t1,
+            "n_cells_pooled": len(pool), "n_cells_fitted": len(zs),
+            "quiescent_skipped": n_quiet,
+            "fit": fit, "reason": reason,
+        }
+    return [rows[b] for b in range(n_buckets)], bucket_us
+
+
+# ----------------------------------------------------------------- edges
+SEALED = ["v", "cell", "ts", "before", "after", "delta", "imbalance",
+          "provenance"]
+
+
+def build_edges(snapshots, restarts, field_cell: str, db_factor: float,
+                manifest_digest: str, dial_source: str):
+    rows, chain, seq = [], None, 0
+    fitted = [s for s in snapshots if s["fit"] is not None]
+    for idx, s in enumerate(fitted):
+        fit = s["fit"]
+        prev = fitted[idx - 1] if idx > 0 else None
+        gap = prev is not None and (s["tick"] - prev["tick"]) > 1
+        restarts_in_win = sorted({r["cell"] for r in restarts
+                                   if (prev is None or
+                                       prev["t1"] < r["ts"] <= s["t1"])})
+        torn = bool(restarts_in_win)
+
+        before = delta = imbalance = None
+        d_warmth = d_log_kappa = None
+        real = None
+        if prev is not None:  # else: genesis — no prior, no surprise claimed
+            before = prev["fit"]["mu_hat"]
+            after = fit["mu_hat"]
+            delta = [deep_r6(a - b) for a, b in zip(after, before)]
+            imbalance = r6(_norm([a - b for a, b in zip(after, before)]))
+            if fit["warmth_vmf"] is not None and \
+                    prev["fit"]["warmth_vmf"] is not None:
+                d_warmth = r6(fit["warmth_vmf"] - prev["fit"]["warmth_vmf"])
+            d_log_kappa = r6(math.log(fit["kappa"] / prev["fit"]["kappa"]))
+            real = bool(imbalance > db_factor * max(fit["mu_se"],
+                                                    prev["fit"]["mu_se"]))
+
+        provenance = {
+            "origin": "fabric-field-walk",
+            "producer": "walks-bridge/exporter.py@1",
+            "input_manifest": manifest_digest,
+            "dial_space": dial_source,
+            "db_factor": r6(db_factor),
+            "gap": bool(gap),
+            "torn": torn,
+            "restarts_in_window": restarts_in_win,
+            "d_warmth": d_warmth,
+            "d_log_kappa": d_log_kappa,
+            "deadband_real": real,  # the edge() `real` leg, D1-survivable
+        }
+        entry = {
+            "v": 1, "cell": field_cell, "ts": s["t1"],
+            "before": deep_r6(before), "after": deep_r6(fit["mu_hat"]),
+            "delta": delta, "imbalance": imbalance,
+            "provenance": deep_r6(provenance),
+        }
+        edge_hash = sha_canonical({k: entry[k] for k in SEALED})
+        seq += 1
+        rows.append({
+            **entry,
+            "expected": deep_r6(before),  # persistence prior (identity 4)
+            "chain": chain, "edge_hash": edge_hash, "seq": seq,
+            "d_warmth": d_warmth, "d_log_kappa": d_log_kappa, "real": real,
+            "gap": bool(gap), "torn": torn,
+            "restarts_in_window": restarts_in_win,
+            "tick": s["tick"],
+        })
+        chain = edge_hash
+    # one edge per (cell, ts): bucket t1s are strictly increasing by construction
+    seen = set()
+    for r in rows:
+        key = (r["cell"], r["ts"])
+        assert key not in seen, f"duplicate edge (cell, ts) {key}"
+        seen.add(key)
+    return rows
+
+
+# ------------------------------------------------------------------ main
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
+    ap.add_argument("--in", dest="inp", required=True, type=Path,
+                    help="directory of <cell>.jsonl journals")
+    ap.add_argument("--out", dest="out", required=True, type=Path)
+    ap.add_argument("--manifest", type=Path, default=None,
+                    help="input MANIFEST.json (default: <in>/../MANIFEST.json)")
+    ap.add_argument("--bucket-us", default="auto",
+                    help="field bucket width in µs, or auto (median tick period)")
+    ap.add_argument("--min-cells", type=int, default=NMIN)
+    ap.add_argument("--field-cell", default="fabric.field")
+    ap.add_argument("--db-factor", type=float, default=2.0)
+    ap.add_argument("--bootstrap-B", type=int, default=200)
+    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--lax", action="store_true",
+                    help="continue despite validation violations (stamped)")
+    args = ap.parse_args(argv)
+
+    manifest_path = args.manifest or (args.inp.parent / "MANIFEST.json")
+    in_manifest = {}
+    if manifest_path.exists():
+        in_manifest = json.loads(manifest_path.read_text())
+    seal_scheme = in_manifest.get("seal_scheme", "opaque")
+
+    cells = load_journals(args.inp)
+    violations = validate(cells, seal_scheme)
+
+    args.out.mkdir(parents=True, exist_ok=True)
+    (args.out / "validation.json").write_text(
+        json.dumps({"violations": violations,
+                    "clean": not violations}, indent=1) + "\n")
+    if violations and not args.lax:
+        print(f"validation: {len(violations)} violation(s) — "
+              f"see {args.out / 'validation.json'}; aborting (use --lax to "
+              f"continue with the stain stamped)", file=sys.stderr)
+        return 1
+
+    space = resolve_dial_space([
+        e.get("dials") or (e.get("payload") or {}).get("dials")
+        for es in cells.values() for e in es
+        if e["kind"] in DIAL_KINDS and
+        (e.get("dials") or (e.get("payload") or {}).get("dials"))])
+
+    walks, restarts = build_walks(cells, space)
+
+    bucket_us = (auto_bucket_us(cells) if args.bucket_us == "auto"
+                 else int(args.bucket_us))
+    snapshots, bucket_us = build_snapshots(
+        cells, space, bucket_us, args.min_cells,
+        args.bootstrap_B, args.seed)
+
+    manifest_digest = "unknown"
+    if in_manifest:
+        manifest_digest = hashlib.sha256(
+            canonical(deep_r6(in_manifest)).encode()).hexdigest()[:16]
+
+    edges = build_edges(snapshots, restarts, args.field_cell, args.db_factor,
+                        manifest_digest, space.source)
+
+    def dump(name, rows):
+        p = args.out / name
+        with p.open("w") as f:
+            for r in rows:
+                f.write(json.dumps(r, sort_keys=False) + "\n")
+        return len(rows)
+
+    counts = {
+        "walks.jsonl": dump("walks.jsonl", walks),
+        "field_snapshots.jsonl": dump("field_snapshots.jsonl", snapshots),
+        "edges.jsonl": dump("edges.jsonl", edges),
+        "crashes.jsonl": dump("crashes.jsonl", restarts),
+    }
+
+    torn_edges = sum(1 for e in edges if e["torn"])
+    real_edges = sum(1 for e in edges if e.get("real"))
+    out_manifest = {
+        "schema": SCHEMA_OUT,
+        "input_schema": SCHEMA_IN,
+        "input_manifest": manifest_digest,
+        "input_dir": str(args.inp),
+        "argv": sys.argv[1:],
+        "dial_space": space.spec(),
+        "bucket_us": bucket_us,
+        "bucket_policy": args.bucket_us,
+        "min_cells": args.min_cells,
+        "db_factor": args.db_factor,
+        "bootstrap_B": args.bootstrap_B,
+        "seed": args.seed,
+        "field_cell": args.field_cell,
+        "validation_clean": not violations,
+        "counts": counts,
+        "restarts": len(restarts),
+        "torn_edges": torn_edges,
+        "real_edges": real_edges,
+        "honesty_tier": ("generator-corpus (synthetic fabric walks) — "
+                         "STATUS 2026-08-28 §5; nothing registered"),
+        "generated": "2026-08-28",
+    }
+    (args.out / "MANIFEST.json").write_text(
+        json.dumps(out_manifest, indent=1, sort_keys=True) + "\n")
+
+    print(f"cells={len(cells)} walks={counts['walks.jsonl']} "
+          f"snapshots={counts['field_snapshots.jsonl']} "
+          f"edges={counts['edges.jsonl']} "
+          f"(real={real_edges}, torn={torn_edges}) "
+          f"crashes={counts['crashes.jsonl']} "
+          f"bucket_us={bucket_us} dial_space={space.source}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
