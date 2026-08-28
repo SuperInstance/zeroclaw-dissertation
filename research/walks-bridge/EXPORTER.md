@@ -1,4 +1,4 @@
-# walks-bridge — the fabric→walks exporter (v1)
+# walks-bridge — the fabric→walks exporter (v2, schema `walks/2`)
 
 **Lane:** WALKS-BRIDGE (re-fired 2026-08-28 after the tmux-server death; the dead
 run's draft is preserved in `_archive/`).
@@ -43,7 +43,23 @@ tuples → arrays, `:fabric_start` → `"fabric_start"`, `{:error, :missing}` �
 the exporter re-chains with sha256 (phash2 is not stable across BEAM builds and
 is not needed for export-side integrity).
 
-## 3. Output — `walks.jsonl` schema `walks/1`
+### Optional per-entry `arrival` stamp (walks/2 ingress hook)
+
+When the ingress hook has instrumented a journal, each entry may carry an
+`arrival` object — the only source of arrival-path truth (§7):
+
+```json
+{"seq": 5, "ts": 1010000, "kind": "tick",
+ "payload": { ... },
+ "arrival": {"road": "esp-now", "link_quality": -62, "arrival_meta": {"rssi_ewma": -62.5}}}
+```
+
+Keys are restricted to `road` / `link_quality` / `arrival_meta`; anything else
+aborts the export (strict — contract drift should surface, not ride along).
+Entries without an `arrival` stamp export honestly as `road: "unknown"`,
+`link_quality: null`, `arrival_meta: {}` (§7 honesty rule).
+
+## 3. Output — `walks.jsonl` core schema (`walks/1`, extended by §7 to `walks/2`)
 
 One line per **walk-step**, append order = fabric seq order:
 
@@ -73,6 +89,10 @@ digest         = sha256(canonical(core))
 
 `prev_digest` sits inside the hashed core — that *is* the "sha256 of
 prev+entry" rule, in a form that survives JSON round-trips.
+
+`walks/2` (§7) appends three arrival-path fields to every step **outside the
+digest core** — the six-field core above is unchanged, so walks/1 chain logic
+still verifies walks/2 files byte-for-byte.
 
 ## 4. Kind → opcode mapping
 
@@ -117,6 +137,9 @@ non-delivery without re-parsing payloads.
 3. **Totality** — every non-structural journal entry maps to exactly one step;
    step count = entries − structural markers (with documented edge case: a
    trailing structural marker with no following entry maps to nothing).
+4. **Schema tolerance** — the verifier accepts `walks/1` rows (no arrival-path
+   fields): they verify against the unchanged core and count as
+   `road: "unknown"`. They are never rewritten in place.
 
 ## 6. Usage
 
@@ -127,3 +150,47 @@ python3 research/walks-bridge/exporter.py \
 ```
 
 Stdlib only, no subprocess, no network. Exits non-zero on any violation.
+Re-verify an existing file (walks/1 or walks/2) without exporting:
+
+```bash
+python3 research/walks-bridge/exporter.py --verify \
+    --output research/walks-bridge/sample/walks.jsonl
+```
+
+## 7. `walks/2` — arrival-path fields (H-ROAD-0, Rung 1)
+
+**Added 2026-08-28.** Every walk-step record gains three fields, recorded at
+export time from the per-entry `arrival` stamp (§2) when the ingress hook
+provides one:
+
+| field | type | meaning |
+|---|---|---|
+| `road` | enum | transport that carried the step's arrival: `local` \| `esp-now` \| `ble` \| `wifi` \| `tcp` \| `human` \| `unknown` |
+| `link_quality` | number or null | nullable EWMA placeholder — radio RSSI/PER or app latency/loss once a real source exists; export never computes it |
+| `arrival_meta` | object | free-form, reserved — `{}` until reserved content is defined |
+
+### The honesty rule
+
+**Unknown is honest; guessed is not.** If the writer stamped no arrival data,
+the export records `road: "unknown"`, `link_quality: null`, `arrival_meta: {}`.
+The exporter never infers a road from payload shape, pid topology, journal
+kind, or any other heuristic — a guessed road is a fabricated fact about the
+world; an unknown road is a recorded absence. All legacy and synthetic journal
+entries (including everything in `sample/`) therefore stamp `unknown`.
+
+### Zero semantics
+
+These fields are a thermometer install, not an experiment: the exporter only
+records them. No consumer — renderer, field-state computation, analysis — may
+change behavior based on them at this rung (EGOCENTRIC-LADDER.md Rung 1).
+
+### Chain position
+
+Arrival-path fields ride **outside the digest core**, same tier as `meta`:
+annotations about ingress, not walk identity. The `walks/1` digest rule
+(§3 Canonical form) is unchanged, so a `walks/2` file verifies under
+`walks/1` chain logic, and `walks/1` files remain readable — the verifier maps
+their missing `road` to `unknown` for coverage counting without rewriting
+them. Tamper-evidence for arrival fields is deliberately deferred; if Rung 1's
+soak shows the fields matter, folding them into the core is a `walks/3`
+decision, made then, not now.

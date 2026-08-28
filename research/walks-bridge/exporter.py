@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """walks-bridge exporter — tit_quilt_elixir fabric journals -> walks.jsonl.
 
-Implements EXPORTER.md (schema walks/1): one JSONL line per walk-step,
+Implements EXPORTER.md (schema walks/2): one JSONL line per walk-step,
 sha256 hash-chained per walk. Restart markers tear the walk (new walk_id,
 fresh GENESIS chain); {:error,:missing} ticks annotate meta.miss.
+walks/2 adds arrival-path fields to every step — road / link_quality /
+arrival_meta — stamped "unknown"/null/{} when the writer did not record
+them (H-ROAD-0, Rung 1). Zero semantics: no inference, just record.
+The reader/verifier tolerates walks/1 lines (no road field -> "unknown").
 Stdlib only. No subprocess, no network.
 """
 from __future__ import annotations
@@ -15,6 +19,15 @@ import json
 import sys
 
 GENESIS = "GENESIS"
+
+# ---- schema (EXPORTER.md §3 core + §7 arrival-path fields) ----
+SCHEMA = "walks/2"
+SCHEMA_V1 = "walks/1"  # tolerated on read: missing road fields map to "unknown"
+
+# transport tags for the arrival path — closed enum, honest default
+ROADS = ("local", "esp-now", "ble", "wifi", "tcp", "human", "unknown")
+ROAD_UNKNOWN = "unknown"
+ARRIVAL_KEYS = frozenset(("road", "link_quality", "arrival_meta"))
 
 # fabric journal kind -> walk opcode (EXPORTER.md §4)
 OPCODES = {
@@ -55,6 +68,39 @@ def find_misses(payload) -> list:
             target = receipt if isinstance(receipt, str) else json.loads(canonical(receipt))
             misses.append(target)
     return misses
+
+
+def arrival_fields(entry: dict, cell_id: str, seq: int) -> dict:
+    """Per-entry arrival-path fields (walks/2). NO INFERENCE, just record.
+
+    Source of truth is the ingress-hook stamp on the journal entry
+    (optional `arrival` object). If the writer stamped nothing, the honest
+    export is road="unknown" / link_quality=null / arrival_meta={} — a
+    guessed road is a fabricated fact; an unknown road is a recorded
+    absence (EXPORTER.md §7 honesty rule).
+    """
+    arrival = entry.get("arrival")
+    if arrival is None:
+        return {"road": ROAD_UNKNOWN, "link_quality": None, "arrival_meta": {}}
+    if not isinstance(arrival, dict):
+        raise ValueError(f"{cell_id}: 'arrival' at seq {seq} is not an object — aborting (strict)")
+    extra = set(arrival) - ARRIVAL_KEYS
+    if extra:
+        raise ValueError(f"{cell_id}: unknown arrival keys {sorted(extra)} at seq {seq} — aborting (strict)")
+
+    road = arrival.get("road", ROAD_UNKNOWN)
+    if road not in ROADS:
+        raise ValueError(f"{cell_id}: arrival.road {road!r} at seq {seq} not in ROADS {list(ROADS)} — aborting (strict)")
+
+    link_quality = arrival.get("link_quality")
+    if link_quality is not None and (isinstance(link_quality, bool) or not isinstance(link_quality, (int, float))):
+        raise ValueError(f"{cell_id}: arrival.link_quality at seq {seq} is not a number or null — aborting (strict)")
+
+    arrival_meta = arrival.get("arrival_meta", {})
+    if not isinstance(arrival_meta, dict):
+        raise ValueError(f"{cell_id}: arrival.arrival_meta at seq {seq} is not an object — aborting (strict)")
+
+    return {"road": road, "link_quality": link_quality, "arrival_meta": arrival_meta}
 
 
 def export_journal(doc: dict) -> list[dict]:
@@ -110,6 +156,9 @@ def export_journal(doc: dict) -> list[dict]:
         }
         step = dict(core)
         step["digest"] = step_digest(core)
+        # walks/2: arrival-path annotations ride OUTSIDE the digest core
+        # (same tier as `meta`) so walks/1 chain logic still verifies (§7).
+        step.update(arrival_fields(e, cell_id, seq))
         step["meta"] = meta
         steps.append(step)
         prev_digest = step["digest"]
@@ -117,9 +166,16 @@ def export_journal(doc: dict) -> list[dict]:
     return steps
 
 
-def verify(walks_path: str) -> tuple[int, int]:
-    """Re-read the emitted file; recompute every digest; check chain + order."""
+def verify(walks_path: str) -> tuple[int, int, int]:
+    """Re-read the emitted file; recompute every digest; check chain + order.
+
+    Tolerates walks/1 lines (no road/link_quality/arrival_meta): they map
+    to road="unknown" for the coverage count and are NOT rewritten. walks/2
+    lines must carry a valid road enum value, a numeric-or-null
+    link_quality, and an object arrival_meta (EXPORTER.md §7).
+    """
     n_steps = 0
+    n_roads_unknown = 0
     walk_ids: dict[str, str] = {}  # walk_id -> last digest
     seen_opcodes = set()
     with open(walks_path, encoding="utf-8") as fh:
@@ -137,15 +193,39 @@ def verify(walks_path: str) -> tuple[int, int]:
             if last is None and s["prev_digest"] != GENESIS:
                 raise AssertionError(f"line {lineno}: walk {s['walk_id']} opened without GENESIS")
             walk_ids[s["walk_id"]] = s["digest"]  # append-only: a closed walk never returns
+
+            # walks/2 arrival-path fields (tolerant of walks/1 rows)
+            if "road" in s:
+                if s["road"] not in ROADS:
+                    raise AssertionError(f"line {lineno}: bad road {s['road']!r} (not in ROADS)")
+                road = s["road"]
+            else:
+                road = ROAD_UNKNOWN  # walks/1 row — mapped, never rewritten
+            if s.get("link_quality") is not None and (
+                isinstance(s["link_quality"], bool) or not isinstance(s["link_quality"], (int, float))
+            ):
+                raise AssertionError(f"line {lineno}: link_quality is not a number or null")
+            if not isinstance(s.get("arrival_meta", {}), dict):
+                raise AssertionError(f"line {lineno}: arrival_meta is not an object")
+            if road == ROAD_UNKNOWN:
+                n_roads_unknown += 1
             n_steps += 1
-    return n_steps, len(walk_ids)
+    return n_steps, len(walk_ids), n_roads_unknown
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(description="fabric journal -> walks.jsonl (schema walks/1)")
+    ap = argparse.ArgumentParser(description=f"fabric journal -> walks.jsonl (schema {SCHEMA})")
     ap.add_argument("--inputs", required=True, help="glob of journal JSON documents")
     ap.add_argument("--output", required=True, help="walks.jsonl path")
+    ap.add_argument("--verify", action="store_true",
+                    help="skip export; only verify an existing output (tolerates walks/1 rows)")
     args = ap.parse_args(argv)
+
+    if args.verify:
+        n_steps, n_walks, n_unknown = verify(args.output)
+        print(f"VERIFY {n_steps} steps, {n_walks} walks — chain OK (sha256 recomputed)")
+        print(f"ROADS {n_steps - n_unknown}/{n_steps} stamped, {n_unknown} unknown (honest default incl. walks/1 rows)")
+        return 0
 
     paths = sorted(globmod.glob(args.inputs))
     if not paths:
@@ -161,9 +241,10 @@ def main(argv=None) -> int:
         for s in all_steps:
             fh.write(json.dumps(s, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n")
 
-    n_steps, n_walks = verify(args.output)
+    n_steps, n_walks, n_unknown = verify(args.output)
     print(f"walks-bridge: exported {len(paths)} journals -> {n_steps} steps across {n_walks} walks -> {args.output}")
     print(f"VERIFY {n_steps} steps, {n_walks} walks — chain OK (sha256 recomputed)")
+    print(f"ROADS {n_steps - n_unknown}/{n_steps} stamped, {n_unknown} unknown (honest default incl. walks/1 rows)")
     return 0
 
 
