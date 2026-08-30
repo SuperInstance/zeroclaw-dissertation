@@ -32,6 +32,7 @@ The methodologist drafted before the RIVAL/DEVIL results were in the room. **Mer
 - [ ] Add DEVIL clauses 1–3 (phantom-scope, retry-limit, detector-independence) as binding freeze text.
 - [ ] Methodologist's wobble-spec-violation VOID rule already anticipates V3's laundering channel — confirm the logged-target check covers the κ(t)-gating dynamics, not just amplitude.
 - [ ] Re-run the committee's sign-off line ("Power certified. Void rules locked. S2 freeze approved.") only after the merge checklist is green.
+- [ ] (DEVIL nudge, 2026-08-30) Re-derive the S3-GOVERNANCE-PRIMER dependency table against the merged freeze text BEFORE the freeze commit; update its `Re-derived against:` provenance line. Canonical = freeze draft; primer = derived pointer, never authority.
 
 ## 5. What this round does NOT do
 

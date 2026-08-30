@@ -4,13 +4,17 @@
 **Audience:** a competent outsider — an engineer who will never sit on the committee.
 **Sources (only these):** `METHODOLOGIST-S2-FREEZE-DRAFT.md` (this directory), `DIGEST.md` (this directory, §1–§4), `RIVAL.md`, `DEVILS-ADVOCATE.md` (this directory). No elephant-lane or memory files consulted.
 
+> **CANONICALITY (DEVIL nudge 2026-08-30, ACCEPTED):** The canonical home of the unblock conditions is the **freeze draft post-merge** (with the DIGEST §4 merge checklist as the staging list until it goes green). The §"dependency table" below is **DERIVED** — a snapshot restatement for outsiders, not an authority. When the merge lands, the table must be re-derived against the merged freeze text *before the freeze commit* (see merge-checklist item 7); the table carries a `Re-derived against:` provenance line to date each refresh. A primer that disagrees with the freeze text is wrong by definition.
+
 ---
 
 ## The one-paragraph explanation (for the outsider)
 
 S3 is the stage where the program generates its **registered experimental corpus** — 16 synthetic corpora with the α parameter (how much of each reader's target is set by the room rather than by their own static bias) swept from 0 to 1. The wave-4 design as originally landed (fiber v4) was killed at its own pre-registered gate: the collapse signal never fired, and the one thing that *did* move (an inter-reader correlation drop of −0.141) proved the parameter was live but the design couldn't see it where it needed to. Rather than abandon the wave, the methodologist drafted a redesign (fiber v4b: re-specified carrier amplitude floor and decorrelation ceiling) — and, burned by the kill, made S3 conditional on a **500-replicate simulation certificate**: before generating a single registered corpus, the redesigned generator must demonstrate *in simulation, on throwaway seeds* that the statistical test can actually detect the effect it claims to look for (≥90% detection at full contrast, ≥80% at quarter contrast, ≤5% false alarms, ≥95% on the calibration leg). This block is unwaivable by design: the previous wave's failure was exactly a design that was powerful on paper and blind in fact, and the block exists so that no narrative — however plausible — can substitute for a measured power number. A wave whose detection machinery is unproven cannot produce an honest result, so the machinery is proven first, on seeds that don't count, and the certificate (with seeds and code SHA filed) is the key that unlocks generation.
 
-## The dependency table (clause → blocked stage → unblock condition)
+## The dependency table (DERIVED — canonical: freeze draft post-merge)
+
+_Re-derived against: `METHODOLOGIST-S2-FREEZE-DRAFT.md` pre-merge (2026-08-30). Refresh required before freeze commit._
 
 Every gate between "here" and "registered corpus exists." Unblock conditions are verbatim-faithful to the sources. If a condition fails, the stated consequence applies — there is no discretion anywhere in the chain.
 
