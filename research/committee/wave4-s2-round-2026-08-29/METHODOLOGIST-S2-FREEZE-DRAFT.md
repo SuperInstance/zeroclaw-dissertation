@@ -210,11 +210,40 @@ or downgraded to a caveat.
 
 ---
 
+## 6. RIVAL kill conditions (frozen, from committee response)
+
+### 6.1 Parity re-registration kill conditions
+- **Kill condition 1:** Independent seeded-stream re-derivation of w_ar/room_c must match logged target bit-for-bit. Implementation: store independent seeded-stream replay outputs in separate log file; verify exact bit-for-bit match against registered target before any parity claim.
+- **Kill condition 2:** Bit-identity assertion v4(α=0) ≡ v3 on pinned corpus. Implementation: on α=0 runs, compare v4(r) and v3(r) for all r in corpus; exact 1.0 correlation required for v3-parity claim to hold.
+- **Trigger:** Missing either condition makes v3-parity claim unfalsifiable; both must be satisfied before parity registration.
+
+### 6.2 κ-neutrality subgate + ICC calibration clause
+- **κ-neutrality subgate:** α=1 pilot with κ(t) frozen constant must still fire P_trans < 0.5×P_rest. Implementation: during α=1 pilot runs, freeze κ(t) to constant value; verify P_trans = (1−α)·P_rest + α·P_trans < 0.5·P_rest.
+- **ICC calibration clause:** S1 ICC threshold calibrated against v3-style static-common-target control. Implementation: ICC threshold = 0.885 (baseline static from wave-3 registration) + ICC_observed − ICC_base; never use raw ICC_observed as threshold.
+- **Trigger:** Content-leak ⇒ VOID; mechanical dispersion compression without carrier motion ⇒ ICC decline invalid; both subgates must pass before registration.
+
+---
+
+## 7. DEVIL binding clauses (frozen, from committee verdict)
+
+### 7.1 Phantom-scope clause
+"wave-4/4b numbers are instrument-calibration claims only; no field claims about real rooms, ever."
+
+### 7.2 Retry-limit clause
+"at most one further design iteration (4b); if it fails the gate, P is declared structurally unreadable for this engine and the instrument-vs-collapse program closes."
+
+### 7.3 Detector-independence clause
+"leg statistics consulted during design (P, at minimum) are labeled 'designed-for,' demoted from headline; the headline of any passing registration must be a leg untouched by the iteration (ICC decline or the V anchor leg), threshold re-derived fresh."
+
+---
+
 ## Provenance
 
 Read (read-only): wave4-registration-draft-2026-08-22.md; wave4-S1-hardening
 -2026-08-22.md; memory/wave3-registration-2026-08-21.md (§1.4 VOID set);
 memory/wave3-S5-verdict + wave3-S4-analysis (envelope/scatter numbers);
 memory/research-g6-noise-2026-08-21.md (stable-d floor, corpus_sd); elephant
-git log (5b8af52, 8749974). Written: this document only. Nothing sealed,
+git log (5b8af52, 8749974). Also read: DEVIL-CLAUSES-MERGE.md, RIVAL-RESPONSE.md. Written: this document only. Nothing sealed,
+
+Canonical: freeze draft = authority; S3-GOVERNANCE-PRIMER.md = derived pointer (see Table 7, re-derived against c748948)
 frozen, or committed; no data/wave3/** or registered corpus touched.
