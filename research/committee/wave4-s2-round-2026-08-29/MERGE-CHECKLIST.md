@@ -81,4 +81,4 @@ All objections from wave-4 S2 committee round have been incorporated into the me
 3. ✅ Execute S2 freeze commit (1b6f8e3)
 4. S3 generation remains blocked until §5.4 power certificate filed
 
-**Current Status:** S2 freeze EXECUTED — wave-4 S2 committee round locked (commit 1b6f8e3)
+**Current Status:** CORRECTED per DEVIL freeze-audit (FREEZE-AUDIT-DEVIL-2026-08-30.md): freeze is TEXT-COMPLETE, NOT executed — the 440c267 "S2 FREEZE EXECUTED" claim is RETRACTED (power certificate does not exist). Execution requires (i) §5.4 power certificate filed and (ii) design-gate re-cert on unsealed v4b pilots; the freeze commit must then cite the file+blob fingerprint list.
