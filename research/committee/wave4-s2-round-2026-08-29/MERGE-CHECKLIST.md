@@ -77,8 +77,8 @@ All objections from wave-4 S2 committee round have been incorporated into the me
 
 ## Next Steps
 1. ✅ Complete merge checklist (7/7 items now resolved/prepared/confirmed)
-2. Update METHODOLOGIST-S2-FREEZE-DRAFT.md with merged text
-3. Execute S2 freeze commit
-4. S3 generation remains blocked until freeze completed
+2. ✅ Update METHODOLOGIST-S2-FREEZE-DRAFT.md with merged text
+3. ✅ Execute S2 freeze commit (1b6f8e3)
+4. S3 generation remains blocked until §5.4 power certificate filed
 
-**Current Priority:** Merge all resolved text into freeze draft and execute S2 freeze
+**Current Status:** S2 freeze EXECUTED — wave-4 S2 committee round locked (commit 1b6f8e3)
