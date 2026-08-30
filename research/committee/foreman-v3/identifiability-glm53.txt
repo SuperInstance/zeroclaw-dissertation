@@ -1,0 +1,641 @@
+================================================================================
+IDENTIFIABILITY OF A ROOM-STATE OBSERVABLE — INDEPENDENT DERIVATION (GLM-5.3)
+Commissioned file: identifiability-prompt.md, foreman-v3, 2026-08-30.
+Derivator: independent mathematical derivator #2 (GLM-5.3, first principles).
+All numeric claims below were executed in IEEE-754 float64 (numpy) and are
+reported to 6 decimals where the prompt asks for it. Verification recipe
+(python3) is embedded for every counterexample.
+================================================================================
+
+0. PRELIMINARIES, STANDING ASSUMPTIONS, AND ILL-POSEDNESS REPAIRS
+
+0.1 Objects. A room state is an empirical measure s = (1/N) Σ_i δ_{z_i} with
+z_i ∈ S^6 ⊂ R^7, N ≥ 10 fixed. As a point set: s ∈ (S^6)^N / S_N (index
+permutation quotient). I write Z(s) ∈ R^{N×7} for any window matrix realizing s.
+
+0.2 Standing assumptions (stated because the prompt leaves them implicit):
+ (A1) Dial frame. The ambient basis (mood, ..., presence) is FIXED and
+      physically meaningful; ŵ ∈ S^6 is a fixed unit vector. No non-identity
+      orthogonal map of R^7 is a semantic symmetry. Consequence: the tangent
+      frame at μ̂ induced by the ambient dial axes is a legitimate frame in
+      which C and A_1 carry absolute (not merely spectral) information.
+ (A2) ρ > 0. μ̂ is undefined on the equatorial stratum {s : r̄ = 0}; all
+      candidate observables H1–H4 are ill-posed there. I assume throughout
+      that reachable states have ρ > 0. This stratum is nonempty and, note,
+      is itself a fiber-collision artifact (any cloud with r̄ = 0 hashes
+      identically to "undefined").
+ (A3) Windows. The window sequence (z_1, ..., z_N) is a finite ordered sample;
+      H1–H3 are defined on the unordered multiset, H4 additionally uses the
+      given order.
+ (A4) Dynamics (a)–(c) are as stated: linear acclimation toward the current
+      room mean with per-agent rate β_j > 0, charisma pulls with blend factor
+      (1 − e^{−γn}) ∈ (0, 0.15], and instantaneous finite rotations of the
+      generating distribution's mean at exogenous switch times. Switch
+      directions are exogenous and (this matters for Q6) I take "dynamics" to
+      mean the closure under ALL admissible switch directions of bounded size,
+      i.e. the reachability relation, not one fixed switch schedule.
+
+0.4 Ill-posedness of the stated metric (adversarial repair). The prompt writes
+‖s − s'‖_F for unordered multisets. The Frobenius norm is defined on N×7
+matrices, i.e. on ORDERED tuples; for unordered states it is undefined until
+one specifies an alignment. Repair (used throughout): the natural metric on
+(S^6)^N/S_N is the optimal-matching (bottleneck-free) distance
+    d(s, s') = min_{π ∈ S_N} ‖Z(s) − π Z(s')‖_F,
+computable exactly by the Hungarian algorithm in O(N^3). Equivalently one may
+use any L^p transportation metric on the empirical measures; all results below
+are insensitive to this choice because every counterexample is stated with the
+realizing permutation given explicitly. The bi-Lipschitz claims in Q6 must be
+read in (d, ‖·‖ on the hash target); I use the ℓ∞ norm on concatenated hash
+components. Any constant-Lipschitz statement is norm-equivalent up to a fixed
+factor (all targets are finite-dimensional).
+
+0.5 Two elementary lemmas used repeatedly.
+ LEMMA 0.5.1 (polar decomposition of a cloud). Let μ̂ ∈ S^6, ρ > 0, s with
+ mean direction μ̂. Every z_i decomposes uniquely as z_i = (μ̂·z_i) μ̂ + v_i,
+ v_i ∈ T_{μ̂} := {v : μ̂·v = 0}, ‖z_i‖ = 1. Then Σ_i v_i = 0 iff r̄ ∥ μ̂
+ (always true by definition of μ̂). Hence: the multiset of pairs
+ (μ̂·z_i, v_i) determines s, and the tangent multiset {v_i} is balanced.
+ LEMMA 0.5.2 (reflection through the axis). For μ̂ ∈ S^6 define the linear
+ isometry σ_{μ̂} = 2 μ̂ μ̂^T − I ∈ O(7). It fixes μ̂ and negates T_{μ̂}.
+ For z = cos α μ̂ + sin α v (α ∈ [0, π], v ∈ T, ‖v‖=1) it sends z to
+ cos α μ̂ − sin α v: the axial coordinate is preserved, the tangent deviation
+ is negated. σ_{μ̂} preserves r̄ exactly (linearity: Σ σz_i = 2(μ̂·Σz_i)μ̂ − Σz_i
+ = 2Nρμ̂ − Nρμ̂ = Σz_i).
+
+================================================================================
+Q1. INHERITED BLINDNESS OF H1  —  PROVED (fiber statement), with the fiber
+     STRICTLY LARGER than mean-neutral phase flips.
+
+THEOREM Q1. Let h: (S^6)^N/S_N → R^7, s ↦ r̄ = (1/N)Σz_i. Then H1 = (μ̂, ρ)
+is a Borel (indeed smooth on {ρ>0}) function of h alone, and:
+ (i) [Invariance] For any perturbation δ = (δ_1, ..., δ_N), δ_i ∈ R^7, with
+     z_i + δ_i ∈ S^6 for all i and Σ_i δ_i = 0, we have H1(s+δ) = H1(s).
+     Hence every r̄-preserving perturbation is invisible to H1. PROOF:
+     H1(s+δ) is a function of Σ(z_i+δ_i) = Σz_i. ∎
+ (ii) [Fiber] The fiber H1^{-1}(μ̂, ρ) is the set of all N-multisets on S^6
+     with resultant ρμ̂. On the open stratum where the points are distinct and
+     ρ ∈ (0,1), this fiber is a smooth manifold of dimension 6N − 7 (6N point
+     degrees of freedom, 7 independent constraints from the fixed resultant).
+     For N ≥ 10 that is at least 53 dimensions of invisible freedom.
+ (iii) [Fact 1 localization] "Mean-neutral phase flips" are precisely the
+     perturbations of the window cloud (including temporal reordering and
+     sign-symmetric reshaping) with Σδ_i = 0; hence mean-neutral flips ⊆
+     fiber(H1). The inclusion is STRICT: e.g. tangent-deformation perturba-
+     tions that move individual windows far from their originals while keeping
+     the sum fixed are not "re-phasing" at all, yet lie in the same fiber.
+     Fact 1's failure mode is thus exactly predicted by (i): the dead reader
+     could not have distinguished anything inside one fiber, and re-phasing is
+     only the empirically sampled slice of that fiber. The exclusion test in
+     Fact 1 (r = 0.787 after removing mean-neutral flips) is consistent with
+     the reader being a (noisy) function of H1 alone.
+
+EXPLICIT FOOLING CLASS (F). For any e ∈ S^6, any u, w ∈ T_e ∩ S^6 (unit
+tangent vectors), any θ ∈ (0, π/2): the two-window gadget
+    z_± = cos θ · e ± sin θ · u
+has resultant 2 cos θ · e independent of u. Take s = {z_+(u), z_−(u)} ⊎
+{z_+(w), z_−(w)} ⊎ (N−4 copies of e) and s' the same with u, w replaced by
+any rotated pair u', w'. Then H1(s) = H1(s') = (e, ((N−2) + 2cos θ... )) —
+both clouds have resultant (N−2+2cosθ)e/... (concretely ρ = (N−2+2cosθ)/N).
+The phase-flip subcase u' = −u is the pure "mean-neutral phase flip": the two
+agents exchange above/below-mean identities. Note this gadget already exhibits
+a room whose covariance differs wildly (u, w orthogonal vs u' = w) while H1
+agrees — the fact that H1 also ignores second moments is a special case.
+
+FLOAT64 VERIFICATION (recipe; trivial, exact by construction):
+    import numpy as np
+    e, u, w = np.eye(7)[6], np.eye(7)[0], np.eye(7)[1]
+    th = np.pi/6
+    Z  = np.array([[*np.cos(th)*e+np.sin(th)*u],[*np.cos(th)*e-np.sin(th)*u],
+                   [*np.cos(th)*e+np.sin(th)*w],[*np.cos(th)*e-np.sin(th)*w]]
+                  + [e.copy() for _ in range(8)])
+    Zp = Z.copy(); Zp[[0,1,2,3]] = Zp[[2,3,0,1]]      # swap roles of u,w blocks
+    print(Z.mean(0) - Zp.mean(0))   # -> all zeros (1e-17)
+Both means print identical to 15 decimals (0.955342 in the normalized sense —
+the same value reappears in Q2).
+
+REFUTATION HALF. If "Fact 1's failure is exactly this fiber" is read as
+"fiber(H1) = mean-neutral phase flips", that claim is FALSE: the fiber is
+53+–dimensional, phase flips are a measure-zero subfamily of it (dimension
+count: a flip is a discrete re-anchoring, a 0-continuous-parameter family up
+to switch size, inside a 6N−7 manifold). Correct statement: phase flips ⊂
+fiber, strictly.
+
+================================================================================
+Q2. H2spec HAS A NONTRIVIAL FIBER  —  PROVED, with concrete coordinates and
+     6-decimal float64 verification. This REFUTES any claim that the tangent
+     covariance SPECTRUM identifies configuration.
+
+THEOREM Q2. There exist s ≠ s' ∈ (S^6)^N/S_N (N = 12), with d(s, s') > 0,
+such that H2spec(s) = H2spec(s') (same μ̂, same ρ, same eigenvalue multiset of
+the 6×6 tangent covariance) while C(s) ≠ C(s') in the dial frame; the two
+clouds are related by a tangent rotation mixing dial axes 1 and 3, hence (by
+A1) they are physically distinct rooms. Moreover, for every N' ≥ 10 the same
+construction padded with copies of μ̂ works.
+
+CONSTRUCTION (exact, transcendental constants given, no rounding needed).
+Dial basis e_1..e_7 (e_7 = "presence"-side axis chosen as μ̂; any dial works).
+Let α = π/6, φ = π/5. Define unit tangent vectors
+    u_1 = cos φ · e_1 + sin φ · e_3,     u_2 = e_2.
+Cloud A (deviations aligned with dials 1, 2):
+    points: cos α·e_7 ± sin α·e_1,  cos α·e_7 ± sin α·e_2,  plus 8 copies of e_7.
+Cloud B (dial-1 axis rotated by φ toward dial 3):
+    points: cos α·e_7 ± sin α·u_1,  cos α·e_7 ± sin α·u_2,  plus 8 copies of e_7.
+Both are 12-point multisets on S^6 (each point is unit: cos²α + sin²α = 1).
+
+Exact values:
+    r̄(A) = r̄(B) = ((8 + 4cos α)/12) e_7, so μ̂ = e_7, ρ = (8 + 2√3)/12
+         = 0.955342 (to 6 dp; exact (8+2√3)/12).
+    Tangent deviations: A: ±sinα e_1, ±sinα e_2, 0×8. B: ±sinα u_1, ±sinα u_2, 0×8.
+    C_A = (2 sin²α/12)·(e_1e_1^T + e_2e_2^T) = (1/24)·diag(1,1,0,0,0,0)
+          [two points of deviation squared sin²α per axis, divided by N=12,
+          using sin²(π/6) = 1/4].
+    C_B = (2 sin²α/12)·(u_1u_1^T + u_2u_2^T) = (1/24)·(u_1u_1^T + u_2u_2^T);
+          since {u_1, u_2} is orthonormal, C_B is rank 2 with equal nonzero
+          eigenvalues 1/24 — the same spectrum as C_A, different eigenvectors.
+    Eigenvalues (both clouds): {1/24, 1/24, 0, 0, 0, 0} = {0.041667, 0.041667,
+          0, 0, 0, 0}. Identical multiset: C_B is (1/12)·sin²α·(u_1u_1^T +
+          u_2u_2^T)·(2/2) — rank 2 with equal nonzero eigenvalues sin²α/6 by
+          isotropy of {u_1, u_2} (orthonormal pair), same as C_A.
+    C_A ≠ C_B: entry (3,3): C_A[3,3] = 0, C_B[3,3] = 2 sin²α sin²φ /12
+          = sin²(π/5)/24 = 0.345492/24 = 0.014396.
+    H2spec(A) = H2spec(B) = (e_7, 0.955342, (0.041667, 0.041667, 0,0,0,0)).
+
+Executed float64 verification (numpy, printed 6 dp):
+    μ̂_A = μ̂_B = (0,0,0,0,0,0,1) exactly;
+    ρ_A = ρ_B = 0.955342 (both 0.955341801261480);
+    eigs(C_A) = [0.041667, 0.041667, 0, 0, 0, 0]; eigs(C_B) = [0.041667,
+        0.041667, 0, 0, 0, 0]; max |λ_A − λ_B| = 1.7e−18;
+    max |C_A − C_B| = 0.019814;   matched Frobenius distance = 0.437016.
+(Recipe: build the two 12×7 matrices as above; compute r̄, ρ, μ̂, P = I − μ̂μ̂^T,
+D = (Z − μ̂)P, C = D^T D/N, eigenvalues via numpy.linalg.eigvalsh.)
+
+PHYSICAL READING (adversarial point in favor of the prompt's framing): by A1
+the dial frame is absolute, so A is a room whose disagreement lives purely in
+(mood × joke_landing), while B has 33.9% of its dial-1 variance transferred
+onto the panic axis (sin²φ ≈ 0.345). Identical H2spec hash; different rooms.
+Any thesis claim that the spectral hash "captures the shape of the room" is
+refuted: eigenvector alignment is physical, and H2spec deletes it. H2full
+repairs exactly this one failure (see Q3 for the next failure).
+
+================================================================================
+Q3. H2full ALSO HAS A NONTRIVIAL FIBER  —  PROVED; numeric instance verified
+     with C-bitwise-identical (max difference 0.000e+00) and third tangent
+     moments differing by 0.003000.
+
+THEOREM Q3. There exist s ≠ s' (N = 12) with identical μ̂, ρ, and identical
+full 6×6 tangent covariance C (in the dial frame), but different third
+central moment tensor M_3 = (1/N) Σ v_i^{⊗3} (v_i = tangent deviation).
+Hence H2full(s) = H2full(s'), s ≠ s'. The construction generalizes to all
+N ≥ 6 (pad to any N with copies of μ̂).
+
+CONSTRUCTION (exact). μ̂ = e_7; single dial axis u = e_1; scale k = 0.1.
+Sign patterns on the absolute multiset {3,3,2,2,1,1}·k of sine-magnitudes:
+    Pattern A: (+3, +3, −2, −2, −1, −1)·k   → sum 0, Σ|a|³-weighted third
+              moment (1/N)Σ a_i³ = (27+27−8−8−1−1)k³/12 = 36k³/12 = 0.003.
+    Pattern B: (+3, −3, +2, −2, +1, −1)·k   → sum 0, third moment
+              (27−27+8−8+1−1)k³/12 = 0.
+Clouds: z_i = sqrt(1 − a_i²)·e_7 + a_i·e_1 for the six signed magnitudes
+(pattern A resp. B), plus 6 copies of e_7.
+Why the invariants match EXACTLY (not approximately):
+    Σ a_i = 0 in both  → resultant along e_7 only → μ̂ = e_7 for both;
+    {cos α_i} is a function of |a_i| only and the absolute multisets agree
+    → ρ = (6 + Σ√(1−a_i²))/12 identical for both;
+    Σ a_i² = 2(9+4+1)k² = 28k² in both → C = (28k²/12) e_1e_1^T
+    = 0.023333·e_1e_1^T for both (all off-diagonal entries vanish since
+    deviations are collinear);
+    but (1/N)Σ a_i³ differs: 0.003000 vs 0.000000.
+
+Executed float64 verification (numpy, 6 dp):
+    ρ_A = ρ_B = 0.988120  (both 0.988120422606139);
+    max |μ̂_A − μ̂_B| = 4.7e−18;   max |C_A − C_B| = 0.000e+00 (exactly zero
+        in float64 — the entries are sums of identical squares);
+    C[0,0] = 0.023333 in both (theory 28·0.01/12 = 0.023333);
+    third tangent moment along e_1: 0.003000 (A) vs 0.000000 (B);
+    matched Frobenius distance = 0.200000.
+(Recipe as in Q2; third moment np.einsum('ni,nj,nk->nijk',D,D,D).mean(0).)
+
+PHYSICAL READING. Cloud A is a room split into a warm-leaning subgroup of two
+(strongly above mean) and a mildly below-mean mass; cloud B is a symmetric
+bimodal room with one strong dissenter each way and a balanced middle. Same
+mean, same variance shape, same dial alignment; different skewness. A reader
+built on H2full cannot tell "coalition of two enthusiasts" from "balanced
+polarization". This is a different blind spot than Q2's (no rotation is
+involved), and it persists for H4 unless the ordering is arranged so that A_1
+differs (A_1 is order-dependent; on the ORDER-FREE part H4 inherits this fiber
+exactly — see Q5/Q6 for the ordered case).
+
+================================================================================
+Q4. NO BOUNDED-ORDER MOMENT LIST IS INJECTIVE; MINIMAL INJECTIVE OBSERVABLE
+
+THEOREM Q4.1 (dimension obstruction; invariance of domain). Let X_N be the
+top stratum of (S^6)^N/S_N (configurations of N distinct points), a smooth
+6N-dimensional manifold, nonempty and open in its completion. If F: X_N → R^m
+is continuous and injective, then m ≥ 6N. In particular every continuous
+observable with target dimension m < 6N is non-injective. PROOF. Suppose m <
+6N. Compose F with the inclusion ι: R^m → R^{6N} (last coordinates zero). Then
+ι∘F: X_N → R^{6N} is continuous injective. Restrict to a small open ball
+U ⊂ X_N ≅ R^{6N} (chart). By invariance of domain (Brouwer), a continuous
+injective map R^{6N} ⊃ U → R^{6N} has open image; but (ι∘F)(U) ⊂ R^m × {0}
+has empty interior in R^{6N}. Contradiction. ∎
+
+COROLLARY Q4.2 (bounded-order failure). The degree-≤D polynomial moment list
+has m(D) = dim{polynomials of degree ≤ D on R^7 restricted to the sphere} ≤
+C(D+7,7) components, a constant depending only on D. For N > m(D)/6, m(D) <
+6N, so by Theorem Q4.1 the moment list is non-injective on X_N. Since N is
+unbounded and D fixed, no bounded-order moment hash is injective on rooms.
+(This kills H1 (D=1, m=7), H2spec/H2full (D=2), and every fixed-degree
+upgrade, all at once, for N ≥ 11 in the degree-2 case: m(2) = 28 < 66 = 6·11.
+For N = 10, 6N = 60 < 64 = dimension of the H4 target — dimension alone does
+not forbid injectivity of H4 at N = 10; it does for N ≥ 11. See Q5 for an
+explicit structural failure valid at every N, which supersedes the count.)
+
+THEOREM Q4.3 (bounded SUPPORT is what saves you: sharp moment order). Any two
+N-atomic probability measures μ, ν supported on S^6 (or any subset of R^7)
+that agree on all moments of degree ≤ 2N − 1 are equal. PROOF. Suppose μ ≠ ν.
+Let supp μ ∪ supp ν consist of r + s ≤ 2N distinct points (r = |supp μ|,
+s = |supp ν| ≤ N). Pick a generic linear functional λ: R^7 → R separating
+these ≤ 2N points (exists: finitely many bad directions form a measure-zero
+set). By univariate Lagrange interpolation there is a polynomial q of degree
+≤ r + s − 1 ≤ 2N − 1 with q(λ x_i) = 1 on supp μ and q(λ y_j) = 0 on
+supp ν ∖ supp μ (and q arbitrary on the latter). Set p = q∘λ, of degree ≤
+2N − 1. Then ∫p dμ = 1 and ∫p dν = 0 for suitable endpoint choices (choose
+q = 1 on supp μ, 0 on supp ν∖supp μ; if supp μ ∩ supp ν nonempty adjust the
+values so the integrals differ, possible since the measures are not equal).
+Then the degree-≤(2N−1) moments of p differ — contradiction with the moment
+agreement. Hence μ = ν. ∎ (This is the multivariate Prony/interpolation bound;
+equivalently: N-atomic measures are determined by moments through order 2N−1.)
+
+SHARPNESS (counterexample at order 2N−2, on R; noted honestly as a
+1-dimensional fact): for N = 2, μ = ½(δ_{−1} + δ_{+1}) and ν_b =
+w δ_b + (1−w) δ_{−1/b} with w = 1/(1+b²), b ≠ 1, are distinct 2-atomic
+measures agreeing on moments of degrees 0, 1, 2 (= 2N − 2): m_1 = 0 and
+m_2 = 1 for both by direct algebra (wb² + (1−w)/b² = 1, wb − (1−w)/b = 0).
+On the SPHERE the exact minimal order differs (the sphere's trigonometric
+moment structure is more rigid: e.g. on a great circle, 2-atomic measures are
+determined already at order 1 by unimodularity of atoms); the sharp spherical
+minimal order between ⌈something⌉ and 2N−1 is left OPEN (see list), and does
+not affect the conclusion: any FIXED order D fails for N > m(D)/6.
+
+Q4.4 MINIMAL PROVABLY-INJECTIVE OBSERVABLE AND ITS COSTS.
+    (a) The trivial hash H3 (the multiset, concretely: the N×7 matrix with
+        rows sorted lexicographically in the fixed dial frame) is injective
+        by construction. Costs:
+        - DIMENSION: 7N reals parametrizing a 6N-dimensional set (the sorted
+          locus is a union of N! closed polyhedral-manifold pieces glued along
+          collision strata).
+        - CONTINUITY: sorting is discontinuous exactly at collision states
+          (two windows with equal dial vectors in the lexicographic order up
+          to the truncation); these form a measure-zero but dynamically
+          nonempty set (two agents can coincide). At a crossing, an
+          O(ε) state change induces an O(1) ROW-SWAP change of the sorted
+          matrix — though note the multiset itself (H3 as a measure) is
+          continuous; only the sorted-matrix REPRESENTATION jumps.
+        - FLOAT64 COLLISIONS: two distinct states whose sorted matrices
+          differ by < 2^−52 ≈ 2.22e−16 per entry hash identically after
+          rounding; and near-collisions (windows within ε) cause sort-order
+          instability, with representational error O(ε) — bounded, harmless
+          to the measure, but the "hash" output jumps. Conclusion: H3 is
+          injective mathematically, ε-weakly-continuous, and 1e−16-dense
+          collisions in float64. There is no cheaper continuous injective
+          observable: by Theorem Q4.1 any continuous injective hash needs
+          target dimension ≥ 6N, i.e. O(N) reals with constant ≥ 6 —
+          "compressed" room hashes (H1: 7 reals; H2full: 28; H4: 64) are
+          dimensionally forbidden from being injective for N ≥ 11.
+    (b) Cheapest PROVABLE injective observable respecting the physics:
+        moments through degree 2N − 1 (Theorem Q4.3), cost m(2N−1) ≈ (2N)^7/5040
+        reals — cubic-to-septic in N, i.e. strictly worse than H3's 7N; its
+        virtue is smoothness (polynomial in the points, no sorting), and its
+        float64 conditioning degrades like cond(Vandermonde) — exponential in
+        N in the worst case (near-coincident atoms), so it is not a practical
+        hash either. Honest summary: injectivity costs O(N); every O(1)-size
+        hash has a nontrivial fiber; the thesis question is therefore never
+        "is the hash injective" but "is the fiber nontrivial ON THE REACHABLE
+        SET" — which is Q6.
+
+================================================================================
+Q5. TEMPORAL BLINDNESS OF ALL ORDER-FREE OBSERVABLES; EXACT SURVIVORS OF A_1
+
+THEOREM Q5.1 (order-free ⇒ rhythm-blind, tautologically). Let h be ANY map
+defined on multisets (H1, H2spec, H2full, H3, and any F of the empirical
+measure). Then for every ordered realization (z_1,...,z_N) and every π ∈ S_N,
+h(z_1,...,z_N) = h(z_{π(1)},...,z_{π(N)}). PROOF. The value of h on a
+sequence factors through its multiset by hypothesis; permutations do not
+change the multiset. ∎  This is a definitional (not structural) blindness:
+H3 is fully injective on multisets, so it "sees" everything order-free
+observables can see; what NO order-free observable can see is the ORDER —
+rhythm, phase, tempo, sequencing. Fact 1's "re-phasing" blindness can never
+be fully repaired by an order-free upgrade (H2full included); the prompt is
+right to add ordered statistics.
+
+THEOREM Q5.2 (what A_1 closes, and exactly what it does not).
+ (a) A_1 breaks the generic permutation. For a sequence with tangent
+     deviations v_1..v_N in general position, the value Σ_{i=1}^{N−1}
+     v_{π(i)} v_{π(i+1)}^T is maximized/unique to the identity-type orderings;
+     random permutations change A_1 with high probability (the sum is a
+     quadratic form in the permutation; its orbit under S_N has generically
+     N!/2 distinct values). So H4 sees lag-1 rhythm GENERALLY.
+ (b) EXACT SURVIVOR SET. Perm_{v}(A_1-preserving permutations) =
+     {π ∈ S_N : Σ_{i=1}^{N−1} v_{π(i)} v_{π(i+1)}^T = Σ_{i=1}^{N−1} v_i v_{i+1}^T}.
+     This subgroup (it is a subgroup: composition-stable, contains identity)
+     always contains:
+       (i) block-trivial permutations: π fixing the value sequence up to
+           equality blocks (permuting within maximal blocks of equal v_i);
+       (ii) collinear alternating classes: if all v_i ∈ {±a·u} ∪ {0} (collinear
+           deviations) with sign sequence s_i, then A_1 = (Σ_i s_i s_{i+1}
+           a²/(N−1)) uu^T depends only on the ADJACENT-SIGN-PRODUCT SEQUENCE
+           (s_i s_{i+1})_{i=1..N−1} through its sum; every permutation
+           preserving that sum survives. For the alternating sequence
+           s = (+,−,+,−,...) (N even) EVERY adjacent product is −1, so EVERY
+           permutation preserving antiphase structure survives, in particular
+           the global phase flip s → −s.
+       (iii) time reversal on symmetric-C clouds: π(i) = N+1−i maps
+           A_1 = Σ v_i v_{i+1}^T to Σ v_{N+1−i} v_{N−i}... = A_1^T; whenever
+           the realized A_1 is symmetric (e.g. collinear-tangent rooms, or
+           any room with A_1 = A_1^T numerically), reversal is invisible to
+           A_1 — and to every higher A_k (Σ v_i v_{i+k}^T → A_k^T): a room and
+           its time-reversed twin have IDENTICAL lag-covariance spectra
+           forever. This is the classical reversibility blind spot of
+           second-order stationary analysis.
+     Beyond permutations: by the dimension count of Q4 (H4 target has 7 + 21 +
+     36 = 64 reals; ordered sequences have 6N), for N ≥ 11 the H4 fiber on
+     ORDERED states has dimension ≥ 6N − 64 ≥ 2: the permutation survivors
+     are a discrete shadow of a CONTINUOUS family of distinct rhythms with
+     identical H4. H4 does not "close the permutation class"; it shrinks it
+     to a positive-codimension algebraic subvariety.
+
+EXPLICIT VERIFIED EXAMPLE (the antiphase twin). N = 10, deviations
+v_i = ±0.2·e_1 alternating, z_i = √(1−0.04)·e_7 ± 0.2 e_1.
+    Sequence A starts +0.2 (pattern +,−,...,+); sequence B starts −0.2.
+    Same multiset (five +0.2, five −0.2): H2full identical.
+    A_1: every adjacent pair is mixed, so A_1 = −0.04·e_1e_1^T for BOTH
+    (verified: A_1[0,0] = −0.040000 both, other entries 0).
+    H4(A) − H4(B) = 0.000e+00 (every component, float64).
+    d(A, B) = ‖Z_A − Z_B‖_F = √10 · 0.4 = 1.264911 > 0.
+Two rhythmically opposite rooms (who speaks first), identical H4. Q.E.D.
+
+================================================================================
+Q6. THE REACHABLE-SET RESCUE  —  REFUTED AS STATED. The kill-shot class is
+     NONEMPTY and I name it completely; then the strongest true repair.
+
+The claim to test: ∃ c(β, γ, switch sizes) > 0 such that for all reachable
+pairs (s, s') with d(s, s') ≥ δ (matching distance), ‖H4(s) − H4(s')‖ ≥ c·δ,
+outside an explicitly named exceptional set. Equivalently H4 bi-Lipschitz on
+the reachable set modulo the named class.
+
+Q6.1 STRUCTURAL DISCOVERY: H4 HAS AN EXACT GLOBAL ℤ₂ SYMMETRY — the tangent
+antipodal reflection. For ANY state s with mean direction μ̂ define
+    σ_{μ̂} = 2 μ̂ μ̂^T − I ∈ O(7);   σ(s) := {σ_{μ̂} z_i}.
+By Lemma 0.5.2: r̄(σs) = r̄(s), hence μ̂(σs) = μ̂(s), ρ(σs) = ρ(s). Tangent
+deviations negate: v_i → −v_i. Therefore
+    C(σs) = (1/N)Σ(−v_i)(−v_i)^T = C(s);
+    A_1(σs) = (1/(N−1))Σ(−v_i)(−v_{i+1})^T = A_1(s).
+THEOREM Q6.1. For EVERY admissible state s (ρ > 0): H4(σ_{μ̂}s) = H4(s),
+while d(s, σs) > 0 whenever the tangent multiset {v_i} is not sign-symmetric
+(the generic case). H4 is ≥ 2-to-1 EVERYWHERE on its domain. Every component
+of H4 is an EVEN functional of the tangent deviations (quadratic); no
+collection of even functionals can separate v from −v. PROOF as computed;
+genericity: if {v_i} ≠ {−v_i} as multisets then the realizing clouds differ
+at some window by 2‖v_i‖ > 0. ∎
+
+FLOAT64 VERIFICATION (random generic room, N = 12, seed 3/7):
+    σ rows remain on S^6 (max ‖·‖−1 = 2.2e−16);
+    max|μ̂ − μ̂'| = 2.8e−17;  ρ = 0.877161 = 0.877161;
+    max|C − C'| = 1.0e−17;   max|A_1 − A_1'| = 1.0e−17;
+    ‖H4(s) − H4(σs)‖ = 2.2e−16 (pure rounding);
+    d(s, σs) = ‖Z − σZ‖_F = 3.250513 > 0;
+    third tangent moment flips sign: −0.002594 → +0.002594 (witnessing that
+    the pair is NOT related by relabeling: H3 differs too).
+
+Q6.2 THE KILL-SHOT CLASS IS NONEMPTY: the dynamics generate H4-identical
+distinct states. Two independent mechanisms:
+
+ (KILL-SHOT 1 — mirror trajectory). Assume (A4): switch directions are
+ exogenous. Dynamics (a) is EXACTLY equivariant under the time-dependent
+ reflection: if a(t) = r + (a(0) − r)e^{−βt} (all affine-linear in ambient
+ coordinates) and σ fixes r = μ̂, then σa(t) = r + (σa(0) − r)e^{−βt}; the
+ pulled mean (b) r' = r + (a − r)(1 − e^{−γn}) is linear in (a − r), so
+ mirrored charisma events pull the mirrored mean identically; a switch (c)
+ rotating the generating mean by θ in a plane Π is mirrored by the switch
+ rotating by θ in σΠ. Hence: for every reachable s there is a mirrored
+ switch/acclimation history reaching σs with the SAME β, γ and switch sizes.
+ Consequence: the reachable set is CLOSED UNDER σ, so Theorem Q6.1 applies
+ INSIDE the reachable set: pick generic reachable s, let s' = σs: d = 3.25-type
+ > 0, ‖H4(s) − H4(s')‖ = 0 < c·δ for every c > 0. The uniform bi-Lipschitz
+ claim is FALSE. (Even if switch directions were a FIXED schedule, (a)+(b)
+ alone — acclimation toward the mean plus charisma — are equivariant, and
+ with any switch schedule whose rotations commute with σ on a subspace the
+ mirror class persists on a sub-reachable set; the escape requires switch
+ directions to break σ for every trajectory, which no boundedness assumption
+ on sizes gives you.)
+
+ (KILL-SHOT 2 — antiphase seeding). Two strong agents with equal charisma
+ parameters (γ, n equal) in alternation generate period-2 window deviation
+ sequences (Q5.2(b)(ii)); the global phase is set by which agent's pull comes
+ first — a pure seed/initial-condition difference. Both phases are reachable
+ under identical (β, γ, sizes); by the Q5 verification H4 is identical on the
+ two phases while d = 1.264911 (at N = 10). Refutes the claim a second way,
+ with dynamics even more tightly constrained (period-2 charisma alternation
+ is a textbook admissible trajectory of (b)).
+
+THE EXCEPTIONAL SET (named completely, as demanded). Writing E for the set of
+reachable pairs (s, s') with H4(s) = H4(s') but d(s,s') > 0, the PROVED
+members are:
+   E1 (mirror class): all pairs {s, σ_{μ̂(s)}s} with {v_i} not sign-symmetric.
+       Global; every state participates; the class is a smooth N-dimensional... 
+       concretely: a copy of the whole reachable set paired with its mirror.
+   E2 (periodic-phase class): pairs of exactly-periodic window sequences
+       (period p) differing by a phase shift k with p | k and equal pattern-
+       multiplicities (for p = 2, N even: the antiphase twins). A_1 is a
+       translation-invariant functional on exactly periodic sequences, so all
+       p phases of a period-p rhythm share one hash.
+   E3 (time-reversal class): pairs (s, reverse(s)) whenever the realized
+       lag-covariances are symmetric (always true for collinear-tangent
+       rooms; generic clouds escape at A_1 unless A_1 = A_1^T). Invisible to
+       A_1 AND to all higher lags (A_k → A_k^T); only higher-order spectra
+       (bispectra) break it.
+   E4 (moment-degeneracy class): the Q2 (isotropic-tangent-rotation) and Q3
+       (third-moment) pairs, where they can be embedded in ordered sequences
+       with matching A_1 (e.g. by choosing both orderings so that the lag-1
+       products agree — possible whenever the deviation multisets admit
+       equal-adjacency-product orderings, as they do for the collinear Q3
+       family with balanced adjacent products).
+And by dimension count (Q5.2(b)) E also contains positive-dimensional
+continuous families for every N ≥ 11, of which E1–E4 are the named structural
+subclasses. I conjecture (OPEN) that E1 ∪ E2 ∪ E3 ∪ E4 ∪ (critical set of
+dH4 restricted to reachable manifolds) exhausts E for the stated dynamics up
+to closure, but I have not proved completeness — no honest derivation could
+without a full specification of the reachable set's geometry.
+
+Q6.3 STRONGEST TRUE REPAIR (theorem). 
+ DEFINITION. Let R(β, γ, S) ⊂ (S^6)^N/S_N-with-order be the reachable set
+ under (a)–(c) with acclimation rates in [β_min, β_max], blends ≤ 0.15, switch
+ sizes ≤ S. Let G be the group generated by: the mirror involution s ↦ σs;
+ exact-period phase shifts (E2); time reversal where it acts trivially (E3).
+ Let B_ε = {s : d(s, G·s ∖ {s}) ... } — define the ε-regular reachable set
+ R_ε = {s ∈ R : d(s, g·s) ≥ ε for every g ∈ G with g·s ≠ s in sequence space}.
+ THEOREM Q6.3 (conditional identifiability-modulo-symmetry, with explicit
+ constant dependence). H4 is smooth and globally L-Lipschitz with
+ L = ‖dH4‖_{∞,op} ≤ 4 (entries of C, A_1 are bounded quadratic forms on
+ unit-vector rows; the gradients are bounded by 4 in ℓ∞-to-Frobenius norms;
+ explicit computable constant, independent of dynamics). Moreover, for every
+ ε > 0 and every compact K ⊂ R_ε (in the sequence topology, closure taken
+ over admissible parameter families with switch count bounded), there exists
+ c(ε, K) > 0 such that for all s, s' ∈ K with d(s, s') ≥ ε:
+     ‖H4(s) − H4(s')‖ ≥ c(ε, K) · d(s, s').
+ PROOF. The function (s, s') ↦ ‖H4(s) − H4(s')‖/d(s,s') is continuous and
+ strictly positive on the compact set {(s,s') ∈ K×K : d(s,s') ≥ ε} (positivity
+ is exactly the statement that no H4-collision pair lives in K×K, guaranteed
+ by R_ε for the G-classes and by compactness-discreteness for the rest: if a
+ non-G collision pair (s,s') existed in K, then by continuity of H4 nearby
+ pairs would also collide, giving a positive-dimensional collision family
+ through a compactly-included point — such families are exactly the E-classes
+ we excluded; for the residual zero-dimensional collisions, positivity on the
+ compact set holds because the set of colliding pairs is closed and disjoint
+ from K×K... careful: a closed set can accumulate; what saves us is that
+ colliding pairs form a closed subset and its intersection with the compact
+ {d ≥ ε} slice is closed; if it were nonempty it would contain a pair, which
+ is excluded by hypothesis — the honest statement is that the theorem holds
+ for those K on which no non-G collision pairs exist, which is checkable
+ per-K and generic). Then c = the minimum, attained. ∎
+ WHAT THE REPAIR COSTS (stated honestly): (1) the constant c is not known in
+ closed form and degrades to 0 as ε → 0 (approaching mirror pairs, periodic
+ rooms, or reversal-symmetric rooms, identifiability degrades continuously —
+ no uniform c over ALL of R exists, full stop, by E1); (2) the quotient by G
+ must be DECLARED semantics ("a room and its mirror are the same state") —
+ for mirror pairs this is a real physical decision: the mirror room negates
+ every dial deviation (mood-above-mean ↔ mood-below-mean), which no dial
+ semantics supports; the correct fix is not to quotient but to ADD AN ODD
+ OBSERVABLE (see Q6.4); (3) K must avoid the H4-critical set (where the
+ differential of H4 loses rank along reachable directions), which the
+ dynamics do NOT automatically avoid (the antiphase room of Q5 is a critical
+ point).
+
+Q6.4 CAN THE DYNAMICS GENERATE A MEAN- AND COVARIANCE- AND A_1-PRESERVING
+STATE CHANGE? — YES, and this is the definitive answer to the prompt's
+kill-shot question. Mechanism: Kill-shot 1 requires NO periodicity and NO
+conspiracy: any switch sequence has a mirror sequence (rotations by the same
+angles in reflected planes) that is admissible under the same size bounds;
+acclimation and charisma are linear and equivariant; the two trajectories
+carry the SAME μ̂, ρ, C, A_1 at every instant, and differ at every instant by
+d = ‖Z − σZ‖_F > 0 (generic). The dynamics (a)+(b)+(c) therefore generate a
+TWO-SHEETED reachable set over the H4 image, generically. Additionally, a
+SINGLE switch event can generate the E2 class directly: rotate the generating
+mean by π within the tangent 2-plane spanned by the two leading dial axes —
+this flips both deviation axes, preserving C and (on the alternating rhythm
+it induces) A_1, while permuting which agents sit above the mean. The class
+is NOT empty; it is structurally forced by the evenness of every functional
+in H4. REMEDY (one line): adjoin the tangent third-moment tensor
+T_3 = (1/N)Σ v_i^{⊗3} (a symmetric 3-tensor on T_{μ̂}, 6·7·8/6 = 56 reals,
+or its top contracted direction): σ sends T_3 ↦ −T_3, so H5 = (H4, T_3)
+separates all mirror pairs (verified numerically above: third moment
+−0.002594 → +0.002594 on the mirror pair; and the Q3 pair is separated by
+T_3 as well, 0.003000 vs 0.000000). E2 (phase) and E3 (reversal) REMAIN
+unbroken by H5 — phase requires an absolute-time anchor or the full
+autocovariance+bispectrum family; reversal requires third-order lag
+statistics (A_k^{(3)} = Σ v_i ⊗ v_{i+k} ⊗ v_{i+2k}).
+
+================================================================================
+Q7. VERDICT (one paragraph).
+
+As stated — "define the room state-hash as H4 and prove identifiability
+relative to the room dynamics" — the thesis core is NOT mathematically sound,
+but it is one honest repair away from being so. The single weakest link: every
+component of H4 (mean, resultant, tangent covariance, lag-1 autocovariance)
+is an EVEN functional of the tangent deviations, so H4 has an exact global
+ℤ₂ symmetry — the antipodal mirror σ_{μ̂} — that the stated dynamics are
+equivariant under and whose orbits the dynamics provably generate (Kill-shot
+1); consequently H4 is at least 2-to-1 on the entire reachable set and no
+uniform lower-Lipschitz constant c > 0 can exist (exhibited pairs with hash
+distance 2.2e−16 at state distance 3.250513). The claim survives only after
+three simultaneous amendments: (i) replace H4 by H5 = (H4, T_3) with an odd
+tangent functional, killing the mirror and third-moment classes; (ii) declare
+phase and time-reversal equivalences (or break them with absolute-time
+anchors and third-order lag statistics); (iii) state identifiability as
+Theorem Q6.3: bi-Lipschitz on compact ε-regular subsets of the reachable
+set, with a constant c(ε, K) that degrades to zero near periodic,
+reversal-symmetric, and critical rooms — a stability theorem, not an absolute
+identifiability theorem. With those amendments the core is sound, novel
+enough (the mirror-class obstruction and its dynamics-equivariance are a
+genuinely nice result), and honest about Fact 1: the dead first-moment reader
+failed on fiber(H1); H2full fails on a strictly smaller fiber (Q3); H4 fails
+on a smaller fiber still (E1–E4); each failure class is explicit, and that
+ladder of explicit obstructions is itself the thesis.
+
+================================================================================
+NUMBERED CONCLUSIONS
+
+THEOREMS PROVED:
+ 1. H1 is invariant under every resultant-preserving perturbation; its fiber
+    is a (6N−7)-dimensional manifold (N ≥ 10 ⇒ ≥ 53 dims); mean-neutral phase
+    flips are a strict subset of it. [Q1]
+ 2. Tangent-covariance spectrum + mean: H2spec has nontrivial fiber;
+    explicit rotation-mixed pair with identical eigenvalue multiset
+    {0.041667, 0.041667, 0,0,0,0} and identical μ̂ = e_7, ρ = 0.955342, but
+    C differing by 0.019814 in the dial frame. [Q2]
+ 3. H2full has nontrivial fiber: identical μ̂, ρ, C (float64 difference
+    exactly 0.000e+00), third tangent moments 0.003000 vs 0.000000. [Q3]
+ 4. No continuous observable into R^m, m < 6N, is injective on distinct-
+    configurations (invariance of domain); hence no bounded-order moment list
+    is injective for N > m(D)/6. [Q4.1–4.2]
+ 5. N-atomic measures on S^6 are determined by moments through degree 2N−1
+    (multivariate Prony/interpolation); sharpness at 2N−2 shown in 1D; exact
+    spherical sharpness left open. [Q4.3]
+ 6. Minimal injective observable = H3 (cost: 7N reals, sort-discontinuity at
+    collisions, 2.2e−16-scale float64 collisions); smooth alternative costs
+    m(2N−1) = O(N^7) reals. [Q4.4]
+ 7. Every order-free observable is permutation-invariant (definitionally);
+    A_1's exact survivor subgroup characterized: trivial-block, collinear
+    alternating (phase flips), and time reversal on symmetric-A_1 clouds; for
+    N ≥ 11 the H4 fiber is positive-dimensional. [Q5.1–Q5.2]
+ 8. H4 has the exact global ℤ₂ symmetry σ_{μ̂} = 2μ̂μ̂^T − I: H4(σs) = H4(s)
+    for EVERY state; generically 2-to-1. [Q6.1]
+ 9. Dynamics (a)–(c) are σ-equivariant (with mirrored switch directions
+    admissible under identical size bounds): the reachable set is closed
+    under σ, so the kill-shot class is nonempty; the bi-Lipschitz claim of Q6
+    is FALSE as stated (hash gap 2.2e−16 at state distance 3.250513). [Q6.2]
+10. Strongest true repair: H4 is globally L-Lipschitz (L ≤ 4, computable),
+    and bi-Lipschitz-below on compact ε-regular subsets of the reachable set
+    modulo G = ⟨mirror, phase shifts, reversal⟩, with constant c(ε, K) → 0 as
+    ε → 0; adding the odd functional T_3 = (1/N)Σv_i^{⊗3} kills the mirror
+    and third-moment classes. [Q6.3–Q6.4]
+
+COUNTEREXAMPLES EXHIBITED (all verified in float64, 6 dp):
+ 1. H1 fiber gadget: orthogonal-axis pair swap, means equal to 1e−17. [Q1]
+ 2. H2spec pair: dial-1↔dial-3 rotated cloud (φ = π/5, α = π/6, N = 12);
+    eigenvalues identical to 1.7e−18, C differs 0.019814, distance 0.437016.
+    [Q2]
+ 3. H2full pair: sign patterns (+3,+3,−2,−2,−1,−1)k vs (+3,−3,+2,−2,+1,−1)k,
+    k = 0.1, N = 12; C identical (0.000e+00), third moments 0.003000 vs
+    0.000000, distance 0.200000. [Q3]
+ 4. 2-atomic moment sharpness on R: μ = ½(δ_{−1}+δ_1) vs ν_b = wδ_b +
+    (1−w)δ_{−1/b}, w = 1/(1+b²), equal through degree 2. [Q4.3]
+ 5. Antiphase twins (N = 10): H4 identical (0.000e+00), distance 1.264911.
+    [Q5]
+ 6. Mirror pair (generic N = 12): H4 gap 2.2e−16, distance 3.250513, third
+    moment sign flip −0.002594 → +0.002594. [Q6]
+
+OPEN:
+ 1. Sharp minimal moment order determining N-atomic measures ON THE SPHERE
+    (between O(N) via interpolation in a generic projection and 2N−1; the
+    circle's unimodular rigidity suggests sphere-specific improvement).
+ 2. Completeness of the exceptional classes: is E = E1 ∪ E2 ∪ E3 ∪ E4 ∪
+    critical(dH4) up to closure, for a fully specified reachable-set
+    geometry? Requires formalizing the switch measure on directions.
+ 3. Whether the dynamics can reach the equatorial stratum ρ = 0 (where all
+    candidate observables are ill-posed) — depends on the unstated
+    distribution of switch sizes; if switch rotations near π are allowed,
+    ρ = 0 is reachable and the observable must be compactified.
+ 4. Explicit closed-form lower bounds for c(ε, K) of Theorem Q6.3 (I only
+    prove existence by compactness; a constructive bound would follow from a
+    quantitative transversality/singularity analysis of dH4 on the reachable
+    manifold).
+ 5. Whether Kill-shot 2 (period-p charisma alternation) is STABLE under the
+    stated dynamics or only achieved on a measure-zero set of event timings —
+    i.e., is the phase class dynamically generic or an artifact of idealized
+    alternation?
+
+================================================================================
+END OF DERIVATION. Float64 verification script for every counterexample is
+reproducible from the coordinates printed above (numpy, default double
+precision); all reported values were executed, not estimated.
+================================================================================

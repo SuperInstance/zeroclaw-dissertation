@@ -1,0 +1,20 @@
+[0m
+> build · glm-5.3
+[0m
+timestamp=2026-08-30T16:21:33.046Z level=WARN run=ead7b806 message="duplicate skill name" name=cloudflare-one existing=/home/eileen/.claude/skills/cloudflare-one/SKILL.md duplicate=/home/eileen/.config/opencode/skills/cloudflare-one/SKILL.md
+timestamp=2026-08-30T16:21:33.049Z level=WARN run=ead7b806 message="duplicate skill name" name=workers-best-practices existing=/home/eileen/.claude/skills/workers-best-practices/SKILL.md duplicate=/home/eileen/.config/opencode/skills/workers-best-practices/SKILL.md
+timestamp=2026-08-30T16:21:33.050Z level=WARN run=ead7b806 message="duplicate skill name" name=wrangler existing=/home/eileen/.claude/skills/wrangler/SKILL.md duplicate=/home/eileen/.config/opencode/skills/wrangler/SKILL.md
+timestamp=2026-08-30T16:21:33.050Z level=WARN run=ead7b806 message="duplicate skill name" name=durable-objects existing=/home/eileen/.claude/skills/durable-objects/SKILL.md duplicate=/home/eileen/.config/opencode/skills/durable-objects/SKILL.md
+timestamp=2026-08-30T16:21:33.051Z level=WARN run=ead7b806 message="duplicate skill name" name=web-perf existing=/home/eileen/.claude/skills/web-perf/SKILL.md duplicate=/home/eileen/.config/opencode/skills/web-perf/SKILL.md
+timestamp=2026-08-30T16:21:33.052Z level=WARN run=ead7b806 message="duplicate skill name" name=agents-sdk existing=/home/eileen/.claude/skills/agents-sdk/SKILL.md duplicate=/home/eileen/.config/opencode/skills/agents-sdk/SKILL.md
+timestamp=2026-08-30T16:21:33.053Z level=WARN run=ead7b806 message="duplicate skill name" name=sandbox-sdk existing=/home/eileen/.claude/skills/sandbox-sdk/SKILL.md duplicate=/home/eileen/.config/opencode/skills/sandbox-sdk/SKILL.md
+timestamp=2026-08-30T16:21:33.053Z level=WARN run=ead7b806 message="duplicate skill name" name=sandbox-next existing=/home/eileen/.claude/skills/sandbox-next/SKILL.md duplicate=/home/eileen/.config/opencode/skills/sandbox-next/SKILL.md
+timestamp=2026-08-30T16:21:33.054Z level=WARN run=ead7b806 message="duplicate skill name" name=cloudflare-one-migrations existing=/home/eileen/.claude/skills/cloudflare-one-migrations/SKILL.md duplicate=/home/eileen/.config/opencode/skills/cloudflare-one-migrations/SKILL.md
+timestamp=2026-08-30T16:21:33.054Z level=WARN run=ead7b806 message="duplicate skill name" name=sandbox-stable existing=/home/eileen/.claude/skills/sandbox-stable/SKILL.md duplicate=/home/eileen/.config/opencode/skills/sandbox-stable/SKILL.md
+timestamp=2026-08-30T16:21:33.055Z level=WARN run=ead7b806 message="duplicate skill name" name=sandbox-migrate-to-next existing=/home/eileen/.claude/skills/sandbox-migrate-to-next/SKILL.md duplicate=/home/eileen/.config/opencode/skills/sandbox-migrate-to-next/SKILL.md
+timestamp=2026-08-30T16:21:33.056Z level=WARN run=ead7b806 message="duplicate skill name" name=mmx-cli existing=/home/eileen/.claude/skills/mmx-cli/SKILL.md duplicate=/home/eileen/.agents/skills/mmx-cli/SKILL.md
+timestamp=2026-08-30T16:21:33.056Z level=WARN run=ead7b806 message="duplicate skill name" name=cloudflare existing=/home/eileen/.claude/skills/cloudflare/SKILL.md duplicate=/home/eileen/.config/opencode/skills/cloudflare/SKILL.md
+timestamp=2026-08-30T16:21:33.056Z level=WARN run=ead7b806 message="duplicate skill name" name=mmx-h3-video existing=/home/eileen/.agents/skills/mmx-cli/h3-video/SKILL.md duplicate=/home/eileen/.claude/skills/mmx-cli/h3-video/SKILL.md
+timestamp=2026-08-30T16:21:33.057Z level=WARN run=ead7b806 message="duplicate skill name" name=cloudflare-email-service existing=/home/eileen/.config/opencode/skills/cloudflare-email-service/SKILL.md duplicate=/home/eileen/.claude/skills/cloudflare-email-service/SKILL.md
+timestamp=2026-08-30T16:21:33.057Z level=WARN run=ead7b806 message="duplicate skill name" name=turnstile-spin existing=/home/eileen/.config/opencode/skills/turnstile-spin/SKILL.md duplicate=/home/eileen/.claude/skills/turnstile-spin/SKILL.md
+EXIT=0

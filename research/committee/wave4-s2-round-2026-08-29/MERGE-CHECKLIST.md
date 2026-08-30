@@ -61,6 +61,8 @@
 ## Committee Objections Status
 All objections from wave-4 S2 committee round have been incorporated into the merge checklist. No open objections remain from this round.
 
+> **EXPLICIT AUDIT NOTE (EXPERT nudge 2026-08-30, ACCEPTED):** None of the items above cite the `research/committee/foreman-v3/` identifiability derivations as satisfied. At nudge time that directory contains the prompt (`identifiability-prompt.md`) and EMPTY outputs (`identifiability-claude.txt` 0B, `identifiability-opencode.txt` 0B, `identifiability-kimi.txt` EXIT=1 quota-403). The empty files are NOT adjudicated results and MUST NOT be counted as progress on any gate. **UPDATE same day:** the protocol is now SATISFIED — non-empty derivations from GLM-5.3 (42 KB) and Claude (16 KB, plus a Haiku lane) are committed with full provenance in `research/committee/foreman-v3/PROVENANCE.md`. Headline: Q6-as-stated REFUTED (exact ℤ₂ mirror symmetry invisible to H4); repair = H5 with odd third moment, claim relative-to-dynamics modulo named symmetry group. DeepSeek V4-Pro re-run blocked on direct-API balance (402).
+
 ## Partial Resolutions
 - Item 1: RESOLVED - RIVAL V1 addressed via amplitude-matching specification
 - Item 2: ADDRESSED - RIVAL V2 parity kill conditions documented in RIVAL-RESPONSE.md
