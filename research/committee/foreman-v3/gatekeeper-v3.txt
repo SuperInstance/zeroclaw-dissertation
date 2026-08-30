@@ -1,0 +1,13 @@
+**1. Claims vs. evidence:** §2.3 is disciplined ("None has been run. None is claimed confirmed"; C2 priced as theorem-obligation). Two overreaches: §0's "we prove what any room-state hash *can* and cannot see" — the "cannot" half is derivation-backed, the "can" half is obligation. And §2.1's "both lanes established" launders sketch-grade work: claude's Q3 construction visibly fails its own arithmetic (0.006 ≠ 0.004) and its "float64 verification" is unexecuted code with a comment pretending to be output; haiku's Q3 is an approximation sketch. Neither lane ran any numerics — the thesis books reconciliation (D1, D4) but never says that plainly.
+
+**2. Falsifiability:** C1/C2/C3 have concrete kill-shots with thresholds (1e-12, ratio < 1e-6, distinct-seed collisions). Genuine. One blur: C2's exceptional class includes the unsettled Q5 permutation class (D2 open), so a found collision's classification is contestable; the ρ < ρ_min half is crisp.
+
+**3. Failures:** First-class. v1/v2 corpses kept unedited; opencode's three silent failures, the salvage downgrade, D5 resolved against haiku with reasons — all recorded. The 0eb231b unadjudicated status is correctly quarantined.
+
+**4. Underselling:** Mostly right (§4 clauses). Under-undersold: "independent derivations" are two same-vendor models sharing one author-written prompt — disclosed as model-level, but prompt-level contamination is unexamined.
+
+**5. Contradictions:** No substantive ones; §0's manifesto sentence is the closest thing, and §2.3 walks it back.
+
+The skeleton is honest; the sin is cosmetic: agreement sections inherit rigor the lanes' actual text doesn't fully possess.
+
+VERDICT: PASS — every load-bearing claim is priced as obligation with a spec'd falsifier, and the one real flaw (inflated "established by both lanes" over unrun derivations) is booked for numeric reconciliation rather than hidden.
