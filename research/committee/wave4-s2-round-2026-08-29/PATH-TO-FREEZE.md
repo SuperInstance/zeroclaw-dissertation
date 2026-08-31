@@ -20,6 +20,13 @@ File as `POWER-CERTIFICATE-S2-2026-<MMDD>.md` in this directory. Every
 # WAVE-4 S2 POWER CERTIFICATE (§5.4)
 Certificate date: <BLANK: YYYY-MM-DD>
 Code SHA (commit executing the certification): <BLANK: 40-hex>
+Attempt number: <BLANK: n of N> — N = 3, PRE-REGISTERED here. Identical-
+  design re-runs count against N; any FAIL after attempt 1 requires a
+  documented design change or cause analysis in the attempt log BEFORE
+  attempt n+1. Exhausting N without PASS = certificate unavailable; design
+  returns to S1v4b hardening (§1.2c). This bounds the multiple-testing
+  channel: fresh scratch seeds per run otherwise let a marginally-failing
+  design pass by seed luck (the wobble-laundering shape, re-closed).
 Corpus/version certified against: fiber v4b spec, blob <BLANK: 40-hex of
   METHODOLOGIST-S2-FREEZE-DRAFT.md>
 Seed discipline: scratch seeds derived from <BLANK: root seed>, throwaway,
@@ -27,15 +34,22 @@ Seed discipline: scratch seeds derived from <BLANK: root seed>, throwaway,
 Run command (exact, reproducible): <BLANK: command line>
 n replicates per contrast: 500 pairs (§5.4)
 
-Results (all four MUST pass):
-(i)  P-test rejection rate ≥0.90 at Δα=1:        <BLANK: value>  PASS/FAIL
-(ii) rejection rate ≥0.80 at Δα=0.25:            <BLANK: value>  PASS/FAIL
-(iii) false-positive rate on α-identical ≤0.05:  <BLANK: value>  PASS/FAIL
-(iv) A-gap envelope exceedance ≤0.01:            <BLANK: value>  PASS/FAIL
-(v)  V-leg separation ≥0.95 at Δα=0.25:          <BLANK: value>  PASS/FAIL
+Results (§5.4 defines FOUR pass conditions — the template's row 1 covers
+both contrasts as §5.4 states them; four rows total, canonical = §5.4):
+(1) P-test rejection: ≥0.90 at Δα=1 AND ≥0.80 at Δα=0.25: <BLANK: both values>  PASS/FAIL
+(2) false-positive rate on α-identical pairs ≤0.05: <BLANK: value>  PASS/FAIL
+(3) A-gap envelope exceedance ≤0.01:                <BLANK: value>  PASS/FAIL
+(4) V-leg separation ≥0.95 at Δα=0.25:              <BLANK: value>  PASS/FAIL
 
 Verdict: PASS → proceed to freeze execution recipe (§3 below).
          FAIL → return design to S1v4b hardening (§1.2c). No waiver.
+
+## Correction log
+- 2026-08-30 (DEVIL nudge, cb79fe0-successor): (a) row count fixed —
+  template showed five rows where §5.4 defines four conditions (P-test at
+  both contrasts is ONE condition); canonicality = §5.4, template now
+  matches. (b) Attempt budget N=3 pre-registered with cause-analysis rule;
+  'no waiver' previously left the seed-shopping channel open.
 ```
 
 **Closing artifact = the committed certificate file with zero remaining
