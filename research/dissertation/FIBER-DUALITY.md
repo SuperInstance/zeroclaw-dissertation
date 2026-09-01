@@ -19,7 +19,17 @@
 
 ## 1. Definitions — protocol-state general position
 
-### 1.0 The finite-state substrate (P0–P2)
+### 1.0 Frame import (TEACHER nudge, 2026-08-31 — do not build this wheel from scratch; merged back after a concurrent-write clobber, gold preserved)
+
+**The classical frame: separating sets.** "Observable fiber = symmetry group EXACTLY" is precisely the classical statement that **O is a separating set for the group action on states**: O(s) = O(s′) ⟺ ∃g ∈ G: s′ = g·s (Derksen–Kemper, *Computational Invariant Theory*). Imports, each load-bearing:
+
+1. **Separating ≠ generating.** A separating set can be strictly smaller than a generating set of the invariant algebra; for reductive groups the gap is fully mapped in the literature. This *is* the "no phantom fibers at minimum cost" question — the room program's T5 ("minimally-fibered") was unknowingly re-asking it, and T5's refutation-as-stated (any odd functional competes with M₃) is the separating/generating gap in miniature.
+2. **General position = a named stratum, checkable by polynomial non-vanishing.** The honest checkable condition: a Zariski-open (room side) or finite-complement (protocol side) stratum S with O separating G-orbits *on S* — notation **Sep_O(S)**. **T4″'s trivial-linear-symmetry stratum already IS such a stratum; §1.2's GP is its protocol-side twin.**
+3. **The classical failure mode (Mumford, *Geometric Invariant Theory* ch. 1): non-closed orbits.** Orbit-closure collisions are unseparable by ANY invariant — if they exist, phantom fibers are a THEOREM, not a disease, and the "exactly" clause degrades to a semicontinuity caveat.
+
+**Discharge of the TEACHER's check (b) — Lemma F (finiteness kills the Mumford failure).** *For fixed configuration c, S_c is finite and discrete; every G_P-orbit is finite, hence closed. Orbit-closure collisions do not exist on the protocol side. Therefore Fiber-Protocol Duality's "exactly" clause, if it fails for protocols, fails only through separating-set deficiency (the Δ mechanisms of §1.1), never through topology.* Proof: a finite subset of a discrete space is closed; O_I⁻¹(O_I(s)) ⊇ closure(G_P·s) = G_P·s with no gap between orbit and closure. ∎ **This is the structural asymmetry between the two programs:** the room side (continuous state space, state-dependent involution σ_μ̂, E0 stratum) remains exposed to Mumford-type failures — which is exactly why T4″ is only a conjecture there — while the protocol side cannot lose "exactly" topologically; every protocol phantom is algebraic (Δ₁/Δ₂/Δ₃/Δ_F) and therefore, in principle, killable by an added separating functional (an M₃-move). The arena's K2 = the M₃-move is not an analogy; it is the same theorem in the finite setting.
+
+### 1.0.5 The finite-state substrate (P0–P2)
 
 **P0 (Protocol state space).** Fix a configuration c = (NCELL, RCAP, inbuf depths, K_d caps, epoch width). The *fabric state space* S_c is the finite set of all valuations of (RTL state of every cell + ring residency with flit classes + inbuf/egbuf contents + token ledger + epoch registers (gen, eps) + host-contract flags). The *transition relation* →_c ⊆ S_c × S_c is the RTL's next-state relation. R_c ⊆ S_c is the reachable set from reset. Both are finite and effectively enumerable for fixed c (the cosim suite already enumerates R_c for small configs — see quilt-verilog cosim scale-up runs).
 
@@ -52,7 +62,7 @@
 
 **Checkability (why this is not "generic" hand-waving).** Each clause is a finite test on a fixed configuration: (1) Stab computation = fixpoint enumeration over the (finite, explicitly constructible) automorphism group of a finite transition system — BDD/SAT-sized, the same engine class the PDR runs already use; (2) margin evaluation = evaluating the invariants the asserts already evaluate, plus the per-config parameter inequalities (kimi's restated K3 is *literally* clause 2 instantiated); (3) injectivity of witness registers at s = a sortedness/uniqueness check on the live register file at s (N2's census, V1's entry-identity); (4) a distance evaluation to a named stratum (ρ, eps distance, skew counter). No measure theory, no "generic cloud" prose. Room-side, the same four clauses are exactly T4″'s stratum conditions (next table) — finite algebraic inequalities there, finite register tests here.
 
-**P5′ (two-sentence form, for the report).** *A protocol state is in general position when every separation its proof consumes is present with explicit nonzero margin, no undeclared transition-symmetry fixes it, its observables pin arrangement and not merely counts, and it sits interior to its moving frame's patch.* *The four clauses are each decidable by a finite test — fixpoint enumeration, margin evaluation, witness-register injectivity, frame distance — so "general position" is a checkable stratum of the state space, not a genericity sermon.*
+**P5′ (two-sentence form, for the report).** *A protocol state is in general position when every separation its proof consumes is present with explicit nonzero margin, no undeclared transition-symmetry fixes it, its observables pin arrangement and not merely counts, and it sits interior to its moving frame's patch.* *In the frame of §1.0: the state lies in the named stratum S = S_c \ Δ on which the carried observable O_I is required to be a separating set for G_P — Sep_{O_I}(S), a finite check because S_c is finite (Lemma F).* *The four clauses are each decidable by a finite test — fixpoint enumeration, margin evaluation, witness-register injectivity, frame distance — so "general position" is a checkable stratum of the state space, not a genericity sermon.*
 
 ### 1.3 The dictionary (room ↔ protocol, clause by clause)
 
@@ -63,6 +73,6 @@
 | Δ₃ arrangement collapse | collinear: A₁ rank-1, equal-path-weight classes (T4b's 4,888) | INV6 count ≠ arrangement (occ=14, 18 holes, Attack 3); 34,560 register | counts cannot see the spatial cycle; wedge wears the count's clothes |
 | Δ_F frame | σ_μ̂ state-dependent (T3a-iii); E0 equatorial | shared-T decay-in-readout under tick divergence (Attack 6); (gen,eps) wrap | symmetry is a moving frame; at the singular stratum the "group" is not a group |
 
-**P6 (Fiber-exactness at s).** s is *fiber-exact* iff Fiber_P(s) = G_P·s ∩ R_c — the "exactly" clause, pointwise. General position is *necessary* for fiber-exactness (§2, D2-necessity: each Δ-clause violation manufactures a phantom) and is *conjectured sufficient* (D2-sufficiency, priced §5; finite-state decidability below).
+**P6 (Fiber-exactness at s).** s is *fiber-exact* iff Fiber_P(s) = G_P·s ∩ R_c — the "exactly" clause, pointwise, i.e. O_I separates s from every non-orbit state of R_c. General position is *necessary* for fiber-exactness (§2, D2-necessity: each Δ-clause violation manufactures a phantom) and is *conjectured sufficient* (D2-sufficiency, priced §5; finite-state decidability below). By Lemma F the ⊇ half of fiber-exactness is automatic-in-principle (orbits closed; what remains is invariance of O_I under G_P, clause GP0); the entire content of the protocol-side duality is the ⊆ half.
 
 This section complete; committed under the standing order. — §2 next.
