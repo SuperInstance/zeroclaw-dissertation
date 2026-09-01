@@ -1,0 +1,94 @@
+I'll execute this adversarial review across the four fronts.
+
+---
+
+## FRONT 1: TAUTOLOGY/CIRCULARITY
+
+**VERDICT: BREAKS-IF** — The definition has real content, but Clause 1 is dangerously circular.
+
+**Analysis:**
+
+- **Clauses 2, 3, 4 carry load-bearing content.** They isolate concrete failure modes (margin collapse, arrangement degeneracy, frame singularity) independently testable before any conclusion about fiber exactness. They live.
+
+- **Clause 1 (isotropy) is the danger.** "Stab_Aut(s) = Stab_{G_P}(s)" is built as a separating condition, yet the *definition of G_P itself* (P2) already requires "γ is a transition morphism + licensed by contract + preserves O_I." This triple constraint already *almost* forces Stab_{G_P}(s) = Stab_Aut(s) by construction — you've pre-filtered undeclared automorphisms in the definition of the group itself. The "test" Clause 1 then performs is: *does the set of automorphisms we admitted into G_P exactly equal the automorphisms that actually fix s?* But G_P was built to be admissible; the test is verifying your group was well-defined, not checking general position. 
+
+**Restatement risk:** If P2's definition of "licensed + transition morphism" is close enough to "fixes the orbit," then Clause 1 becomes "every orbit is fiber-respecting" — a restatement of what you *wanted* general position to ensure, not an independent condition that *earns* it.
+
+**Repair:** Separate P2 into:
+- G_P^{decl} = transition morphisms the contract *claims* are symmetries (no checkability burden)
+- G_P^{verified} = those that actually preserve O_I *and* generate true symmetries of the state-space dynamics
+
+Then Clause 1 genuinely tests: does the contract's claimed symmetry group match the verified one? (This is what you intend, but the phrasing obscures it.)
+
+---
+
+## FRONT 2: CHECKABILITY
+
+**VERDICT: BREAKS** — Clauses 1 and 3 hide hard computation; the claim "BDD/SAT-sized" is unvalidated.
+
+**Analysis:**
+
+- **Clause 1: Automorphism group computation.** "Fixpoint enumeration over Aut(→_c)" sounds finite, but:
+  - For a configuration c with N cells, how large is Aut(→_c)? The transition relation →_c itself *depends* on the RTL structure — you must compute it from gate-level logic.
+  - Discovering *all* automorphisms of a finite-state machine is, in worst case, graph-isomorphism-hard. The claim that this is "BDD/SAT-sized, the same engine class the PDR runs use" is unsubstantiated. PDR does reachability on abstract domains, not automorphism discovery.
+  - **Concrete gap:** SELVEDGE's claimed generators (merge permutations, replica relabeling) are *assumed* transitive on their orbits, but enumerating all transition morphisms that compose with these to generate new automorphisms is not addressed.
+
+- **Clause 3: Arrangement injectivity.** "the local map counts → configurations has fiber = declared permutations exactly at s." This is a *model-theoretic* claim: you're asserting that at state s, the arrangement-witness registers separate all configurations the counts do not already distinguish. But:
+  - For INV6, you claim "18 holes' worth of arrangements share the count." Have you enumerated all possible spatial arrangements of 14 wedge-satisfying pairs and verified that each distinct arrangement produces distinct register states? That enumeration is exponential in RCAP.
+  - The "injective at s" test requires the register file at s to be in a particular canonical form. But s is *reachable*; proving that *every* reachable state with the same counts has register states in the right form is a global induction, not a local check.
+
+- **Clause 4:** Frame distance is OK (finite evaluation), but "distance to singular stratum" assumes the stratum is *computed* ahead of time. For Δ_F, the moving frame's singularities depend on the protocol state itself (tick divergence, frame lease renewal). This is circular: you use Δ_F to define GP, but Δ_F is defined relative to the "frame singularity," which may itself be state-dependent in an undecidable way.
+
+---
+
+## FRONT 3: COUNTEREXAMPLE HUNTING
+
+**VERDICT: BREAKS** — I can construct a protocol where GP clauses hold but phantoms exist.
+
+**Example:**
+
+**Toy protocol:** Three-state system {s₀, s₁, s₂}, observable O: {s₀, s₁} ↦ 0, {s₂} ↦ 1. Transition relation: s₀ → s₁ → s₂ → s₀ (a cycle). Declared group G_P = trivial (identity only). 
+
+- **Check Clause 1 at s₁:** Stab_Aut(s₁) = {id} (the cycle automorphism is the 3-cycle, which doesn't fix s₁). Stab_{G_P}(s₁) = {id}. ✓
+- **Check Clause 2, 3, 4:** Assign trivial margins, injective registers, interior frame positions. ✓
+
+Now observe: O(s₀) = O(s₁) = 0, but s₀ → s₁ is reachable, and G_P·s₀ = {s₀} ≠ {s₀, s₁}. **This is a phantom pair in general position.**
+
+Why did GP miss it? Because **Clause 1 only checks fixed points**, not the full orbit. If a transition morphism *permutes* s within its fiber (a non-trivial stabilizer subgroup's action, not a fixed point), it is invisible to Clause 1. The protocol I described has a 3-cycle automorphism; at s₁, it doesn't fix s₁, so Clause 1 passes. But the 3-cycle *does* permute {s₀, s₁, s₂}, which all share the same fiber for a different observable (e.g., O'(s) = "reachable" for all three).
+
+**Verdict:** You've conflated "no *fixed* undeclared automorphism" with "no *undeclared symmetry*." Permuting automorphisms that preserve the fiber but are not licensed will evade Clause 1.
+
+---
+
+## FRONT 4: CLAUSE INDEPENDENCE
+
+**VERDICT: BREAKS-IF** — Clauses 1 and 2 are dependencies masquerading as separate.
+
+**Analysis:**
+
+The document (P4, Δ₁) claims: *"Δ₁ phantoms are Δ₂-conditional. The duplicate-delivery schism (undeclared isotropy) is fixed by the semilattice clone involution, which is an undeclared transition morphism."* You then prove (§3, exhaustive search) that Δ₁ is empty on a 96,560-state space: no undeclared automorphisms exist in that instance.
+
+**The problem:** If Δ₁ and Δ₂ are truly independent clauses, why does your proof show Δ₁ = ∅ *by finding that M₃ ≠ 0* (Clause 2)? You proved Δ₁ is empty by *establishing a non-vanishing margin*, not by independently checking automorphisms. This suggests:
+
+- When Clause 2 holds (margin > 0), Clause 1 is *automatically* satisfied (no undeclared automorphism can exist without either a fixed point or a permutation that exchanges states differing in the margin).
+- Clause 1, standing alone, is not a separate test; it is a *consequence* of Clause 2 in the configuration you tested.
+
+**Restructuring needed:** Either:
+1. **Admit the dependency:** Restate GP as "Clauses 2, 3, 4 hold, and if they hold, Clause 1 is a theorem for finite-state systems" — making Clause 1 a derived guarantee, not a primitive check. Or:
+2. **Separate truly independent failures:** Move "undeclared automorphism" to a *different* clause that is not about margins, e.g., "the stated group G_P generates all continuous symmetries of the RTL semantics when restricted to the fabric's behavioral equivalence," tested by model-checking G_P-transitivity on orbits.
+
+The current four-clause presentation creates the illusion of orthogonal failure modes when they are actually *coupled* by the finite-state assumption (Lemma F).
+
+---
+
+## FINAL VERDICT
+
+**OVERALL: BREAKS, but repairable.** The definition has architectural merit — Clauses 2, 3, 4 isolate real failure modes — but Clause 1 is either redundant (if it follows from Clause 2) or incomplete (if permuting automorphisms can be undeclared). The claim that GP is "checkable, not hand-wave generic" depends on Clauses 1 and 3, both of which hide exponential computation or untested model-theoretic assumptions.
+
+**Repairs for publication:**
+1. Clarify whether Clause 1 is independent or a derived guarantee of finiteness.
+2. Replace Clause 1 with an operationally testable "orbit-transitivity of G_P on fiber" (requires explicit check, not automorphism enumeration).
+3. Reduce Clause 3 to a weaker test: "the protocol's asserted registers are injective at s," without the model-theoretic claim that this *globally* implies fiber = orbit.
+4. Explicit examples where GP holds and fiber = orbit (not just the null case where GP holds and phantoms avoid that instance).
+
+With these repairs, the duality theorem survives as the foundation, resting on three load-bearing clauses (2, 3, 4) rather than four, and Clause 1 relegated to a *sufficient* (not necessary) condition for orbit closure.
