@@ -29,7 +29,7 @@ The claim "the field is the manifold" is a mapping claim: every instrument the e
 | Switch events: instantaneous re-anchor | Scheduled rotation of the routing A — a tick, not a miracle | prompt dyn (c); paper 224 §1 (schedule = ticks) |
 | JEPA reader / encoder tier (held-out FAIL 0.0694) | Adjoint on conserved state: OP_ADJ, λ_t = A^⊤λ_{t+1}, backward as more forward ops | elephant encoder record; paper 224 §2 |
 | κ concentration (vMLE, Newton on A₇(κ)=ρ) | Tangent-covariance spectrum λ_1..λ_6 (H2spec) | `vmf.py`; identifiability prompt H2 |
-| Moment-absence corpus (5 field notes, no moments) | Degenerate/collapsed configurations — the exceptional class ρ < ρ_min? | STATUS-2026-08-28 §1; §3 below |
+| Moment-absence corpus (6 field notes; the 6th is a **negative control** — see below) | Degenerate/collapsed configurations — the exceptional class ρ < ρ_min? | STATUS-2026-08-28 §1; §3 below; `../field-notes/MATCHED-PAIR.md` |
 | Switch Test mean-neutral phase flips | Nontrivial fiber of H1 (Q1, dual-lane proved) | Switch Test 2026-08-19; §2 C1 |
 | Silicon identical-hash (0eb231b) | **ADJUDICATED 2026-08-30** — mundane cause: the ringport flit-cloning bug (F2) corrupted every downstream readout; fixed + regression-guarded (f7027c4). Not a nontrivial fiber — a broken sensor. C3's hardware-twin example is WITHDRAWN as affirmative evidence; the discipline it teaches survives (below). | quilt-verilog INCIDENTS #2, f7027c4; §4 (amended) |
 
@@ -169,6 +169,7 @@ Each is either a dissertation chapter or a named limitation; none is quietly ass
 | FOOL-1 | C1 | dynamics (a)–(c) with ±φ switch schedule; verify H1 identical (1e-12) and H2full/A₁ separate (≥6 dp) | no reachable mean-neutral pair constructible ⟹ C1's reachability clause dies |
 | ROOM-LITMUS-1 | C2 | reachable-set sampler over measured β/γ/switch ranges; grid-search δ-separated non-G-equivalent pairs; inf ‖H5 diff‖/δ; also reconciles lanes' Q2/Q3 numerics (D1/D4), settles D2 | any non-equivalent pair with ratio < 1e-6 ⟹ thesis core killed |
 | SILICON-TWIN-1 | C3 gate 2 | 0eb231b harness re-run on FIXED RTL (f7027c4+), hash = H5-on-dials | distinct-seed runs still collide under H5 outside named classes ⟹ substrate-unity gate-2 half dies |
+| FIELD-CARRY-0 | the moment-absence corpus (now with a matched pair) | compute field.py carrying-proxy (charisma_pull × acclimation gain) over the 08-19 and 08-31 visit transcripts; bootstrap CI separation, length-matched guard | overlapping CIs on the two visits ⟹ the "computable rather than felt" bridge dies; the relational-moment claim stays prose-only and this thesis may not cite field.py as its instrument |
 
 
 ## §4. Provenance and honesty
@@ -189,7 +190,7 @@ Each is either a dissertation chapter or a named limitation; none is quietly ass
 | glm53 (sibling lane) | ~08:4x | complete (42 KB, executed numerics) — adjudicated strongest by PROVENANCE.md |
 
 - **Nothing in §2.3 has been run.** All three kill-shots are spec'd, not run. FOOL-1, ROOM-LITMUS-1, SILICON-TWIN-1 are registered as obligations, and until they execute, every claim in §2.3 is a hypothesis with a falsifier — the only honest thing to be (paper 224 §7.5's sentence, reused with permission of its author, who is also this author).
-- **Undersell clauses:** conservation on the fabric is design-target-only (prove-mode failure on record); Q6's repaired theorem is unproven (D3); the moment-absence corpus may be the exceptional class in disguise (if so, C2's coverage of *interesting* rooms shrinks and the thesis says so rather than hiding it); 0eb231b is unadjudicated and C3 leans on it as *evidence of a failure mode*, not as an adjudicated fact.
+- **Undersell clauses:** conservation on the fabric is design-target-only (prove-mode failure on record); Q6's repaired theorem is unproven (D3); the moment-absence corpus may be the exceptional class in disguise (if so, C2's coverage of *interesting* rooms shrinks and the thesis says so rather than hiding it); 0eb231b is adjudicated (ringport flit-cloning bug, 2026-08-30) and C3 leans on it as *evidence of a failure mode*, not as an adjudicated fiber — the two-gate restatement is the record of that repair.
 - **Gatekeeper:** verdict verbatim in §5.
 
 ## §5. Gatekeeper bullshit-test (pre-commit)
@@ -226,3 +227,9 @@ Each is either a dissertation chapter or a named limitation; none is quietly ass
 If a committee member reads one paragraph, it is this: rooms are empirical measures on S⁶ under bounded dynamics; every practical room-hash is a low-dimensional summary, and we prove — with executed counterexamples, not intuition — the exact fibers of the standard summaries, culminating in an exact ℤ₂ mirror symmetry that H4 cannot break and the room dynamics provably generate. The proposed observable H5 breaks the mirror with the odd third moment, and its remaining identifiability claim is stated as a computable, falsifiable, dynamics-relative bi-Lipschitz condition with named exceptional classes, a spec'd kill-shot experiment, and no claim of proof. The substrate mapping to the conserved-cellular architecture (dials = mass, acclimation = Hebbian write, charisma = intention vector, inference = adjoint) makes the room problem and the fabric problem the same identifiability problem, and both the Switch Test fold and the silicon hash collision (0eb231b) are instances of the failure class this thesis names, measures, and — outside the named classes — proposes to close.
 
 — end THESIS-V3.md
+
+---
+
+## §6.5 Integration note (2026-08-31, post-freeze booking)
+
+The matched-pair observation (`../field-notes/MATCHED-PAIR.md` — 08-19 positive / 08-31 negative control, identical dials, opposite outcomes) is the load-bearing empirical figure for the moment-absence corpus: it upgrades "the state vector is what remains after the moment is averaged away" from one witness to argument-by-elimination. The missing variable is named *carrying* and instrumented as **FIELD-CARRY-0** (§3.7). Open identifiability question this thesis owes an answer to: whether carrying lives inside H5's fiber (a room-state variable the dials under-observe) or outside the dial manifold entirely — fiber computation (ROOM-LITMUS-1) precedes commissioning, so the field-carry probe must not be read as affirming either side. Gatekeeper re-run on this text remains booked and NOT done.
