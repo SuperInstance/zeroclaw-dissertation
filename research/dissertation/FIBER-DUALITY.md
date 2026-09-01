@@ -128,4 +128,35 @@ The finite form plus D2n yields the *design calculus* — the theorem's operativ
 
 **Theorem FD verdict: PROVEN in the finite per-configuration form (D1 fully; D2n constructively; D2s-finite by decidability); the uniform parameterized form is a priced conjecture whose failure locus is named (per-config boundary families, cross-class invariance failures). Indeterminate it is not — the finite form closes.**
 
-This section complete; committed under the standing order. — §3 (OB-K2) next.
+## 3. OB-K2 resolved — the rotation-orbit isotypic construction, decided by exhaustive exact search
+
+**The attack (FORMALIZATION §5.5, kill #2).** Relabel-ordering the C₁₂-orbit cloud {R^k w : k ∈ Z₁₂} (R = block-diag rotations by (2π/12)·(1,2,3) on R²⊕R²⊕R², generic w) by R maps ordering g ↦ g+1 and conjugates A₁ ↦ R A₁ R⁻¹ while preserving C, M₃ (order-free). Collision of (g, g+1) under H5 ⟺ A₁(g) commutes with R. **Lemma (eigenbasis reduction, seed-independent).** In the eigenbasis of R (eigenvalues ω^{±1}, ω^{±2}, ω^{±3}, ω = e^{iπ/6}): (A₁(g))_{pq} = w_p w_q · Σ_edges ω^{σ_p a − σ_q b}, so for generic w the collision is equivalent to 30 exact integer conditions — **Σ_edges ω^{σa − τb} = 0 for every ordered pair σ ≠ τ ∈ {±1,±2,±3}** — independent of the seed. (The planar reduction Q(g) = Σω^{a+b} = 0 is the pair (+1,−1) — the referee's hand-check, confirmed.) Each condition is a length-11 vanishing sum of 12th roots of unity: a ℤ[ω]-exact arithmetic problem, searchable exhaustively.
+
+**Method.** `scripts/obk2_search.c`: DFS over all orderings of Z₁₂ (g₀ = 0 fixed — global shift multiplies every condition by a unit, preserving exact vanishing), partial sums in exact integers in ℤ[ω] = span_ℤ{1, ω, ω², ω³} (Φ₁₂ = x⁴ − x² + 1), pruned only by the admissible unit-circle bound |S| ≤ remaining edges. Admissible pruning ⇒ the search is exhaustive over all 12!/12 = 39,916,800 shift-reduced orderings. *(Honesty note: my first mag() had sign errors making it overestimate partial sums — inadmissible pruning; caught, fixed, rerun; all numbers below are from the corrected build. Also the first dihedral check was vacuous — it tested index-shifts, which ARE the R-relabel family under test, instead of sequence rotations; corrected to positions-only. Both corrections committed in the script.)*
+
+### 3.1 Results
+
+| mode | conditions | nodes explored | witnesses | verdict |
+|---|---|---|---|---|
+| planar (single R² block: exponent a+b) | 1 | 32,467,142 | **96,560** | **collision EXISTS** |
+| full 6D (block-diag (1,2,3)·2π/12) | 30 | 1,048,318 | **0** | **attack CANNOT land — proven** |
+
+- **Count-vector structure (planar), exact:** 576 vanishing count vectors of length 11 over Z₁₂; **all 576 decompose into rotated 2-term {r, r+6} and 3-term {r, r+4, r+8} relations** — Schoenberg's structure theorem for n = 2²·3 confirmed computationally at length 11 (the referee's hand reduction validated).
+- **Planar witness verified in float64:** g = [0,1,2,3,4,5,7,6,8,10,11,9]: H5(g) vs H5(g+1) max component gap **1.388e−17** at cloud distance 0.538; not dihedrally related (corrected check) — a genuine phantom pair. **But: ||M₃|| = 6.2e−18** — the planar orbit is centrally symmetric (R⁶ = −I on a single block ⇒ R⁶w = −w ∈ orbit), so this witness lives **on the M₃ = 0 stratum**, where H5 is *already* non-injective by T4a (the mirror pair (g, g+6) collides there for every ordering). The new (g, g+1) phantom is a distinct pair on an already-diagnosed degenerate stratum.
+- **Full 6D: zero witnesses.** The generic orbit (R⁶ = diag(−I, I, −I) ≠ −I: non-centrally-symmetric, M₃ ≠ 0, spanning, distinct unsigned lines — inside T4″'s stratum except clause (i), see below) admits **no ordering whose A₁ commutes with R**: the isotypic construction cannot manufacture an H5 phantom in the family it was named for.
+- **Statistical cross-check:** 200k random orderings, min over samples of max isotypic residue = 2.909 (unit scale 11) — exact vanishing is not a near-miss phenomenon; the exhaustive zero is decisive, not lucky.
+
+### 3.2 The resolution (and what it teaches the duality)
+
+**OB-K2 is CLOSED: the attack is dead in the generic family.** The rotation-orbit phantom exists *only* in the degenerate planar embedding, where the cloud is centrally symmetric — i.e., exactly where the mirror phantom already lives (M₃ = 0). The attack's success set and the mirror's blindness stratum **coincide**:
+
+**Theorem OB-K2 (blindness-locus coincidence).** *For the C₁₂-orbit family, the R-relabel ordering-phantom exists iff the embedding is degenerate (M₃ = 0); on the non-degenerate 6D embedding the phantom set is empty (exhaustive, exact).* 
+
+Three consequences, each load-bearing for §2's duality:
+1. **T4″ strengthens:** its named residual attack is discharged negative in the attack's own family. What remains open for T4″ is only the general proof obligation (submersion heuristics), no longer a named construction. (Fine print: the orbit cloud has ⟨R⟩ inside its multiset stabilizer — it violates T4″'s clause (i) (trivial linear symmetry) anyway; so OB-K2 could never have killed T4″. What the search proves is stronger and stranger: even WITH undeclared isotropy present, the phantom fails to exist — isotropy alone does not manufacture collisions.)
+2. **D2n-Δ₁ sharpens to blindness-conditional form:** an undeclared symmetry γ manufactures a phantom at s iff the observable is γ-blind at s — and the γ-blindness locus is *computable* (here: exactly the degenerate embedding, decided by exhaustive search). **Δ₁ and Δ₂ are not independent clauses: Δ₁-phantoms live on Δ₂ strata.** Protocol translation, exact: the host-forgeable a2 marker (TOKEN-NEEDLE's named defect) is a γ whose blindness locus was "every op-class-visible state" — the whole domain — which is why no margin clause could save it and it needed the M-exclude move (unforgeable op class). Undeclared isotropy is harmless precisely where some carried invariant separates its action — and *only* there.
+3. **Both programs agree, independently derived:** the room program killed the phantom by the M₃-move (add the odd separator; its vanishing locus is where phantoms live); the protocol program killed the same-shaped phantom by K2 (delete the state; representability dies). OB-K2's exhaustive negative is the room-side computation of what K2 does structurally: **make the collision unrepresentable rather than detected.**
+
+Committed artifacts: `scripts/obk2_search.c` (exhaustive exact search), `scripts/fiber-duality-verify.py` (driver: ℤ[ω] count vectors, Schoenberg decomposition check, witness verification, F1 regression), `scripts/fiber-duality-numerics-raw.txt` (raw output). F1 regression reproduces FORMALIZATION's canonical exhibit gap 3.469e−18 exactly — the H5 machinery here is the same instrument.
+
+This section complete; committed under the standing order. — §4 (both-directions transfer) next.

@@ -1,0 +1,20 @@
+fiber-duality-verify.py — OB-K2 + regressions
+== OB-K2: rotation-orbit isotypic construction ==
+[planar] vanishing count vectors (len 11): 576
+[planar] of these, NOT decomposable into rotated {r,r+6} + {r,r+4,r+8} sums: 0  (Schoenberg structure confirmed computationally)
+[search] mode=planar ...
+mode=planar ncond=1 nodes=32467142 witnesses=96560
+first_witness_g: 0 1 2 3 4 5 7 6 8 10 11 9
+[verify] building orbit cloud for witness g=[0, 1, 2, 3, 4, 5, 7, 6, 8, 10, 11, 9] (mode=planar)
+[verify] H5(g) vs H5(g+1): max component gap = 1.388e-17; ||Z_g - Z_(g+1)||_F = 0.537945
+[verify] ||M3|| = 6.180e-18 (centrally symmetric / mirror-degenerate stratum)
+[verify] g vs g+1 dihedrally related: False
+[verify] collision CONFIRMED
+[search] mode=full ...
+mode=full ncond=30 nodes=1048318 witnesses=0
+[full] NO witness: the isotypic attack cannot land (exhaustive, exact).
+[stat] 200k random orderings: min over samples of max|isotypic residue| = 2.909313 (unit scale 11)
+
+== F1 regression: canonical T4b exhibit (ordering phantom) ==
+[F1] H5 gap A vs B = 3.469e-18  (FORMALIZATION.md reports 3.469e-18)
+[F1] regression OK
