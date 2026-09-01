@@ -1,0 +1,25 @@
+• I'll quickly check the statement files for notation alignment, then give the audit.
+
+• **T2 verdict: sound**, with one hypothesis sharpening.
+
+  - Setup: `F:(S^6)^N → R^7`, `F = Σ z_i`; `H1 = (mu, rho)` is equivalent data to `c = N·rho·mu` when `rho > 0`, so `H1`-fiber = `F^{-1}(c)` (mod `S_N`, which acts freely on the distinct-point stratum — no dimension change).
+  - Rank: `dF(u_1..u_N) = Σ u_i`, `u_i ∈ z_i^⊥` (6-dim hyperplane). Image `⊇ z_i^⊥ + z_j^⊥`, and `(z_i^⊥ + z_j^⊥)^⊥ = R·z_i ∩ R·z_j = {0}` iff `z_j ≠ ±z_i`. So `dF` is surjective iff the tuple contains one non-antipodal pair.
+  - Gap named: **distinctness with N=2 is not enough** — an antipodal pair `{z, -z}` gives rank 6 (image `= z^⊥`). The correct hypothesis is "N ≥ 3 distinct" (or "N=2 non-antipodal"): among 3 distinct points, if `z_2 = -z_1` then `z_3 ≠ ±z_1`, so a non-antipodal pair always exists. For the stated `N ≥ 10` stratum this is automatic, so the theorem as stated is correct — but the phrase "distinct points guarantee..." overstates the mechanism; the real argument is the hyperplane-sum one above.
+  - Dimension: regular-value theorem gives `dim F^{-1}(c) = 6N − 7` on the stratum; nonempty since `|c| = N·rho < N`. ✓
+  - "Mean-neutral phase flips strict measure-zero": correct. `sigma` is a nontrivial isometry of the fiber; its fixed locus is a finite union (over matching patterns `z_j = sigma(z_i)`) of closed submanifolds of codim ≥ 6, hence measure zero, and strict since the fiber contains non-symmetric configs. ✓
+
+  **T3 verdict: sound as stated; "generically 2-to-1" overclaims.**
+
+  - (i) `sigma = 2mu·mu^T − I` is orthogonal (`sigma^T sigma = I`), so `S^6 → S^6`, multiset/multiplicities preserved. ✓
+  - Mean: `sigma·rbar = 2mu(mu·rbar) − rbar = 2·rho·mu − rho·mu = rbar`, using `mu·rbar = rho`. Hence `mu(sigma s) = mu`, `rho` fixed, and `sigma` is defined from `s`'s own `mu` — no circularity. ✓
+  - Deviations: `z_i = (z_i·mu)mu + v_i`, `v_i ⊥ mu`; `sigma` acts as `+1` on `R·mu` and `−I` on `mu^⊥`, so `v_i' = −v_i`. Then `C' = (−I)C(−I)^T = C`, `A1' = A1` as ambient 7×7 matrices.
+  - (ii) No frame problem: `C, A1` are ambient matrices supported on `mu^⊥`, and `mu' = mu`, so the same `mu^⊥`; the invariance is a genuine point-cloud symmetry, not a gauge artifact. ✓
+  - (iii) Antiphase arithmetic checks: each of the 9 adjacent products is `(±0.2)(∓0.2) e1e1^T = −0.04 e1e1^T` in **both** phases (global negation leaves outer products invariant), so `A1 = (1/9)·9·(−0.04)e1e1^T`, identical; `C = 0.04 e1e1^T` both. Distance `= sqrt(10·(0.4)^2) = 0.4·√10` ✓. Consistency: `z_i ∈ S^6` requires `rho = sqrt(1 − 0.04) = sqrt(0.96) > 0` ✓.
+  - (iv) Fixed states: `sigma s = s` (as ordered state: `sigma z_i = z_i ∀i`, i.e. all `z_i ∈ {±mu}`; as multiset: mirror-symmetric across `R·mu`) — **no others**. But note these are more general than "v-sign-symmetric": matched pairs `z_j = (z_i·mu)mu − v_i` need equal axial component but arbitrary `|v|`.
+
+  Weaknesses / strengthenings:
+
+  1. **"Generically 2-to-1" is unproven; the argument gives only ≥ 2-to-1.** Nothing excludes `s' ∉ {s, sigma s}` with the same `(mu, rho, C, A1)`. The needed strengthening: for generic `(C, A1)`, the joint conjugation-stabilizer in `O(mu^⊥)` is `{±I}` (generic `C` has distinct eigenvalues → stabilizer = diagonal sign flips `Z_2^6`; generic `A1` cuts this to `±I` = `{id, sigma|_{mu^⊥}}`), and then one still must argue the fiber is captured by an orthogonal relabeling of the `v`'s at all — moment data `(C, A1)` do not a priori determine the `v`-cloud up to `O(6)`. State T3 as "at least 2-to-1, exactly 2-to-1 on an open dense set" only with that stabilizer argument added.
+  2. **Antiphase example is sequence-level, not multiset-level**: the two phases have the *same unordered multiset* (5 copies of `rho·mu + 0.2e1`, 5 of `rho·mu − 0.2e1`). So it witnesses `H4`'s blindness to phase along the *ordering* (via `A1`), not a collision of two distinct room states. Say so explicitly, or drop "distance" language that suggests distinct room states.
+  3. Minor: in T2, replace "distinct points guarantee free tangent directions" with the non-antipodal-pair condition; for `N=2` the theorem fails (fiber claim false at antipodal tuples: rank 6, not 7).
+

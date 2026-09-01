@@ -1,0 +1,30 @@
+CX6 — mirror pair (generic N=12, seed 3/7 as declared)
+CX6 rho: 0.348420  (published: 0.877161 — note: published seed spec '3/7' ambiguous; any generic cloud tests the same claim)
+CX6 max |C,A1 gaps|: 2.776e-17  (published: 1.0e-17)
+CX6 third moment flip: 0.037789 -> -0.037789
+CX6 distance: 6.207510  (published: 3.250513 for its generic cloud)
+================================================================================
+T4 FALSIFICATION SEARCH — H5 = (H4, M3) on declared families (small N)
+Kill: distinct s,s' with H5 gap < 1e-9, s' not in G·s (mirror/cyclic-shift/reversal).
+G-check is by construction in each family (documented per family).
+F1 zero-sum sign patterns found: 8
+F1 distinct-pattern pairs with equal M3: [((-1, 1, -1, 1, -1, 1), (-1, 1, -1, 1, 1, -1)), ((-1, 1, -1, 1, -1, 1), (-1, 1, 1, -1, -1, 1)), ((-1, 1, -1, 1, -1, 1), (-1, 1, 1, -1, 1, -1)), ((-1, 1, -1, 1, -1, 1), (1, -1, -1, 1, -1, 1)), ((-1, 1, -1, 1, -1, 1), (1, -1, -1, 1, 1, -1)), ((-1, 1, -1, 1, -1, 1), (1, -1, 1, -1, -1, 1)), ((-1, 1, -1, 1, -1, 1), (1, -1, 1, -1, 1, -1)), ((-1, 1, -1, 1, 1, -1), (-1, 1, 1, -1, -1, 1)), ((-1, 1, -1, 1, 1, -1), (-1, 1, 1, -1, 1, -1)), ((-1, 1, -1, 1, 1, -1), (1, -1, -1, 1, -1, 1)), ((-1, 1, -1, 1, 1, -1), (1, -1, -1, 1, 1, -1)), ((-1, 1, -1, 1, 1, -1), (1, -1, 1, -1, -1, 1)), ((-1, 1, -1, 1, 1, -1), (1, -1, 1, -1, 1, -1)), ((-1, 1, 1, -1, -1, 1), (-1, 1, 1, -1, 1, -1)), ((-1, 1, 1, -1, -1, 1), (1, -1, -1, 1, -1, 1)), ((-1, 1, 1, -1, -1, 1), (1, -1, -1, 1, 1, -1)), ((-1, 1, 1, -1, -1, 1), (1, -1, 1, -1, -1, 1)), ((-1, 1, 1, -1, -1, 1), (1, -1, 1, -1, 1, -1)), ((-1, 1, 1, -1, 1, -1), (1, -1, -1, 1, -1, 1)), ((-1, 1, 1, -1, 1, -1), (1, -1, -1, 1, 1, -1)), ((-1, 1, 1, -1, 1, -1), (1, -1, 1, -1, -1, 1)), ((-1, 1, 1, -1, 1, -1), (1, -1, 1, -1, 1, -1)), ((1, -1, -1, 1, -1, 1), (1, -1, -1, 1, 1, -1)), ((1, -1, -1, 1, -1, 1), (1, -1, 1, -1, -1, 1)), ((1, -1, -1, 1, -1, 1), (1, -1, 1, -1, 1, -1)), ((1, -1, -1, 1, 1, -1), (1, -1, 1, -1, -1, 1)), ((1, -1, -1, 1, 1, -1), (1, -1, 1, -1, 1, -1)), ((1, -1, 1, -1, -1, 1), (1, -1, 1, -1, 1, -1))]
+F1 A1-colliding ordering pairs NOT dihedrally related (cyclic/reversal): 4888 found; canonical example: (<function rep at 0x7a455b10cd50>, (np.float64(-0.1), np.float64(0.1), np.float64(0.30000000000000004), np.float64(-0.2), np.float64(0.2), np.float64(-0.30000000000000004)), np.float64(-0.14))
+F1 verdict: *** KILL of 'fiber = exactly symmetry group' ***
+F1 exhibit H5 gap (full float64, N=12 sequence): 3.469e-18
+F1 exhibit same multiset? : True
+F1 exhibit dihedrally related? : False
+F2 min H5 gap, aperiodic clouds x non-identity rolls: 2.013e-02 (seed=2, shift=11)
+F2 verdict: NO KILL
+F2 sanity: period-6 cloud, roll by 6 (G-element): gap=0.000e+00 (expected ~0)
+F3 min H5 gap, 20 random small-amplitude (eps=0.05) cloud pairs, N=10: 0.009118
+F3 verdict: NO KILL
+F4 max H5 gap over 20 random mirror pairs (must be > 0; separation claim): 0.335686
+F4 verdict: M3 separates mirrors on all sampled
+
+[saved to /tmp/formalization-numerics.txt]
+================================================================================
+KILL-#1 CORRECTED VERIFICATION (claude referee, corrected by this lane):
+tangent mirror on centrally symmetric multiset {+-w1..+-w6}, eps=0.06, N=12
+K1 corrected: max H5 gap, tangent mirror on centrally symmetric clouds: 2.317e-18 (kill confirmed if ~1e-18)
+K1 sanity: GLOBAL negation (claude's literal statement) gap: 2.000000 (separated => the literal form FAILS, correction was required)

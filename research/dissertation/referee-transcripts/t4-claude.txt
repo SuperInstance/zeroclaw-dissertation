@@ -1,0 +1,132 @@
+**Note on execution:** this environment blocked all code execution (`python3 -c`, file writes, heredocs — only bare `--version` passed the allowlist, and there's no interactive approval path). Everything below is hand-verified arithmetic and structural argument. The computations involved are small enough to check by hand, and I've done so.
+
+---
+
+## The one structural fact that drives everything
+
+Split H5's components by how they depend on the *ordering* of the window sequence:
+
+| component | depends on | order-sensitive? |
+|---|---|---|
+| μ = normalize(Σ zᵢ) | multiset {zᵢ} | **no** |
+| ρ = ‖mean‖ | multiset {zᵢ} | **no** |
+| C = (1/N)Σ vᵢvᵢᵀ | multiset {vᵢ} | **no** |
+| M3 = (1/N)Σ vᵢ^⊗³ | multiset {vᵢ} | **no** |
+| A1 = (1/(N−1))Σᵢ₌₁ᴺ⁻¹ vᵢvᵢ₊₁ᵀ | the **sequence** | **YES — the only one** |
+
+`★ Insight ─────────────────────────────────────`
+Once the deviation multiset is fixed, **H5 collides between two orderings iff A1 collides.** Every "fiber" question reduces to a question about a single 6×6 matrix, the non-cyclic lag-1 outer-product sum. C and M3 contribute *nothing* to distinguishing orderings — the conjecture's hope that M3 "adds resolution within a multiset" is structurally false.
+`─────────────────────────────────────────────────`
+
+How A1 behaves under the operations the conjecture assumes are symmetries (write the ordered deviations p₁…p_N):
+
+- **Reversal** wᵢ = p_{N+1−i}:  Σ wᵢwᵢ₊₁ᵀ = Σ p_{j+1}pⱼᵀ = **A1ᵀ**, not A1. Reversal ∈ fiber(H5) **iff A1 is symmetric**, i.e. iff the swept bivector Σ pᵢ∧pᵢ₊₁ = 0.
+- **Cyclic shift** by 1:  ΔA1 ∝ p_N p₁ᵀ − p₁ p₂ᵀ ≠ 0 generically. Shift ∈ fiber **iff those boundary terms cancel**.
+- **Mirror σ: v ↦ −v** (this is claim (a)'s 2μμᵀ−I):  A1 ↦ A1, C ↦ C, M3 ↦ −M3. σ ∈ fiber(H5) **iff M3 = 0**.
+
+This already tells you T4' is mis-stated: on a *generic* cloud A1 is neither symmetric nor boundary-degenerate, so **neither reversal nor cyclic shift preserves H5**. The generic fiber is *smaller* than the dihedral class — it's just {s} (plus the mirror when M3 = 0). The interesting question is the ⊆ direction: extra collisions beyond the obvious relabelings.
+
+---
+
+## Task 1 — your refutation of (b): **CONFIRMED, verified by hand**
+
+Collinear cloud: vᵢ = aᵢ u, six mean-copies with aᵢ = 0, N = 12. A and B are orderings of the multiset ±{0.1, 0.2, 0.3} (I note the prompt's other multiset {0.3,0.3,−0.2,−0.2,−0.1,−0.1} is inconsistent with the stated A,B; the A,B pair as written uses ±{0.1,0.2,0.3}, and that is what I check — the mechanism is identical either way).
+
+**Order-invariants** (identical for A and B):
+- Σaᵢ = 0 ⇒ with zᵢ = cos(aᵢ)μ + sin(aᵢ)u, Σ sin aᵢ = 0 (odd fn on a ±-symmetric set) ⇒ μ recovered **exactly**, same for both. ρ = (1/12)Σcos aᵢ, same.
+- Log_μ zᵢ = aᵢ u exactly. C = (Σaᵢ²/12) uuᵀ with Σaᵢ² = 2(0.01+0.04+0.09) = 0.28.
+- M3 = (Σaᵢ³/12) u^⊗³ with Σaᵢ³ = 0 ⇒ **M3 = 0** (so the mirror is *also* a free symmetry here — this is the "symmetric cloud" regime (b) is about).
+
+**A1** (the only discriminator): A1 = (Σᵢ₌₁¹¹ aᵢaᵢ₊₁ / 11) uuᵀ. With the six zeros pinned at the tail, Σᵢ₌₁¹¹ aᵢaᵢ₊₁ = Σᵢ₌₁⁵ aᵢaᵢ₊₁:
+
+```
+A = (.3, −.3, −.2, −.1, .1, .2):
+   (.3)(−.3) + (−.3)(−.2) + (−.2)(−.1) + (−.1)(.1) + (.1)(.2)
+   = −.09 + .06 + .02 − .01 + .02 = 0.00
+B = (.1, −.1, .2, .3, −.3, −.2):
+   (.1)(−.1) + (−.1)(.2) + (.2)(.3) + (.3)(−.3) + (−.3)(−.2)
+   = −.01 − .02 + .06 − .09 + .06 = 0.00
+```
+
+So A1(A) = A1(B) = **0** exactly. **H5(A) = H5(B) algebraically** (not a 1e-18 float artifact — an exact identity).
+
+**Non-dihedral?** The zeros pin the 12-sequence: the only dihedral image keeping zeros in the tail block is the identity. Within the 6-block, I enumerated all 24 images of A under ⟨cyclic-6, reversal, mirror⟩:
+
+- shifts of A: (.3,−.3,−.2,−.1,.1,.2), (−.3,−.2,−.1,.1,.2,.3), (−.2,−.1,.1,.2,.3,−.3), (−.1,.1,.2,.3,−.3,−.2), (.1,.2,.3,−.3,−.2,−.1), (.2,.3,−.3,−.2,−.1,.1)
+- shifts of reverse(A) = (.2,.1,−.1,−.2,−.3,.3): …none is B
+- shifts of −A and −reverse(A): …none is B
+
+B = (.1,−.1,.2,.3,−.3,−.2) appears in **none** of them. **B is a genuine non-dihedral, non-mirror exact H5-collision with A.** Your refutation stands.
+
+Your count of 4,888 non-dihedral equal-H5 ordering pairs is fully consistent with the mechanism (see Task 3): the fiber is "equal scalar Σaᵢaᵢ₊₁," and the number of achievable scalars is tiny next to the number of orderings.
+
+---
+
+## Task 3 — the residual fiber of H5 on collinear clouds, precisely
+
+Let the deviation multiset be {a₁,…,a_K} (nonzero) padded to length N by zeros; u the common direction. Then C, M3, μ, ρ are all multiset-determined, and
+
+  **A1 = ( W(π) / (N−1) ) · uuᵀ,  where  W(π) = Σᵢ₌₁ᴺ⁻¹ a_{π(i)} a_{π(i+1)}  (linear, NOT cyclic).**
+
+Therefore
+
+  **fiber(H5)|₍collinear₎ = { orderings π : W(π) = W(π₀) }**  (∪ the mirror π ↦ −π when the multiset is ±-symmetric, since then M3 = 0).
+
+Interpretation: view an ordering as a Hamiltonian path on the multiset's index set with edge weights aᵢaⱼ; W is the total path weight. Since the *total* over all pairs ½((Σaᵢ)² − Σaᵢ²) is fixed and a path selects only N−1 of the C(N,2) edges, W takes values in a small bounded discrete set. Two orderings collide iff equal total path weight — an equivalence far coarser than "cyclic shift + reversal." Generic fiber size ≫ 2N. (The mirror only doubles; the blow-up is the **rank-1 collapse of A1 to a single scalar.**)
+
+**Does restricting to non-collinear clouds close it?** It closes *this* degeneracy: A1 becomes a genuine rank-r ≥ 2 matrix, reversal now visibly maps A1 → A1ᵀ ≠ A1, and the number of independent constraints jumps from 1 to ~ r(r+1)/2 + antisymmetric part. So the collinear blow-up disappears. But it does **not** give full injectivity mod dihedral — two other degeneracies survive (Task 2).
+
+---
+
+## Task 2 — hunting T4′ (repaired claim). Two discrete kills.
+
+### Kill #1 — centrally symmetric cloud (clean, fully hand-verified)
+
+Deviation multiset {±w₁,…,±w₆}, wₖ generic in the 6-D tangent space, ‖wₖ‖ ≈ 0.06.
+
+- Set is centrally symmetric ⇒ **M3 = (1/12)Σ(±wₖ)^⊗³ = 0.**
+- C = (1/6)Σ wₖwₖᵀ, Σvᵢ = 0 ⇒ μ exact, ρ set-determined.
+- Take any ordering s; let s′ = **−s** (negate every window). Same multiset, and A1(s′) = Σ(−pᵢ)(−pᵢ₊₁)ᵀ = A1(s).
+
+⇒ **H5(−s) = H5(s) exactly.**
+
+General-position check (against T4′'s stated hypotheses): the 12 deviation vectors are pairwise distinct; span R⁶ (not collinear, not even planar); the 12 unit directions wₖ/‖wₖ‖ and −wₖ/‖wₖ‖ are pairwise distinct. Yet −s is generically **not** a cyclic shift or reversal of s: −s = shift_k(s) forces p_{i+6} = −pᵢ ∀i (measure-zero orderings); −s = reverse(s) forces an anti-palindrome (measure-zero). A random ordering is neither.
+
+**⇒ fiber(H5) ⊋ dihedral class. T4′ is false as stated.**
+
+This is precisely the failure of claim (a) when M3 = 0: (a) separates the mirror *only because* M3 ↦ −M3 ≠ M3. On a centrally symmetric multiset M3 = 0 and the mirror re-enters the fiber. Centrally symmetric multisets are positive-codimension but sit entirely inside T4′'s stated "general position" set.
+
+**Caveat / the conjecturer's possible out:** if "no repeated deviation *directions*" is read as *unsigned lines* (not vectors), then {±wₖ} has only 6 lines each doubled and Kill #1 is excluded by hypothesis. The fact that T4′ *also* lists "deviations distinct" as a separate condition suggests "directions" means unit vectors, under which Kill #1 is admissible. Flagging this as the hinge.
+
+### Kill #2 — finite rotation-group orbit (a rotation, not the mirror)
+
+Even under the "lines" reading you still lose, via a construction where the extra fiber element is a **rotation**. Deviation set = C₁₂-orbit of a generic seed under a rotation R that is *not* central inversion at any power — e.g. R acting on R² ⊕ R² ⊕ R² by angles (2π/12)·(1, 2, 3). Then R⁶ = (−I, I, −I) ≠ −I, so the 12-point orbit is C₁₂-invariant but **not** centrally symmetric (12 distinct lines, generically M3 ≠ 0 so the mirror is genuinely separated).
+
+For any ordering g, apply τ = "rotate every window by R" (a relabeling of the *same set*, **not** a position shift/reversal). Then:
+- C, M3 set-invariant (set is R-invariant): unchanged.
+- A1(τ) = R · A1(g) · Rᵀ. So **H5(τ) = H5(g) ⟺ A1(g) commutes with the conjugation by R ⟺ every non-trivial R-isotypic component of A1(g) vanishes.**
+
+That's ~11 matrix equations in low-dimensional isotypic blocks, to be solved by choosing g among ~12!/24 essentially-distinct Hamiltonian paths — a finite search. The **planar toy model** makes it concrete and checkable: set = {ε ωᵏ} (12th roots, ω = e^{2πi/12}), A1 encoded by P(g) = Σ ω^{g(i)−g(i+1)} and Q(g) = Σ ω^{g(i)+g(i+1)} (i = 1..11). Rotation τ = g+1 gives P(τ) = P(g) **automatically** and Q(τ) = ω²Q(g), so:
+
+  **H5(g) = H5(g+1) ⟺ Q(g) = 0,** and then Q(g+j) = ω^{2j}·0 = 0 ∀j, so the **entire 12-element rotation orbit collapses to one H5 value.**
+
+Q(g) = 0 asks for eleven 12th-roots (the consecutive value-sums, with multiplicity) to sum to zero — realizable as e.g. three equilateral triples {a, a+4, a+8} plus one antipodal pair {d, d+6} (3·3 + 2 = 11, total 0). The Φ₁₂-relation feasibility for the count vector is fine (need cⱼ − c_{j+6} = (t,u,−t,−u,t,u), j=0..5; take t=1, u=0). Constructing the actual Hamiltonian path realizing such a consecutive-sum profile is a finite search that (by the count of sum-zero configurations) has many solutions.
+
+**I could not execute the search to print an explicit g** (environment blocked it), so Kill #2 is: *mechanism rigorous, reduction "collision ⟺ Q(g)=0" hand-verified, existence argued but not exhibited.* The planar {ωᵏ} version is itself centrally symmetric (falls to Kill #1 anyway); the value of Kill #2 is the R⁶ non-centrally-symmetric orbit, where it is the **leading candidate for a discrete kill that survives every charitable reading of the hypotheses** — and it is exactly the kind of finite-rotation-group / tensor-isotypic construction you flagged.
+
+### Asymmetric sets — no extra collisions found (assessment, not executed)
+
+For a deviation multiset with **trivial linear symmetry group and M3 ≠ 0**: no ordering symmetry preserves A1 (reversal → transpose, shift → boundary perturbation, mirror needs M3 = 0). A1 as a function of the ordering is an algebraic map from ~12! points into R³⁶ with no symmetry forcing coincidences; 2-opt / segment-reversal moves produce ΔA1 with a non-vanishing antisymmetric part generically. Dimension count (72 ordered dof ≪ ~120 effective H5 targets) supports injectivity. I believe fiber(H5) = {s} exactly on such clouds, but this is the one claim I'd want the (unavailable) random-hash search to back.
+
+---
+
+## VERDICT
+
+**(b) refuted: YES.** Confirmed and independently hand-verified. A = (.3,−.3,−.2,−.1,.1,.2) and B = (.1,−.1,.2,.3,−.3,−.2), padded with six zero-windows (N=12, collinear), have **exactly** equal H5 (both have A1 = 0, and C, M3, μ, ρ are multiset-invariant), and B is provably not a cyclic shift, reversal, or mirror of A. The mechanism — A1 collapses to a scalar Σaᵢaᵢ₊₁ on collinear clouds, M3 is order-blind — makes the fiber generically enormous, fully consistent with your 4,888 pairs.
+
+**Collinear residual fiber (Task 3):** fiber(H5) = { orderings with equal non-cyclic Σᵢ aᵢaᵢ₊₁ }, ∪ the global mirror when the deviation multiset is ±-symmetric (then M3 = 0). This is a union of equal-path-weight classes, generically ≫ the 2N-element dihedral class. Passing to non-collinear clouds **closes this specific degeneracy** (A1 regains matrix rank; reversal visibly breaks it) but does **not** restore injectivity.
+
+**T4′ status: FALSE as literally stated.**
+1. In the ⊇ direction, on *every* generic cloud: reversal maps A1 → A1ᵀ and cyclic shift perturbs A1 by p_N p₁ᵀ − p₁p₂ᵀ, so the dihedral operations are **not** H5 symmetries — the generic fiber is {s} (or {s, mirror s}), strictly smaller than the dihedral class.
+2. In the ⊆ direction: **refuted by centrally symmetric clouds** (Kill #1) — M3 = 0 puts the ambient mirror in the fiber while all of T4′'s stated hypotheses (distinct, non-collinear, distinct unit directions) hold. Survives only if "no repeated directions" is read as unsigned lines.
+3. Under that stricter reading, the surviving repaired claim — *"on clouds with trivial linear symmetry group, M3 ≠ 0, deviations spanning R⁶ in pairwise-distinct lines: fiber(H5) modulo relabeling = {s} ∪ {reverse s : iff A1 symmetric} ∪ {shifts : iff boundary terms vanish}"* — is **not refuted by anything I found**, but is **not established**: the open attack is a non-centrally-symmetric C₁₂-orbit in R⁶ with an ordering killing every non-trivial R-isotypic component of A1 (Kill #2), a finite search I could not run here. That is where I'd point the next computation.
