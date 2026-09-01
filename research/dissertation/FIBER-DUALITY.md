@@ -75,4 +75,57 @@
 
 **P6 (Fiber-exactness at s).** s is *fiber-exact* iff Fiber_P(s) = G_P·s ∩ R_c — the "exactly" clause, pointwise, i.e. O_I separates s from every non-orbit state of R_c. General position is *necessary* for fiber-exactness (§2, D2-necessity: each Δ-clause violation manufactures a phantom) and is *conjectured sufficient* (D2-sufficiency, priced §5; finite-state decidability below). By Lemma F the ⊇ half of fiber-exactness is automatic-in-principle (orbits closed; what remains is invariance of O_I under G_P, clause GP0); the entire content of the protocol-side duality is the ⊆ half.
 
-This section complete; committed under the standing order. — §2 next.
+## 2. The Fiber-Protocol Duality theorem — statement, both directions, verdict
+
+**Setup.** Protocol P at configuration c: state space S_c (finite), transition →_c, reachable R_c, carried invariants I, observable O_I, declared group G_P (P2), stratum S := R_c \ Δ (P5). Behavioral partition B (P3).
+
+**Theorem FD (Fiber-Protocol Duality, finite form).** *For every fixed configuration c and every s ∈ R_c in general position (GP_P):* **Fiber_P(s) = G_P·s.** *Equivalently: Sep_{O_I}(S) — the carried observable separates declared-symmetry classes exactly on the general-position stratum. Protocol obligations (admission rules, landing guarantees, epoch disciplines) are precisely the fiber-shrinking moves that enlarge S.*
+
+The theorem splits into two directions of very different difficulty, as the brief predicted.
+
+### 2.1 D1 (soundness: symmetry ⊆ fiber) — PROVEN, with two subtleties named
+
+**D1.** *If every declared generator γ ∈ G_P is (a) a transition morphism of →_c, (b) reachability-preserving (γ(R_c) = R_c), and (c) O_I-invariant, then G_P·s ⊆ Fiber_P(s) for all s ∈ R_c.*
+
+*Proof.* (c) gives O_I(γs) = O_I(s); (b) gives γs ∈ R_c. Induction on word length in the generators gives the whole group. ∎
+
+The subtleties, both real in the record:
+1. **Reachability-preservation is not free** (γ(reset) need not be reset). It must be *contract data* — and it is exactly the room-side moving-frame disease (Δ_F) in disguise: the arena licenses epoch-ABA "equivalences" that only preserve reachability under the widened-eps discipline. A licensed relabeling that fails (b) is a frame bug, not a symmetry — Attack 4's schism is precisely a (b)-failure of the naive 3-bit license.
+2. **O_I-invariance (c) is the well-posedness of the invariant set**: an "invariant" that moves under a licensed relabeling was never well-defined on the quotient (the room twin: an observable not constant on H5-fibers was never a function of H5). Checking (c) is the cheapest audit in the program and the arena never ran it explicitly — INV1's commutativity miter is (c) for one generator; K1's per-dst ledger is (c) for flit interchange *within* a class; nobody checked (c) across classes (the io-queue omission kimi caught is a cross-class (c)-failure: untokenized classes move under the relabeling that K1's terms don't cover).
+
+### 2.2 D2-necessity (GP violations manufacture phantoms) — PROVEN (constructive)
+
+**D2n.** *If s violates any GP clause, s has a phantom (the violation's check is the witness's construction):*
+
+- **Δ₁ violated ⇒ phantom.** The failing check *is* the witness: an undeclared transition morphism γ with O_I(γs) = O_I(s), γs ∉ G_P·s — P3's definition of a phantom pair, met. Arena instance: the clone involution on the semilattice readout (deliver-once/deliver-twice: readout-fixed, ledger-split — a strong phantom once the ledger enters B). Room instance: σ_μ̂ on {±w} multisets, gap 2.3e-18.
+- **Δ₂ violated ⇒ phantom across the boundary.** A consumed separation is a pair (φ, named target class T) appearing in the proof: φ separates s from T with licensed margin m. At margin 0 the named target's member t ∈ T adjacent across the boundary has O_I(s) = O_I(t) (φ was the only separator; it just died). Arena instances: the ABA clone at eps wrap-distance 0 (Attack 4); the last-hole spend at K3's margin-1 boundary (kimi finding 5: the restated inequality is GP2 *written down*, which is why the restatement is a theorem-shape repair, not bureaucracy). Room instance: M₃ = 0 ⟺ mirror in fiber (T4a).
+- **Δ₃ violated ⇒ arrangement phantom.** Counts-only observables: any two arrangements with the same count profile collide. Arena instance: INV6 at occ=14 with 18 holes — the wedged arrangement and a draining arrangement share the hole count (Attack 3; kimi: "a true invariant that does not imply the desired property"). Room instance: collinear A₁ rank-collapse, the 4,888 (T4b).
+- **Δ_F violated ⇒ frame phantom.** At the singular stratum the trivialization dies: two divergence histories agree in the frame-relative observable while diverging absolutely. Arena instance: Attack 6 — decay-in-readout under tick divergence, F(S,T) blind to (T₁,T₂) skew; repair per-cell T_i = carrying the frame instead of assuming it. Room instance: E0 (ρ = 0) and state-dependent σ_μ̂ (T3a-iii).
+
+*Proof-grade note.* In the finite setting, "the set of separations a proof consumes" is **syntactic** — extractable from the proof term (which invariants appear in which implications with which bounds). GP2's margin is therefore checkable against the proof artifact itself; this makes D2n's witnesses effectively constructible, not merely existent. **Corollary (the audit theorem): a protocol's phantom inventory is computable from (S_c, →_c, I, proof terms, contract) — no genericity, no measure theory.**
+
+### 2.3 D2-sufficiency (GP ⇒ fiber-exact) — DECIDABLE per configuration; UNIFORM form conjectured (priced)
+
+**D2s-finite.** *For fixed c: "∀s ∈ R_c \ Δ: Fiber_P(s) = G_P·s" is decidable by explicit enumeration* (compute O_I on R_c, hash fibers, compare with orbits — the cosim suite's decidable-only classification is this computation in miniature). **The duality's hard half is therefore a *computable* predicate in the protocol world — this is the finite-state dividend of Lemma F.**
+
+**D2s-uniform (conjecture, priced).** *For the parameterized family (all valid configurations of the repaired synthesis core), GP_P(s) ⟹ fiber-exact at s.* Not proven tonight. Its status mirrors T4″ exactly: evidence (the arena's core survives its named attacks; each repaired defect was a Δ-clause restoration), two named attack routes (the parameterized analogue of OB-K2 — configuration families where the per-config inequality boundary is reached asymptotically; and cross-class (c)-failures of D1 like the io omission), price: one chapter-length analysis with the enumeration harness as ground truth. **The uniform form is to the finite form what T4″ is to a fixed-N computation — and the brief's prophecy holds: without GP the duality inherited T4's corpse; with GP defined, the corpse is localized to exactly one clause (D2s-uniform) of one direction.**
+
+### 2.4 The Duality Calculus (both moves; where K2 and M₃ live)
+
+The finite form plus D2n yields the *design calculus* — the theorem's operative content:
+
+**Corollary FD-C (fiber management has exactly two licensed moves).** *Every phantom-killing move in the program's history is one of:*
+- **(M-enrich) add a separating functional** to O_I (room: M₃ added to H4 — kills the mirror's representability *in the observable*; protocol: epoch-widened merge identity — separates the clones the readout fused; A₂ lag-2 would separate reversals);
+- **(M-exclude) shrink the reachable stratum** so the phantom's birth state is unrepresentable (room: restricting to the T4″ stratum; protocol: **K2 admission — the third flit toward d cannot exist while two sit in d's inbuf; the parked-hit/full-inbuf wedge state is deleted from R_c, not detected**).
+
+*Both moves enlarge the general-position stratum S; neither can create new phantoms (enrichment only refines fibers; exclusion only removes states); the arena's whole dispute (VERDICT §2–5) is the discovery that B's core wins by M-exclude (safety: kill representability) where A attempted M-enrich with an unpriced functional (INV4 — a separation whose margin was never computed — an M-enrich move with a fictional separator).* **K2 : F3-wedge :: M₃ : mirror is now a theorem instance (both are M-moves), not an analogy.**
+
+### 2.5 Instantiation against the real protocols (brief item iii)
+
+- **Admission-gated fire-with-skip synthesis (VERDICT §5): GP-COMPLIANT BY CONSTRUCTION** — the first design in either repo built to satisfy all four clauses without knowing their name: GP1 via epoch-widened merge identity (clones separated ⇒ undeclared isotropy gone); GP2 via the restated per-config K3 (margin ≥ 1 explicit) and 2-bit ow (K1 conservation = the separator actually separates); GP3 via N2 census + V1 entry-identity (arrangement witnessed); GP_F via scoping (gen,eps) to single-owner freshness (frame carried only where trivializable). **The synthesis converged on GP from the hardware side, independently — the strongest evidence tonight that GP is the right definition, not a retrofit.**
+- **SELVEDGE: two GP violations with witnesses.** GP2-violation: INV4's exit bound — a consumed separation with uncomputed margin (the unpriced obligation wearing a theorem's clothes); witness: any state where egbuf_ready's wait predicate set exceeds the assumed structural bound (Attack 1's class). GP3-violation: INV6 count-vs-arrangement; witness: occ=14/18-holes (Attack 3). GP_F: soft — shared-T assumption (Attack 6); repair named (per-cell T_i). The learning plane itself (decay-in-readout, INV1 miters) is GP-clean: commutativity licenses merge-order relabeling (D1 by construction), decay is frame-carried not frame-assumed *within* the shared-T patch.
+- **TOKEN-NEEDLE as-specified: three GP violations with witnesses** (all repaired in the synthesis): GP2 via 1-bit ow (K1 false as encoded — a separator that doesn't separate; witness: the K_d=2 return burst) and margin-1-hole un-restated; GP1 via the forgeable a2 marker (an undeclared host-writable "isometry" of the op-class partition); GP_F via 3-bit epoch wrap (witness: Attack 4's ABA arithmetic). Repaired core: clean as above.
+
+**Theorem FD verdict: PROVEN in the finite per-configuration form (D1 fully; D2n constructively; D2s-finite by decidability); the uniform parameterized form is a priced conjecture whose failure locus is named (per-config boundary families, cross-class invariance failures). Indeterminate it is not — the finite form closes.**
+
+This section complete; committed under the standing order. — §3 (OB-K2) next.
