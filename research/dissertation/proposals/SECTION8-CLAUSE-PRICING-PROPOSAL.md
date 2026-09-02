@@ -48,6 +48,10 @@ For each clause c over literal set L(c):
 
 ## §8.4 The worked micro-example (scoped commitment)
 
+**Pinned inventory:** `quilt-verilog@g3-kinduction@09bbcd9` — all pulls and scores below are reproducible against that SHA exactly.
+
+**Framing (promoted from limitations per approval provisions):** the 32 kept clauses are precisely the population where the self-confirming-phantom risk is *live* — `pdr -I` seeds are never independently verified (09bbcd9's finding: "ABC re-verified" was PDR self-check only). The κ scores on the 6 kept family-stratified picks therefore double as **the first real audit of gen_assumes' keep-set**. Even a null result prices the keep-set — that is the deliverable either way.
+
 20 clauses, stratified as the data dictates:
 - 2 fully-clean clauses (the entire clean population — include both);
 - 6 kept-by-gen_assumes clauses (2–3 literal, family-stratified: ≥2 engine, ≥2 cross-core, ≥2 f_accounting);

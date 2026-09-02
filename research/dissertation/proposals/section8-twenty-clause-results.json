@@ -1,0 +1,288 @@
+{
+ "pinned_sha": "09bbcd9",
+ "n_sample": 20,
+ "stratification": {
+  "clean": [
+   853
+  ],
+  "kept6": [
+   33,
+   37,
+   38,
+   39,
+   54,
+   55
+  ],
+  "dropped12": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ },
+ "results": [
+  {
+   "idx": 853,
+   "size": 3,
+   "kappa": 0.0,
+   "pi": 1,
+   "amb_cols": 0,
+   "prov": "unverified-pending-redump",
+   "literals": [
+    "lo000=pos",
+    "lo066=neg",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 33,
+   "size": 2,
+   "kappa": 1.0,
+   "pi": 1,
+   "amb_cols": 2,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo459=pos",
+    "lo633=neg"
+   ]
+  },
+  {
+   "idx": 37,
+   "size": 2,
+   "kappa": 1.0,
+   "pi": 1,
+   "amb_cols": 2,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo439=pos",
+    "lo459=pos"
+   ]
+  },
+  {
+   "idx": 38,
+   "size": 2,
+   "kappa": 1.0,
+   "pi": 1,
+   "amb_cols": 2,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo438=neg",
+    "lo459=pos"
+   ]
+  },
+  {
+   "idx": 39,
+   "size": 2,
+   "kappa": 1.0,
+   "pi": 1,
+   "amb_cols": 2,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo437=pos",
+    "lo459=pos"
+   ]
+  },
+  {
+   "idx": 54,
+   "size": 5,
+   "kappa": 0.8,
+   "pi": 10,
+   "amb_cols": 4,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo394=pos",
+    "lo395=pos",
+    "lo396=neg",
+    "lo397=neg",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 55,
+   "size": 5,
+   "kappa": 0.8,
+   "pi": 10,
+   "amb_cols": 4,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo388=neg",
+    "lo394=neg",
+    "lo395=neg",
+    "lo449=pos",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 56,
+   "size": 5,
+   "kappa": 0.8,
+   "pi": 10,
+   "amb_cols": 4,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo388=neg",
+    "lo394=neg",
+    "lo395=neg",
+    "lo447=pos",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 0,
+   "size": 2,
+   "kappa": 0.5,
+   "pi": 1,
+   "amb_cols": 1,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo654=pos",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 1,
+   "size": 2,
+   "kappa": 0.5,
+   "pi": 1,
+   "amb_cols": 1,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo653=pos",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 2,
+   "size": 2,
+   "kappa": 0.5,
+   "pi": 1,
+   "amb_cols": 1,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo652=pos",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 3,
+   "size": 2,
+   "kappa": 0.5,
+   "pi": 1,
+   "amb_cols": 1,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo628=pos",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 4,
+   "size": 2,
+   "kappa": 0.5,
+   "pi": 1,
+   "amb_cols": 1,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo626=pos",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 5,
+   "size": 2,
+   "kappa": 0.5,
+   "pi": 1,
+   "amb_cols": 1,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo624=pos",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 6,
+   "size": 2,
+   "kappa": 0.5,
+   "pi": 1,
+   "amb_cols": 1,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo623=pos",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 7,
+   "size": 3,
+   "kappa": 0.667,
+   "pi": 3,
+   "amb_cols": 2,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo587=pos",
+    "lo651=neg",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 8,
+   "size": 3,
+   "kappa": 0.667,
+   "pi": 3,
+   "amb_cols": 2,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo587=pos",
+    "lo642=neg",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 9,
+   "size": 3,
+   "kappa": 0.667,
+   "pi": 3,
+   "amb_cols": 2,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo587=pos",
+    "lo633=neg",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 10,
+   "size": 3,
+   "kappa": 0.667,
+   "pi": 3,
+   "amb_cols": 2,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo587=pos",
+    "lo627=neg",
+    "lo672=neg"
+   ]
+  },
+  {
+   "idx": 11,
+   "size": 3,
+   "kappa": 0.667,
+   "pi": 3,
+   "amb_cols": 2,
+   "prov": "unaskable-ambiguous",
+   "literals": [
+    "lo587=pos",
+    "lo625=pos",
+    "lo672=neg"
+   ]
+  }
+ ]
+}
