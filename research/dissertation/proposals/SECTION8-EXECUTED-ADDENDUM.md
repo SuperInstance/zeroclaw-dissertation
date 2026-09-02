@@ -29,3 +29,7 @@
 ## Claim status
 
 Expressiveness claim supported at 20-clause scale: Δ₀-coarseness (κ, π) prices every clause in the sample, cleanly separating strata the existing tooling conflates. Industrial claim (full 854 pass + pruning-effectiveness) remains behind the §8.6 gate: re-dump complete AND Casey's explicit nod. Not softened.
+
+## Post-run status change (2026-09-02, from the eco-quiltverilog lane journal)
+
+G3 CLOSED: the fold dead end was killed (classic `abc pdr` ignores AIGER constraints; bake them instead), `pdr -d` PLA polarity confirmed OPPOSITE to the committed implicate-probe pin, and `lo<k>` confirmed as **global latch indices, not positional**. The lane now holds a passing k-induction certificate over **910/910 fully named clauses** (smtbmc/boolector). Consequence for this addendum: the §8.6 re-dump prerequisite is **met** — the "unaskable" verdicts above are unaskable *at the 09bbcd9 pinned inventory* and that inventory is now superseded. Scores here remain valid as pinned history; the full 854/910-clause pass is now gated on **Casey's explicit nod alone**. Note also the polarity finding bears directly on the κ/π method: the implicate-probe convention pin that gen_assumes relies on is wrong for `pdr -d` output — the resolution layer of any full pass must use the corrected convention.
