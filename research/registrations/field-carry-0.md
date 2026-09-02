@@ -38,5 +38,4 @@ distinguish the 08-19 room (carrying > 0 — a moment occurred) from the 08-31 r
 - n = 2. This is a feasibility probe, not a result. Either outcome upgrades the
   *next* registration (pre-registered prediction on future visits), neither
   settles the doctrine.
-- Status: **RUNNABLE — awaiting computation.** No partial reads before this file
-  was committed.
+- Status: **DECIDED 2026-09-02 — SURVIVE (strong, n=2 caveat intact).** Kill condition did not fire: carry_mean CIs disjoint in registered direction (+0.0102 [+0.0051,+0.0154]); separation *strengthened* under the length-matched rerun demanded by SURVIVE-weak (+0.0204 [+0.0141,+0.0267]) — margin is not transcript richness. See `../field-notes/FIELD-CARRY-0-RESULTS.md`.
