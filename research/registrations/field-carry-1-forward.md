@@ -55,8 +55,7 @@ threshold; visits where the perturbation is absorbed will fall below it.
   working instrument, not a validity anchor in the methodologist's full sense.
   A PASS licenses treating "carrying" as a measurable room property on the Tap;
   it does not settle the projection question by itself.
-- Status: **ARMED — awaiting visit data. Nothing to compute until the next
-  visit lands. This file is the clock.**
+- Status: **DECIDED (first evaluation, 2026-09-03 06:10 UTC): PASS by the letter — 15/17 arrivals agree, retraction clause did not fire — but honestly uninformative: 0/17 engagement events occurred (room absorbed every drifter, 08-31 pattern at n=17), precision on the positive class 0/2, sensitivity undefined. Candidate-anchor claim neither earned nor retracted. See `../field-notes/FIELD-CARRY-1-EVAL.md` (pulls per A3 ledger, proxies df7aea2, labels last).**
 
 ## AMENDMENT 2026-09-02 (pre-data — legal window): legibility answers
 
