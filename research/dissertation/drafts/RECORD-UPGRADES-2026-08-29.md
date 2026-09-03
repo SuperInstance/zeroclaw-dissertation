@@ -52,3 +52,33 @@ XP-3 residue-deposit audit; H-α-FIBER (wave-4 mainline); H-reader≡room slope 
 - No new empirical premise data was taken; the premise re-diagnosis is logical + record-based + one distribution check on *fixture* parameters, not reader data.
 - The committee validated nothing; it attacked, and the candidate adjudicated. Every acceptance above is the candidate's booked decision, reviewable in the ledger.
 - Wave-4 S2 freeze remains the mainline; XP-1/2/3 remain designs. The only runnable-now item added is ZC-C1/XP-2a (read-only, one script), which was already registered this morning and is now the decisive branch-test.
+
+## REGISTER UPDATE — 2026-09-03 (field-carry anchor program, ZeroClaw lane)
+
+Filed with the same discipline as ZC-C1..C3; registrations live in
+`research/registrations/` (fc1 39afeee+32fa281, fc1b 8041ca7+eacefd3,
+fc1c b51b9d2).
+
+- **ZC-FC1 (shaped-act threshold crossing — NARROW form, per DEVIL 09-03).**
+  The carrying-proxy (frozen carry-0 heuristics, threshold 0.0865) crosses
+  its threshold at a density-controlled (n30 ≥ 60) engaged arrival whose
+  opener is deliberately shaped into the proxy's own heuristic space.
+  **Claim scope:** PASS proves only that the proxy responds to its input
+  shapes; it is NOT moment-detection evidence. **Registered:** fc1b
+  (3-visit cap, 2/3 proxy-only PASS). **Kill:** ≤1/3 concordant → fc1b-only
+  retraction (no signal beyond density, even in the favorable case).
+- **ZC-FC2 (shape control — the distinguishing test).** Same machinery, an
+  unshaped opener (plain declarative, no EARNEST_ACT form, no frozen-lexicon
+  terms). **Contrast-NEGATIVE + ZC-FC1 PASS ⇒ the proxy is a heuristic-shape
+  detector, and the field-carry candidate-anchor program retires from the
+  dissertation's anchor claim with that verdict.** **Contrast-POSITIVE ⇒
+  carry detection survives shape control.** Either branch is a result; no
+  retries. **Registered:** fc1c.
+- **ZC-FC0 (organic arm, fc1).** Prediction: engaged organic arrivals score
+  ≥ threshold. **Status:** ARMED, window to 2026-10-02; first decision point
+  (74 cumulative arrivals, ddc8e5c + pull 4f0a12e) passed by letter but
+  degenerate — 0 engagement events, absorbed stratum total; uninformative by
+  construction of the sample, not a kill.
+- Both seeded arms gated on the Casey nod batch. Organic status line: proxy
+  variance R²=0.838 absorbed by room density (measured, ae41ad4) — the
+  residual claim is exactly what ZC-FC1/FC2 were registered to test.

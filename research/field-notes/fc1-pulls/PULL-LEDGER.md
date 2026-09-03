@@ -30,6 +30,12 @@ reported as excluded, never silently pooled).
   recurred organically. fc1b (seeded arm) remains the designed path to an
   informative stratum.
 - Proxy computation on pull #4: **NOT run** — committed raw per A3 first.
+- Pull #5 attempt (2026-09-03 ~22:15Z): **FAILED, no data obtained** —
+  Cloudflare D1 API auth error (code 10000; credentials worked at 18:00Z,
+  evidently rotated/expired since). Nothing committed under A3 because there
+  is nothing raw to commit; next pull requires fresh wrangler auth. Ledger
+  continuity note only — no in-window rows were lost, they remain on the
+  remote and are included in the next successful pull.
 
 ## State after pull #3 (superseded by #4 for day-09-03 coverage)
 
