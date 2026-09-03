@@ -18,8 +18,20 @@ reported as excluded, never silently pooled).
 | 1 | `2026-09-01.json` | 09-01 UTC (entire day) | 3148 | 89 | 88 | this commit — **EXCLUDED: pre-registration** |
 | 2 | `2026-09-02.json` | 09-02 UTC (entire day) | 3130 | 79 | 78 | this commit — **post-cutoff rows: 0** (day ends 00:02Z at the cutoff; pulled for the boundary check, in-window rows: none) |
 | 3 | `2026-09-03-partial-through-0410Z.json` | 00:02Z cutoff → 04:10:30Z | 549 | 17 | 17 | this commit — **first IN-WINDOW pull** |
+| 4 | `2026-09-03-full.json` | 00:02Z cutoff → 17:55:23Z (day 09-03, full) | 2345 in-window of 2359 total | 59 lines | 57 arrivals (distinct) | this commit — **pull only; no computation run** |
 
-## State after pull #3
+## State after pull #4 (2026-09-03 ~18:05Z)
+
+- In-window drifter arrivals cumulative: **74** (17 in pull #3 + 57 new in
+  pull #4; overlap rows deduped by the cutoff rule, pull #4 supersedes #3's
+  partial day-09-03 coverage). Well past the 6-arrival floor.
+- Stratum note: of pull #4's 57 arrivals, 56 first lines are `'...'` (1
+  substantive) — the absorbed stratum continues to dominate; no moment has
+  recurred organically. fc1b (seeded arm) remains the designed path to an
+  informative stratum.
+- Proxy computation on pull #4: **NOT run** — committed raw per A3 first.
+
+## State after pull #3 (superseded by #4 for day-09-03 coverage)
 
 - In-window drifter arrivals so far: **17** (≥ the 6-arrival floor is reachable
   already, but pulls are partial-day and the window runs to 2026-10-02).
