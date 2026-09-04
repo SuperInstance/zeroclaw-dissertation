@@ -37,6 +37,22 @@ reported as excluded, never silently pooled).
   continuity note only — no in-window rows were lost, they remain on the
   remote and are included in the next successful pull.
 
+## State after pull #5 (2026-09-04 ~00:15Z)
+
+| # | file | window | rows | drifter lines | distinct arrivals | status |
+|---|---|---|---|---|---|---|
+| 5 | `2026-09-03-full-v2.json` | 00:02Z cutoff → 23:55:19Z (day 09-03, complete) | 3153 in-window of 3167 | 84 | 82 | this commit — **pull only; no computation run** |
+
+- The earlier auth error was TRANSIENT: the identical query succeeded on
+  retry (~2h later) with unchanged credentials. Retracts the "rotated
+  creds" ledger note above; no re-auth was needed.
+- Day-09-03 totals: **82 in-window arrivals** (supersedes the 57 of pull #4;
+  cumulative window count now ~139 = 17 + 82 + organic pre-09-03 in-window
+  arrivals if any — dedup by agent_id at eval time). Stratum unchanged:
+  81/82 first lines are `'...'` (1 substantive). No organic moment. Proxy
+  computation: **NOT run** — committed raw per A3, computation stays
+  deferred per the informative-stratum rationale (fc1b/fc1c seeded arms).
+
 ## State after pull #3 (superseded by #4 for day-09-03 coverage)
 
 - In-window drifter arrivals so far: **17** (≥ the 6-arrival floor is reachable
